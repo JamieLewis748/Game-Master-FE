@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { SafeAreaView, Text } from "react-native";
 import LoginPage from "../Game-Master/components/LoginPage";
+import EventDetails from "../Game-Master/components/EventDetails";
 import EventList from "./components/EventList";
 
 const Stack = createStackNavigator();
@@ -35,6 +36,11 @@ function App() {
           name="Events"
           component={EventList}
           options={{ title: "Events" }}
+        />
+        <Stack.Screen
+          name="Event Details"
+          component={EventDetails}
+          options={{ title: "Event Details" }}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -9,7 +9,7 @@ import {
   Avatar,
 } from "react-native-paper";
 
-const EventList = () => {
+const EventList = ({ navigation }) => {
   const [currentEventList, setcurrentEventList] = useState([]);
   const eventList = [
     {
@@ -99,7 +99,9 @@ const EventList = () => {
     },
   ];
 
-  const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
+  const LeftContent = (props) => (
+    <Avatar.Icon {...props} icon="cards-playing" />
+  );
 
   const EventItem = ({ event }) => {
     return (
@@ -111,14 +113,19 @@ const EventList = () => {
         />
         <Card.Content>
           <Card.Cover source={{ uri: event.image }} />
-          <Title>Event Details</Title>
           <Paragraph>Time: {event.time}</Paragraph>
           <Paragraph>Date: {event.date}</Paragraph>
           <Paragraph>Capacity: {event.capacity}</Paragraph>
         </Card.Content>
 
         <Card.Actions>
-          <Button>See event</Button>
+          <Button
+            mode="contained"
+            colour="purple"
+            onPress={() => navigation.navigate("Event Details", { event })}
+          >
+            See event
+          </Button>
         </Card.Actions>
       </Card>
     );
@@ -142,25 +149,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "row",
-    padding: 10,
+    padding: 1,
     marginBottom: 10,
     marginTop: 10,
     marginLeft: 10,
     marginRight: 10,
     borderWidth: 1,
     justifyContent: "center",
-    backgroundColor: "#ADD8E6",
+    backgroundColor: "orange",
     borderRadius: 10,
   },
 });
 export default EventList;
-
-{
-  /* <View>
+/* <View>
               <Text style={{ fontWeight: "bold" }}>Currently attending:</Text>
               {event.current_attending.map((player, index) => (
                 <Text key={index}>{player}</Text>
               ))}
             </View>
           </Text> */
-}
