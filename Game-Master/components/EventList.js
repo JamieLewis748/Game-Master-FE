@@ -24,6 +24,7 @@ const EventList = ({ navigation }) => {
       capacity: "full",
       current_attending: ["user1", "user2", "user3"],
       prize: `https://img.itch.zone/aW1nLzEzMzIzNDA0LmdpZg==/original/QUoq1B.gif`,
+      description: "Looking for fellow Monopoly lovers for a weekly session. All experiences levels welcome "
     },
 
     {
@@ -36,6 +37,7 @@ const EventList = ({ navigation }) => {
       date: "02/01/01",
       capacity: "3/5",
       prize: `https://img.itch.zone/aW1nLzEzMzIzMzkzLmdpZg==/original/A7JFLC.gif`,
+      description: "Looking for fellow Monopoly lovers for a weekly session. All experiences levels welcome "
     },
 
     {
@@ -48,6 +50,7 @@ const EventList = ({ navigation }) => {
       date: "02/01/01",
       capacity: "3/5",
       prize: `https://img.itch.zone/aW1nLzEzMzIzMzkzLmdpZg==/original/A7JFLC.gif`,
+      description: "Looking for fellow Monopoly lovers for a weekly session. All experiences levels welcome "
     },
 
     {
@@ -60,6 +63,7 @@ const EventList = ({ navigation }) => {
       date: "02/01/01",
       capacity: "3/5",
       prize: `https://img.itch.zone/aW1nLzEzMzIzMzkzLmdpZg==/original/A7JFLC.gif`,
+      description: "Looking for fellow Monopoly lovers for a weekly session. All experiences levels welcome "
     },
 
     {
@@ -72,6 +76,7 @@ const EventList = ({ navigation }) => {
       date: "02/01/01",
       capacity: "3/5",
       prize: `https://img.itch.zone/aW1nLzEzMzIzMzkzLmdpZg==/original/A7JFLC.gif`,
+      description: "Looking for fellow Monopoly lovers for a weekly session. All experiences levels welcome "
     },
 
     {
@@ -84,6 +89,7 @@ const EventList = ({ navigation }) => {
       date: "02/01/01",
       capacity: "3/5",
       prize: `https://img.itch.zone/aW1nLzEzMzIzMzkzLmdpZg==/original/A7JFLC.gif`,
+      description: "Looking for fellow Monopoly lovers for a weekly session. All experiences levels welcome "
     },
 
     {
@@ -96,6 +102,7 @@ const EventList = ({ navigation }) => {
       date: "02/01/01",
       capacity: "3/5",
       prize: `https://img.itch.zone/aW1nLzEzMzIzMzkzLmdpZg==/original/A7JFLC.gif`,
+      description: "Looking for fellow Monopoly lovers for a weekly session. All experiences levels welcome "
     },
   ];
 
@@ -122,7 +129,7 @@ const EventList = ({ navigation }) => {
           <Button
             mode="contained"
             colour="purple"
-            onPress={() => navigation.navigate("Event Details", { event })}
+            onPress={() => navigation.navigate("Event Details", { selectedEvent: event })}
           >
             See event
           </Button>
