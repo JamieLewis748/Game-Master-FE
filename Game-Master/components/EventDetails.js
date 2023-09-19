@@ -13,6 +13,7 @@ import DateInfo from "./EventDetails-Components/DateInfo";
 import CapacityInfo from "./EventDetails-Components/CapacityInfo";
 import PublicInfo from "./EventDetails-Components/PublicInfo";
 import AttendeesInfo from "./EventDetails-Components/AttendeesInfo";
+import TimeInfo from "./EventDetails-Components/TimeInfo";
 
 const EventDetails = ({ route }) => {
   const { selectedEvent } = route.params;
@@ -23,9 +24,10 @@ const EventDetails = ({ route }) => {
       <Card.Content>
         <Card.Cover source={{ uri: selectedEvent.image }} />
         <Title>{selectedEvent.game_type}</Title>
+        <TimeInfo time={selectedEvent.time} />
         <DateInfo date={selectedEvent.date} />
         <CapacityInfo capacity={selectedEvent.capacity} />
-        <PublicInfo publc={selectedEvent.public} />
+        <PublicInfo public={selectedEvent.public} />
         <AttendeesInfo attendees={selectedEvent.current_attending} />
       </Card.Content>
       <Card.Actions>
