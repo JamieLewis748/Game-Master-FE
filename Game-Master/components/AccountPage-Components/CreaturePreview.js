@@ -31,7 +31,6 @@ const CreaturePreview = () => {
 
 const styles = StyleSheet.create({
   image: {
-    flex: 1,
     flexDirection: "row",
     margin: 10,
     height: 40,

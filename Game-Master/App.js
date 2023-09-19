@@ -22,8 +22,8 @@ function HomeScreen() {
 function App() {
   return (
     <NavigationContainer>
-      {/* <Stack.Navigator initialRouteName="Login"> */}
-      <Stack.Navigator initialRouteName="Account Page">
+      <Stack.Navigator initialRouteName="Login">
+        {/* <Stack.Navigator initialRouteName="Account Page"> */}
         <Stack.Screen
           name="Login"
           component={LoginPage}

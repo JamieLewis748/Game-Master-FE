@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     height: "15%",
   },
   previewBar: {
-    flex: 1,
+    alignItems: "center",
     flexDirection: "row",
   },
 });

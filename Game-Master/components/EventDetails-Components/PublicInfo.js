@@ -7,7 +7,7 @@ const PublicInfo = ({ isPublic }) => {
       <IconButton icon="account-off" size={16} color="gray" />
       <Paragraph>
         <Paragraph style={{ fontWeight: "bold" }}>Public: </Paragraph>{" "}
-        {isPublic ? "Public Event" : "Private Event"}
+        {isPublic ? "Public" : "Private"}
       </Paragraph>
     </View>
   );
