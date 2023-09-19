@@ -17,7 +17,9 @@ function HomeScreen() {
       <Text>Home Screen</Text>
     </SafeAreaView>
   );
+
 }
+
 
 function App() {
   return (

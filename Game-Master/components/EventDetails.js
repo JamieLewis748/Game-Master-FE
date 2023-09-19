@@ -56,11 +56,11 @@ const styles = StyleSheet.create({
   eventView: {
     flexDirection: "row",
     justifyContent: "space-between"
-
   },
   attendeeList: {
     justifyContent: "center",
     alignItems: "center"
+
   }
 
 });
