@@ -15,15 +15,6 @@ const AppStack = createStackNavigator();
 const EventsStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function HomeScreen() {
-  return (
-    <SafeAreaView
-      style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-    >
-      <Text>Home Screen</Text>
-    </SafeAreaView>
-  );
-}
 
 function EventsStackNavigator() {
   return (
@@ -63,9 +54,9 @@ function App() {
           options={{ title: "Login" }}
         />
         <AppStack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ title: "Home" }}
+          name="Account"
+          component={AccountPage}
+          options={{ title: "Account" }}
         />
 
         <AppStack.Screen

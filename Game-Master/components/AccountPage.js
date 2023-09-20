@@ -106,5 +106,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },
+  eventCard: {
+    height: 50,
+    backgroundColor: "lightgray",
+    marginBottom: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 export default AccountPage;

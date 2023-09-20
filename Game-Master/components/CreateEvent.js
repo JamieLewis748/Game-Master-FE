@@ -138,11 +138,13 @@ const CreateEvent = () => {
       <View style={styles.submitButton}>
         <Button title="Create Event" onPress={handleCreateEvent} />
       </View>
+
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
     alignItems: "center",
