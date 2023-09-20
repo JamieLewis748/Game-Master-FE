@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { SafeAreaView, TextInput, Button, Alert, StyleSheet, View, Image } from "react-native";
+import {
+  SafeAreaView,
+  TextInput,
+  Button,
+  Alert,
+  StyleSheet,
+  View,
+  Image,
+} from "react-native";
 
 function LoginPage({ navigation }) {
   const [username, setUsername] = useState("");
@@ -12,13 +20,18 @@ function LoginPage({ navigation }) {
   };
 
   const handleEventLog = () => {
-    navigation.navigate("Events");
+    navigation.navigate("MainTabs", { screen: "Events" });
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, justifyContent: "space-evenly", padding: 16 }}>
+    <SafeAreaView
+      style={{ flex: 1, justifyContent: "space-evenly", padding: 16 }}
+    >
       <View style={styles.imageContainer}>
-        <Image style={styles.logo} source="https://www.designevo.com/res/templates/thumb_small/banner-board-jungle-logo.webp" />
+        <Image
+          style={styles.logo}
+          source="https://www.designevo.com/res/templates/thumb_small/banner-board-jungle-logo.webp"
+        />
       </View>
       <View>
         <TextInput
@@ -38,7 +51,6 @@ function LoginPage({ navigation }) {
           <Button title="Login" onPress={handleLogin} />
         </View>
         <View style={styles.button}>
-
           <Button title="See events" onPress={handleEventLog} />
         </View>
       </View>
@@ -52,13 +64,12 @@ const styles = StyleSheet.create({
   },
   logo: {
     height: 250,
-    width: 250
+    width: 250,
   },
   imageContainer: {
     justifyContent: "center",
-    alignItems: "center"
-  }
-
+    alignItems: "center",
+  },
 });
 
 export default LoginPage;

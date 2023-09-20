@@ -1,13 +1,16 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { SafeAreaView, Text } from "react-native";
 import LoginPage from "../Game-Master/components/LoginPage";
 import EventDetails from "../Game-Master/components/EventDetails";
 import EventList from "./components/EventList";
 import AccountPage from "./components/AccountPage";
+import { createStackNavigator } from "@react-navigation/stack";
 
-const Stack = createStackNavigator();
+const AppStack = createStackNavigator();
+const EventsStack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 function HomeScreen() {
   return (
@@ -17,41 +20,51 @@ function HomeScreen() {
       <Text>Home Screen</Text>
     </SafeAreaView>
   );
-
 }
 
+function EventsStackNavigator() {
+  return (
+    <EventsStack.Navigator>
+      <EventsStack.Screen
+        name="EventList"
+        component={EventList}
+        options={{ title: "Events" }}
+      />
+      <EventsStack.Screen
+        name="Event Details"
+        component={EventDetails}
+        options={{ title: "Event Details" }}
+      />
+    </EventsStack.Navigator>
+  );
+}
+
+function MainTabs() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Events" component={EventsStackNavigator} />
+      <Tab.Screen name="Account" component={AccountPage} />
+    </Tab.Navigator>
+  );
+}
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        {/* <Stack.Navigator initialRouteName="Account Page"> */}
-        <Stack.Screen
+      <AppStack.Navigator initialRouteName="Login">
+        {/* <Stack.Navigator initialRouteName="Login"> */}
+        <AppStack.Screen
           name="Login"
           component={LoginPage}
           options={{ title: "Login" }}
         />
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ title: "My Home" }}
+        <AppStack.Screen
+          name="MainTabs"
+          component={MainTabs}
+          options={{ headerShown: false }}
         />
-        <Stack.Screen
-          name="Events"
-          component={EventList}
-          options={{ title: "Events" }}
-        />
-        <Stack.Screen
-          name="Event Details"
-          component={EventDetails}
-          options={{ title: "Event Details" }}
-        />
-        <Stack.Screen
-          name="Account Page"
-          component={AccountPage}
-          options={{ title: "Account Page" }}
-        />
-      </Stack.Navigator>
+      </AppStack.Navigator>
     </NavigationContainer>
   );
 }
