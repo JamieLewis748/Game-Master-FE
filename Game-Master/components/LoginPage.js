@@ -16,7 +16,7 @@ function LoginPage({ navigation }) {
 
   const handleLogin = () => {
     if (username === "admin" && password === "admin") {
-      navigation.navigate("Account");
+      navigation.navigate("MainTabs", { screen: "Account" });
     }
   };
 
