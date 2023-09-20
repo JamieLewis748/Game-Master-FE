@@ -17,7 +17,6 @@ import TimeInfo from "./EventDetails-Components/TimeInfo";
 
 const EventDetails = ({ route }) => {
   const { selectedEvent } = route.params;
-  console.log(selectedEvent);
 
   return (
     <Card>
@@ -50,19 +49,15 @@ const EventDetails = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-  eventCard: {
-
-  },
+  eventCard: {},
   eventView: {
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   attendeeList: {
     justifyContent: "center",
-    alignItems: "center"
-
-  }
-
+    alignItems: "center",
+  },
 });
 
 export default EventDetails;
