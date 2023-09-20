@@ -152,10 +152,18 @@ const EventList = ({ navigation }) => {
           <View style={styles.eventInfoContainer}>
             <Image source={{ uri: event.image }} style={styles.eventImage} />
             <View style={styles.infoContainer}>
-              <Paragraph>Location: {event.location}</Paragraph>
-              <Paragraph>Time: {event.time}</Paragraph>
-              <Paragraph>Date: {event.date}</Paragraph>
-              <Paragraph>Capacity: {event.capacity}</Paragraph>
+              <Paragraph>
+                <IconButton icon="calendar" size={16} color="gray" />
+                {event.date}{" "}
+                <IconButton icon="clock-outline" size={16} color="gray" />
+                {event.time}
+              </Paragraph>
+              <Paragraph>
+                <IconButton icon="account-group" size={16} color="gray" />
+                {event.capacity}
+                <IconButton icon="map-marker" size={16} color="gray" />{" "}
+                {event.location}
+              </Paragraph>
             </View>
           </View>
 
@@ -197,7 +205,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 10,
     marginRight: 10,
-    backgroundColor: "white",
     borderRadius: 10,
     justifyContent: "space-between",
   },
@@ -205,7 +212,6 @@ const styles = StyleSheet.create({
   eventInfoContainer: {
     flex: 1,
     flexDirection: "row",
-    alignItems: "flex-end",
   },
   eventImage: {
     width: 100,

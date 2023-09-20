@@ -10,6 +10,7 @@ import CreateAccount from "./components/CreateAccount";
 import CreateEvent from "./components/CreateEvent";
 import Collection from "./components/Collection";
 import { createStackNavigator } from "@react-navigation/stack";
+import { PaperProvider, DefaultTheme } from "react-native-paper";
 
 const AppStack = createStackNavigator();
 const EventsStack = createStackNavigator();
@@ -54,34 +55,45 @@ function MainTabs() {
   );
 }
 
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: "#3498db",
+    secondary: "#f39c12",
+  },
+};
+
 function App() {
   return (
-    <NavigationContainer>
-      <AppStack.Navigator initialRouteName="Login">
-        {/* <Stack.Navigator initialRouteName="Login"> */}
-        <AppStack.Screen
-          name="Login"
-          component={LoginPage}
-          options={{ title: "Login" }}
-        />
+    <PaperProvider theme={theme}>
+      <NavigationContainer>
+        <AppStack.Navigator initialRouteName="Login">
+          {/* <Stack.Navigator initialRouteName="Login"> */}
+          <AppStack.Screen
+            name="Login"
+            component={LoginPage}
+            options={{ title: "Login" }}
+          />
 
-        <AppStack.Screen
-          name="Create Account"
-          component={CreateAccount}
-          options={{ title: "Create Account" }}
-        />
-        <AppStack.Screen
-          name="Create Event"
-          component={CreateEvent}
-          options={{ title: "Create Event" }}
-        />
-        <AppStack.Screen
-          name="MainTabs"
-          component={MainTabs}
-          options={{ headerShown: false }}
-        />
-      </AppStack.Navigator>
-    </NavigationContainer>
+          <AppStack.Screen
+            name="Create Account"
+            component={CreateAccount}
+            options={{ title: "Create Account" }}
+          />
+          <AppStack.Screen
+            name="Create Event"
+            component={CreateEvent}
+            options={{ title: "Create Event" }}
+          />
+          <AppStack.Screen
+            name="MainTabs"
+            component={MainTabs}
+            options={{ headerShown: false }}
+          />
+        </AppStack.Navigator>
+      </NavigationContainer>
+    </PaperProvider>
   );
 }
 
