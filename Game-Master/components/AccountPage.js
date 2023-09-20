@@ -41,7 +41,7 @@ const AccountPage = () => {
         <Card.Content style={styles.content}>
           <Card.Cover
             source={{
-              uri: "https://img.freepik.com/premium-vector/man-avatar-profile-round-icon_24640-14044.jpg?w=740",
+              uri: "https://t3.ftcdn.net/jpg/02/22/85/16/360_F_222851624_jfoMGbJxwRi5AWGdPgXKSABMnzCQo9RN.jpg",
             }}
             resizeMode="cover"
             style={styles.cover}
