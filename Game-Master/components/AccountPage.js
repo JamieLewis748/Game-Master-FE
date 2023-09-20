@@ -23,6 +23,10 @@ import CreaturePreview from "./AccountPage-Components/CreaturePreview";
 const currentXP = 70;
 const maxXP = 100;
 
+const handleCreateEvent = () => {
+  navigation.navigate("Create Event");
+};
+
 const AccountPage = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -50,9 +54,10 @@ const AccountPage = () => {
         </Card.Content>
       </Card>
       <Card style={styles.navcard}>
-        <Card.Content style={styles.previewBar}>
-          <CreaturePreview />
-        </Card.Content>
+        <Card.Content style={styles.previewBar}></Card.Content>
+        <View style={styles.button}>
+          <Button title="Create Event" onPress={handleCreateEvent} />
+        </View>
       </Card>
     </SafeAreaView>
   );

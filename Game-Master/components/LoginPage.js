@@ -23,6 +23,14 @@ function LoginPage({ navigation }) {
     navigation.navigate("MainTabs", { screen: "Events" });
   };
 
+  const handleSignUp = () => {
+    navigation.navigate("Create Account");
+  };
+
+  const handleCreateEvent = () => {
+    navigation.navigate("Create Event");
+  };
+
   return (
     <SafeAreaView
       style={{ flex: 1, justifyContent: "space-evenly", padding: 16 }}
@@ -50,8 +58,14 @@ function LoginPage({ navigation }) {
         <View style={styles.button}>
           <Button title="Login" onPress={handleLogin} />
         </View>
+        <View>
+          <Button title="Create Account" onPress={handleSignUp} />
+        </View>
         <View style={styles.button}>
           <Button title="See events" onPress={handleEventLog} />
+        </View>
+        <View style={styles.button}>
+          <Button title="Create Event" onPress={handleCreateEvent} />
         </View>
       </View>
     </SafeAreaView>

@@ -6,6 +6,9 @@ import LoginPage from "../Game-Master/components/LoginPage";
 import EventDetails from "../Game-Master/components/EventDetails";
 import EventList from "./components/EventList";
 import AccountPage from "./components/AccountPage";
+import CreateAccount from "./components/AccountPage-Components/CreateAccount";
+import CreateEvent from "./components/CreateEvent";
+import Collection from "./components/Collection";
 import { createStackNavigator } from "@react-navigation/stack";
 
 const AppStack = createStackNavigator();
@@ -58,6 +61,22 @@ function App() {
           name="Login"
           component={LoginPage}
           options={{ title: "Login" }}
+        />
+        <AppStack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ title: "Home" }}
+        />
+
+        <AppStack.Screen
+          name="Create Account"
+          component={CreateAccount}
+          options={{ title: "Create Account" }}
+        />
+        <AppStack.Screen
+          name="Create Event"
+          component={CreateEvent}
+          options={{ title: "Create Event" }}
         />
         <AppStack.Screen
           name="MainTabs"
