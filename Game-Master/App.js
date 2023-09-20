@@ -6,7 +6,7 @@ import LoginPage from "../Game-Master/components/LoginPage";
 import EventDetails from "../Game-Master/components/EventDetails";
 import EventList from "./components/EventList";
 import AccountPage from "./components/AccountPage";
-import CreateAccount from "./components/AccountPage-Components/CreateAccount";
+import CreateAccount from "./components/CreateAccount";
 import CreateEvent from "./components/CreateEvent";
 import Collection from "./components/Collection";
 import { createStackNavigator } from "@react-navigation/stack";
