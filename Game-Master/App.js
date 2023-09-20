@@ -15,6 +15,17 @@ const AppStack = createStackNavigator();
 const EventsStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+function AccountStackNavigator() {
+  return (
+    <EventsStack.Navigator>
+      <EventsStack.Screen
+        name="Account"
+        component={AccountPage}
+        options={{ title: "Account" }}
+      />
+    </EventsStack.Navigator>
+  );
+}
 
 function EventsStackNavigator() {
   return (
@@ -36,9 +47,9 @@ function EventsStackNavigator() {
 function MainTabs() {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} />
+      {/* <Tab.Screen name="Home" component={HomeScreen} /> */}
       <Tab.Screen name="Events" component={EventsStackNavigator} />
-      <Tab.Screen name="Account" component={AccountPage} />
+      <Tab.Screen name="Account" component={AccountStackNavigator} />
     </Tab.Navigator>
   );
 }
@@ -52,11 +63,6 @@ function App() {
           name="Login"
           component={LoginPage}
           options={{ title: "Login" }}
-        />
-        <AppStack.Screen
-          name="Account"
-          component={AccountPage}
-          options={{ title: "Account" }}
         />
 
         <AppStack.Screen
