@@ -35,10 +35,10 @@ function LoginPage({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image
+        {/* <Image
           style={styles.logo}
           source="https://www.designevo.com/res/templates/thumb_small/banner-board-jungle-logo.webp"
-        />
+        /> */}
       </View>
       <View style={styles.card}>
         <Text style={{ fontSize: 20, alignSelf: "center", marginBottom: 5 }}>

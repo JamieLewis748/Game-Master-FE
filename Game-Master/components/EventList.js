@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { SafeAreaView, FlatList, Image, StyleSheet, View } from "react-native";
+import {
+  SafeAreaView,
+  FlatList,
+  Image,
+  StyleSheet,
+  View,
+  Animated,
+} from "react-native";
 import {
   Text,
   Button,
@@ -7,6 +14,7 @@ import {
   Paragraph,
   Title,
   Avatar,
+  IconButton,
 } from "react-native-paper";
 
 const EventList = ({ navigation }) => {
@@ -113,27 +121,46 @@ const EventList = ({ navigation }) => {
     },
   ];
 
-  const LeftContent = (props) => (
-    <Avatar.Icon {...props} icon="cards-playing" />
-  );
+  const LeftContent = () => <IconButton size={20} icon="cards-playing" />;
 
   const EventItem = ({ event }) => {
-    return (
-      <Card style={styles.container}>
-        <Card.Title
-          title={`Game Type: ${event.game_type}`}
-          subtitle={`Location: ${event.location}`}
-          left={LeftContent}
-        />
-        <Card.Content>
-          <Card.Cover source={{ uri: event.image }} />
-          <Paragraph>Time: {event.time}</Paragraph>
-          <Paragraph>Date: {event.date}</Paragraph>
-          <Paragraph>Capacity: {event.capacity}</Paragraph>
-        </Card.Content>
+    const scale = new Animated.Value(1);
 
-        <Card.Actions>
-          <Button
+    const handleMouseEnter = () => {
+      Animated.spring(scale, {
+        toValue: 1.05,
+        friction: 3,
+        useNativeDriver: true,
+      }).start();
+    };
+
+    const handleMouseLeave = () => {
+      Animated.spring(scale, {
+        toValue: 1,
+        friction: 3,
+        useNativeDriver: true,
+      }).start();
+    };
+
+    return (
+      <Animated.View
+        style={{ ...styles.container, transform: [{ scale }] }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <Card style={styles.container}>
+          <View style={styles.eventInfoContainer}>
+            <Image source={{ uri: event.image }} style={styles.eventImage} />
+            <View style={styles.infoContainer}>
+              <Paragraph>Location: {event.location}</Paragraph>
+              <Paragraph>Time: {event.time}</Paragraph>
+              <Paragraph>Date: {event.date}</Paragraph>
+              <Paragraph>Capacity: {event.capacity}</Paragraph>
+            </View>
+          </View>
+
+          <Card.Actions>
+            {/* <Button
             mode="contained"
             colour="purple"
             onPress={() =>
@@ -141,9 +168,10 @@ const EventList = ({ navigation }) => {
             }
           >
             See event
-          </Button>
-        </Card.Actions>
-      </Card>
+          </Button> */}
+          </Card.Actions>
+        </Card>
+      </Animated.View>
     );
   };
 
@@ -166,14 +194,33 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     padding: 1,
-    marginBottom: 10,
     marginTop: 10,
     marginLeft: 10,
     marginRight: 10,
-    borderWidth: 1,
-    justifyContent: "center",
-    backgroundColor: "orange",
+    backgroundColor: "white",
     borderRadius: 10,
+    justifyContent: "space-between",
+  },
+
+  eventInfoContainer: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "flex-end",
+  },
+  eventImage: {
+    width: 100,
+    height: 100,
+    marginRight: 10,
+    marginTop: 15,
+    marginLeft: 10,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: "black",
+  },
+
+  infoContainer: {
+    flex: 1,
+    justifyContent: "center",
   },
 });
 export default EventList;
