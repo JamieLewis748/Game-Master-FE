@@ -7,17 +7,39 @@ import {
   Button,
   View,
 } from "react-native";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { auth } from "./Authentication/firebase-config";
+import UserContext from "./Context/UserContext";
+
 
 const CreateAccount = ({ navigation }) => {
-  const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const { user, setUser } = useContext(UserContext);
+  const [registerEmail, setRegisterEmail] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
 
-  const handleSignUp = () => {
-    navigation.navigate = navigation.navigate("Account");
-  };
+
+  async function handleSignUp() {
+    try {
+      const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
+      navigation.navigate("MainTabs", { screen: "Account" });
+    }
+    catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
 
   return (
     <View style={styles.container}>
@@ -37,8 +59,8 @@ const CreateAccount = ({ navigation }) => {
         <TextInput
           style={styles.inputbar}
           placeholder="Email:"
-          onChangeText={setEmail}
-          value={email}
+          onChangeText={setRegisterEmail}
+          value={registerEmail}
           keyboardType="email-address"
         />
 
@@ -58,8 +80,8 @@ const CreateAccount = ({ navigation }) => {
         <TextInput
           style={styles.inputbar}
           placeholder="Password:"
-          onChangeText={setPassword}
-          value={password}
+          onChangeText={setRegisterPassword}
+          value={registerPassword}
         />
         <View style={styles.buttonContainer}>
           <Button title="Create Account" onPress={handleSignUp} />
