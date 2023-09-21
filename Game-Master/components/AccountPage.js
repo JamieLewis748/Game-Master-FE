@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   },
   cover: {
     width: 100,
-    height: "100%",
+    height: 100,
     borderRadius: 50,
     alignSelf: "center",
     marginTop: 50,
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     width: "90%",
     marginLeft: "auto",
     marginRight: "auto",
-    height: "15%",
+    height: 60,
   },
   previewBar: {
   },
