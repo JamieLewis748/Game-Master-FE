@@ -59,9 +59,9 @@ function EventsStackNavigator() {
 function MainTabs() {
   return (
     <Tab.Navigator>
+      <Tab.Screen name="Account" component={AccountStackNavigator} />
       <Tab.Screen name="Create Event" component={CreateEventsStackNavigator} />
       <Tab.Screen name="Events" component={EventsStackNavigator} />
-      <Tab.Screen name="Account" component={AccountStackNavigator} />
     </Tab.Navigator>
   );
 }
@@ -79,7 +79,7 @@ function App() {
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>
-        <AppStack.Navigator initialRouteName="Account">
+        <AppStack.Navigator initialRouteName="MainTabs">
           <AppStack.Screen
             name="Login"
             component={LoginPage}

@@ -54,7 +54,6 @@ const AccountPageEventList = ({ navigation }) => {
                             </Paragraph>
                         </View>
                     </View>
-
                     <Card.Actions>
                     </Card.Actions>
                 </Card>
