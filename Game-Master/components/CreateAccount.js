@@ -11,7 +11,7 @@ import { useState, useEffect, useContext } from "react";
 import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { auth } from "./Authentication/firebase-config";
 import UserContext from "./Context/UserContext";
-
+import postNewUser from "./APIs/postUser";
 
 const CreateAccount = ({ navigation }) => {
   const [fullName, setFullName] = useState("");
@@ -19,11 +19,13 @@ const CreateAccount = ({ navigation }) => {
   const { user, setUser } = useContext(UserContext);
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
+  const [characterName, setCharacterName] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
 
   async function handleSignUp() {
     try {
-      const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
+      await postNewUser(fullName, username, registerEmail, imageUrl, characterName, registerPassword);
       navigation.navigate("MainTabs", { screen: "Account" });
     }
     catch (error) {
@@ -82,6 +84,18 @@ const CreateAccount = ({ navigation }) => {
           placeholder="Password:"
           onChangeText={setRegisterPassword}
           value={registerPassword}
+        />
+        <TextInput
+          style={styles.inputbar}
+          placeholder="Enter Image URL"
+          onChangeText={setImageUrl}
+          value={imageUrl}
+        />
+        <TextInput
+          style={styles.inputbar}
+          placeholder="Enter a character name:"
+          onChangeText={setCharacterName}
+          value={characterName}
         />
         <View style={styles.buttonContainer}>
           <Button title="Create Account" onPress={handleSignUp} />
