@@ -10,6 +10,7 @@ npm install @react-navigation/stack
 npm install react-native-reanimated react-native-gesture-handler
 npm install react-native-paper
 npm install @react-navigation/bottom-tabs
+npm install axios
 
 Other Useful Stuff
 https://pictogrammers.com/library/mdi/ - Icons
