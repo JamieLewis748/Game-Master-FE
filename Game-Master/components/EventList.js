@@ -3,6 +3,8 @@ import { SafeAreaView, FlatList, Image, StyleSheet, View, Animated } from "react
 import { Text, Button, Card, Paragraph, Title, Avatar, IconButton } from "react-native-paper";
 import { eventList } from "../assets/data/event.data";
 
+
+
 const EventList = ({ navigation }) => {
   const [currentEventList, setcurrentEventList] = useState([]);
 
