@@ -1,27 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { SafeAreaView, TextInput, Button, Alert, StyleSheet, View, Image, Text } from "react-native";
+import UserContext from "./Context/UserContext";
+import { auth } from "./Authentication/firebase-config";
+import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
 
 function LoginPage({ navigation }) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const { user, setUser } = useContext(UserContext);
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
 
-  const handleLogin = () => {
-    if (username === "admin" && password === "admin") {
+
+  async function handleLogin() {
+    try {
+      const user = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
       navigation.navigate("MainTabs", { screen: "Account" });
     }
-  };
-
-  // const handleEventLog = () => {
-  //   navigation.navigate("MainTabs", { screen: "Events" });
-  // };
+    catch (error) {
+      console.log(error.message);
+    }
+  }
 
   const handleSignUp = () => {
     navigation.navigate("Create Account");
   };
 
-  // const handleCreateEvent = () => {
-  //   navigation.navigate("Create Event");
-  // };
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -37,17 +48,18 @@ function LoginPage({ navigation }) {
         </Text>
         <TextInput
           style={styles.inputbar}
-          placeholder="Username"
-          value={username}
-          onChangeText={setUsername}
+          placeholder="loginEmail"
+          value={loginEmail}
+          onChangeText={setLoginEmail}
         />
         <TextInput
           style={styles.inputbar}
-          placeholder="Password"
-          value={password}
-          onChangeText={setPassword}
+          placeholder="loginPassword"
+          value={loginPassword}
+          onChangeText={setLoginPassword}
           secureTextEntry
         />
+        <Text>Logged in as: {user?.email}</Text>
         <View style={styles.buttonContainer}>
           <Button title="Login" onPress={handleLogin} />
         </View>

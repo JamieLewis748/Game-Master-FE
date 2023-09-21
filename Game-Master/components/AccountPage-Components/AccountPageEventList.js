@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SafeAreaView, FlatList, Image, StyleSheet, View, Animated } from "react-native";
+import { SafeAreaView, FlatList, Image, StyleSheet, View, Animated, TouchableWithoutFeedback } from "react-native";
 import { Text, Button, Card, Paragraph, Title, Avatar, IconButton } from "react-native-paper";
 import { eventList } from "../../assets/data/event.data";
 
@@ -31,33 +31,36 @@ const AccountPageEventList = ({ navigation }) => {
         };
 
         return (
-            <Animated.View
-                style={{ ...styles.container, transform: [{ scale }] }}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-            >
-                <Card style={styles.container}>
-                    <View style={styles.eventInfoContainer}>
-                        <Image source={{ uri: event.image }} style={styles.eventImage} />
-                        <View style={styles.infoContainer}>
-                            <Paragraph>
-                                <IconButton icon="calendar" size={16} color="gray" />
-                                {event.date}{" "}
-                                <IconButton icon="clock-outline" size={16} color="gray" />
-                                {event.time}
-                            </Paragraph>
-                            <Paragraph>
-                                <IconButton icon="account-group" size={16} color="gray" />
-                                {event.capacity}
-                                <IconButton icon="map-marker" size={16} color="gray" />{" "}
-                                {event.location}
-                            </Paragraph>
+            <TouchableWithoutFeedback onPress={() => { navigation.navigate("Event Details", { selectedEvent: event, }); }}>
+
+                <Animated.View
+                    style={{ ...styles.container, transform: [{ scale }] }}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    <Card style={styles.container}>
+                        <View style={styles.eventInfoContainer}>
+                            <Image source={{ uri: event.image }} style={styles.eventImage} />
+                            <View style={styles.infoContainer}>
+                                <Paragraph>
+                                    <IconButton icon="calendar" size={16} color="gray" />
+                                    {event.date}{" "}
+                                    <IconButton icon="clock-outline" size={16} color="gray" />
+                                    {event.time}
+                                </Paragraph>
+                                <Paragraph>
+                                    <IconButton icon="account-group" size={16} color="gray" />
+                                    {event.capacity}
+                                    <IconButton icon="map-marker" size={16} color="gray" />{" "}
+                                    {event.location}
+                                </Paragraph>
+                            </View>
                         </View>
-                    </View>
-                    <Card.Actions>
-                    </Card.Actions>
-                </Card>
-            </Animated.View>
+                        <Card.Actions>
+                        </Card.Actions>
+                    </Card>
+                </Animated.View>
+            </TouchableWithoutFeedback>
         );
     };
 

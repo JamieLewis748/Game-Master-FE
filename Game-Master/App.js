@@ -1,4 +1,4 @@
-import React from "react";
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { SafeAreaView, Text } from "react-native";
@@ -11,6 +11,7 @@ import CreateEvent from "./components/CreateEvent";
 import Collection from "./components/Collection";
 import { createStackNavigator } from "@react-navigation/stack";
 import { PaperProvider, DefaultTheme } from "react-native-paper";
+import UserProvider from "./components/Context/UserProvider";
 
 const AppStack = createStackNavigator();
 const EventsStack = createStackNavigator();
@@ -18,7 +19,7 @@ const Tab = createBottomTabNavigator();
 
 function AccountStackNavigator() {
   return (
-    <EventsStack.Navigator screenOptions={{ headerShown: false }}>
+    <EventsStack.Navigator>
       <EventsStack.Screen
         name="Account"
         component={AccountPage}
@@ -30,7 +31,7 @@ function AccountStackNavigator() {
 
 function CreateEventsStackNavigator() {
   return (
-    <EventsStack.Navigator screenOptions={{ headerShown: false }}>
+    <EventsStack.Navigator>
       <EventsStack.Screen
         name="Create Event"
         component={CreateEvent}
@@ -39,9 +40,25 @@ function CreateEventsStackNavigator() {
     </EventsStack.Navigator>
   );
 }
+function CreateAccountStackNavigator() {
+  return (
+    <EventsStack.Navigator>
+      <EventsStack.Screen
+        name="Create Account"
+        component={CreateAccount}
+        options={{ title: "Create Account" }}
+      />
+      <EventsStack.Screen
+        name="Account"
+        component={AccountPage}
+        options={{ title: "Account" }}
+      />
+    </EventsStack.Navigator>
+  );
+}
 function EventsStackNavigator() {
   return (
-    <EventsStack.Navigator screenOptions={{ headerShown: false }}>
+    <EventsStack.Navigator>
       <EventsStack.Screen
         name="EventList"
         component={EventList}
@@ -58,7 +75,7 @@ function EventsStackNavigator() {
 
 function MainTabs() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen name="Account" component={AccountStackNavigator} />
       <Tab.Screen name="Create Event" component={CreateEventsStackNavigator} />
       <Tab.Screen name="Events" component={EventsStackNavigator} />
@@ -77,32 +94,34 @@ const theme = {
 
 function App() {
   return (
-    <PaperProvider theme={theme}>
-      <NavigationContainer>
-        <AppStack.Navigator initialRouteName="MainTabs">
-          <AppStack.Screen
-            name="Login"
-            component={LoginPage}
-            options={{ title: "Login" }}
-          />
-          <AppStack.Screen
-            name="Create Account"
-            component={CreateAccount}
-            options={{ title: "Create Account" }}
-          />
-          <AppStack.Screen
-            name="Create Event"
-            component={CreateEvent}
-            options={{ title: "Create Event" }}
-          />
-          <AppStack.Screen
-            name="MainTabs"
-            component={MainTabs}
-            options={{ headerShown: false }}
-          />
-        </AppStack.Navigator>
-      </NavigationContainer>
-    </PaperProvider>
+    <UserProvider>
+      <PaperProvider theme={theme}>
+        <NavigationContainer>
+          <AppStack.Navigator initialRouteName="Login">
+            <AppStack.Screen
+              name="Login"
+              component={LoginPage}
+              options={{ title: "Login" }}
+            />
+            <AppStack.Screen
+              name="Create Account"
+              component={CreateAccount}
+              options={{ title: "Create Account" }}
+            />
+            <AppStack.Screen
+              name="Create Event"
+              component={CreateEvent}
+              options={{ title: "Create Event" }}
+            />
+            <AppStack.Screen
+              name="MainTabs"
+              component={MainTabs}
+              options={{ headerShown: false }}
+            />
+          </AppStack.Navigator>
+        </NavigationContainer>
+      </PaperProvider>
+    </UserProvider>
   );
 }
 
