@@ -1,57 +1,50 @@
-import React, { useState } from "react";
-import { SafeAreaView, FlatList, Image, StyleSheet, View, Animated } from "react-native";
-import { Text, Button, Card, Paragraph, Title, Avatar, IconButton } from "react-native-paper";
-import { eventList } from "../assets/data/event.data";
+import React, { useState, useEffect } from "react";
+import { FlatList, Image, StyleSheet, View, Animated } from "react-native";
+import { Card, Paragraph, IconButton } from "react-native-paper";
+import axios from "axios";
+
+const axiosBase = axios.create({
+  baseURL: "https://game-master-be.onrender.com/api/",
+});
+
+const fetchEvents = () => axiosBase.get("events");
 
 const EventList = ({ navigation }) => {
-  const [currentEventList, setcurrentEventList] = useState([]);
+  const [currentEventList, setCurrentEventList] = useState([]);
 
-  const LeftContent = () => <IconButton size={20} icon="cards-playing" />;
+  useEffect(() => {
+    fetchEvents()
+      .then(({ data }) => {
+        setCurrentEventList(data.events);
+      })
+      .catch((err) => {
+        console.error("Error fetching events: ", err);
+      });
+  }, []);
 
   const EventItem = ({ event }) => {
     const scale = new Animated.Value(1);
 
-    const handleMouseEnter = () => {
-      Animated.spring(scale, {
-        toValue: 1.05,
-        friction: 3,
-        useNativeDriver: true,
-      }).start();
-    };
-
-    const handleMouseLeave = () => {
-      Animated.spring(scale, {
-        toValue: 1,
-        friction: 3,
-        useNativeDriver: true,
-      }).start();
-    };
-
     return (
-      <Animated.View
-        style={{ ...styles.container, transform: [{ scale }] }}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
+      <Animated.View style={{ ...styles.container, transform: [{ scale }] }}>
         <Card style={styles.container}>
           <View style={styles.eventInfoContainer}>
             <Image source={{ uri: event.image }} style={styles.eventImage} />
             <View style={styles.infoContainer}>
               <Paragraph>
                 <IconButton icon="calendar" size={16} color="gray" />
-                {event.date}{" "}
+                {event.date}
                 <IconButton icon="clock-outline" size={16} color="gray" />
                 {event.time}
               </Paragraph>
               <Paragraph>
                 <IconButton icon="account-group" size={16} color="gray" />
                 {event.capacity}
-                <IconButton icon="map-marker" size={16} color="gray" />{" "}
+                <IconButton icon="map-marker" size={16} color="gray" />
                 {event.location}
               </Paragraph>
             </View>
           </View>
-
           <Card.Actions>
             {/* <Button
             mode="contained"
@@ -73,9 +66,9 @@ const EventList = ({ navigation }) => {
   return (
     <View style={{ flex: 1 }}>
       <FlatList
-        data={eventList}
+        data={currentEventList}
         renderItem={renderItem}
-        keyExtractor={(item) => item.event_id}
+        keyExtractor={(item) => item._id}
         numColumns={1}
       />
     </View>

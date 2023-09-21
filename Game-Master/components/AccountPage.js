@@ -1,6 +1,22 @@
 import React, { useState } from "react";
-import { Text, Button, Card, Paragraph, Title, Avatar, IconButton } from "react-native-paper";
-import { SafeAreaView, TextInput, Alert, View, Image, StyleSheet, ImageBackground } from "react-native";
+import {
+  Text,
+  Button,
+  Card,
+  Paragraph,
+  Title,
+  Avatar,
+  IconButton,
+} from "react-native-paper";
+import {
+  SafeAreaView,
+  TextInput,
+  Alert,
+  View,
+  Image,
+  StyleSheet,
+  ImageBackground,
+} from "react-native";
 import usersTestData from "../assets/data/user.data";
 import XPBar from "./AccountPage-Components/XPBar";
 import CreaturePreview from "./AccountPage-Components/CreaturePreview";
@@ -43,8 +59,8 @@ const AccountPage = () => {
       <Card style={styles.navcard}>
         <Card.Content style={styles.previewBar}></Card.Content>
       </Card>
-      <Eventlist />
-    </SafeAreaView >
+      <AccountPageEventList />
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
