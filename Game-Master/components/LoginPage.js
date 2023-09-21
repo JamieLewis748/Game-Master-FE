@@ -1,14 +1,5 @@
 import React, { useState } from "react";
-import {
-  SafeAreaView,
-  TextInput,
-  Button,
-  Alert,
-  StyleSheet,
-  View,
-  Image,
-  Text,
-} from "react-native";
+import { SafeAreaView, TextInput, Button, Alert, StyleSheet, View, Image, Text } from "react-native";
 
 function LoginPage({ navigation }) {
   const [username, setUsername] = useState("");
@@ -20,17 +11,17 @@ function LoginPage({ navigation }) {
     }
   };
 
-  const handleEventLog = () => {
-    navigation.navigate("MainTabs", { screen: "Events" });
-  };
+  // const handleEventLog = () => {
+  //   navigation.navigate("MainTabs", { screen: "Events" });
+  // };
 
   const handleSignUp = () => {
     navigation.navigate("Create Account");
   };
 
-  const handleCreateEvent = () => {
-    navigation.navigate("Create Event");
-  };
+  // const handleCreateEvent = () => {
+  //   navigation.navigate("Create Event");
+  // };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -64,12 +55,12 @@ function LoginPage({ navigation }) {
           <Button title="Create Account" onPress={handleSignUp} />
         </View>
       </View>
-      <View style={styles.buttonContainer}>
+      {/* <View style={styles.buttonContainer}>
         <Button title="See events" onPress={handleEventLog} />
       </View>
       <View style={styles.buttonContainer}>
         <Button title="Create Event" onPress={handleCreateEvent} />
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 }

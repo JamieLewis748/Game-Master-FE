@@ -18,7 +18,7 @@ const Tab = createBottomTabNavigator();
 
 function AccountStackNavigator() {
   return (
-    <EventsStack.Navigator>
+    <EventsStack.Navigator screenOptions={{ headerShown: false }}>
       <EventsStack.Screen
         name="Account"
         component={AccountPage}
@@ -28,9 +28,20 @@ function AccountStackNavigator() {
   );
 }
 
+function CreateEventsStackNavigator() {
+  return (
+    <EventsStack.Navigator screenOptions={{ headerShown: false }}>
+      <EventsStack.Screen
+        name="Create Event"
+        component={CreateEvent}
+        options={{ title: "Create Event" }}
+      />
+    </EventsStack.Navigator>
+  );
+}
 function EventsStackNavigator() {
   return (
-    <EventsStack.Navigator>
+    <EventsStack.Navigator screenOptions={{ headerShown: false }}>
       <EventsStack.Screen
         name="EventList"
         component={EventList}
@@ -48,7 +59,7 @@ function EventsStackNavigator() {
 function MainTabs() {
   return (
     <Tab.Navigator>
-      {/* <Tab.Screen name="Home" component={HomeScreen} /> */}
+      <Tab.Screen name="Create Event" component={CreateEventsStackNavigator} />
       <Tab.Screen name="Events" component={EventsStackNavigator} />
       <Tab.Screen name="Account" component={AccountStackNavigator} />
     </Tab.Navigator>
@@ -68,14 +79,12 @@ function App() {
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>
-        <AppStack.Navigator initialRouteName="Login">
-          {/* <Stack.Navigator initialRouteName="Login"> */}
+        <AppStack.Navigator initialRouteName="Account">
           <AppStack.Screen
             name="Login"
             component={LoginPage}
             options={{ title: "Login" }}
           />
-
           <AppStack.Screen
             name="Create Account"
             component={CreateAccount}

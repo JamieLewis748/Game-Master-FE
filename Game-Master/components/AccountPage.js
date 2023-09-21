@@ -1,25 +1,11 @@
 import React, { useState } from "react";
-import {
-  Text,
-  Button,
-  Card,
-  Paragraph,
-  Title,
-  Avatar,
-  IconButton,
-} from "react-native-paper";
-import {
-  SafeAreaView,
-  TextInput,
-  Alert,
-  View,
-  Image,
-  StyleSheet,
-  ImageBackground,
-} from "react-native";
+import { Text, Button, Card, Paragraph, Title, Avatar, IconButton } from "react-native-paper";
+import { SafeAreaView, TextInput, Alert, View, Image, StyleSheet, ImageBackground } from "react-native";
 import usersTestData from "../assets/data/user.data";
 import XPBar from "./AccountPage-Components/XPBar";
 import CreaturePreview from "./AccountPage-Components/CreaturePreview";
+import AccountPageEventList from "./AccountPage-Components/AccountPageEventList";
+
 const currentXP = 70;
 const maxXP = 100;
 
@@ -28,6 +14,7 @@ const handleCreateEvent = () => {
 };
 
 const AccountPage = () => {
+  const [currentEventList, setcurrentEventList] = useState([]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Card style={styles.card}>
@@ -55,11 +42,9 @@ const AccountPage = () => {
       </Card>
       <Card style={styles.navcard}>
         <Card.Content style={styles.previewBar}></Card.Content>
-        <View style={styles.button}>
-          <Button title="Create Event" onPress={handleCreateEvent} />
-        </View>
       </Card>
-    </SafeAreaView>
+      <Eventlist />
+    </SafeAreaView >
   );
 };
 const styles = StyleSheet.create({
