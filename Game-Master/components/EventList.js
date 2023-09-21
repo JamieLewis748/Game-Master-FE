@@ -49,6 +49,8 @@ const DATA = [
   },
 ];
 
+
+
 const EventList = ({ navigation }) => {
   const [currentEventList, setCurrentEventList] = useState([]);
 

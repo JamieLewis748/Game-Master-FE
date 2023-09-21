@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import {
   Text,
@@ -18,12 +19,21 @@ import {
   ImageBackground,
 } from "react-native";
 import usersTestData from "../assets/data/user.data";
+
+import React, { useState, useEffect } from "react";
+import { Text, Button, Card, Paragraph, Title, Avatar, IconButton } from "react-native-paper";
+import { SafeAreaView, TextInput, Alert, View, Image, StyleSheet, ImageBackground } from "react-native";
+
 import XPBar from "./AccountPage-Components/XPBar";
 import CreaturePreview from "./AccountPage-Components/CreaturePreview";
 import AccountPageEventList from "./AccountPage-Components/AccountPageEventList";
+import { fetchUserByUserId } from "./APIs/returnUsers";
+
 
 const currentXP = 70;
 const maxXP = 100;
+
+
 
 const handleCreateEvent = () => {
   navigation.navigate("Create Event");
@@ -31,12 +41,42 @@ const handleCreateEvent = () => {
 
 const AccountPage = () => {
   const [currentEventList, setcurrentEventList] = useState([]);
+  // const [user, setUser] = useState([]);
+  const user = {
+    _id: "2",
+    name: "Jamie",
+    username: "jamie1234",
+    email: "jamie@gmail.com",
+    img_url: "https://i.pinimg.com/originals/82/4c/75/824c75d5d8baddac1e3ab99a48b77f36.jpg",
+    friends: ["2", "3", "4"],
+    friendRequestsReceived: ["6", "10", "11", "9"],
+    friendRequestsSent: ["5"],
+    blocked: [],
+    topics: ["Card Games", "RPG"],
+    characterStats: {
+      name: "Character1",
+      level: "7",
+      experience: "29",
+      experienceToLevelUp: "70",
+    },
+  };
+
+  useEffect(() => {
+    fetchUserByUserId(user.__id)
+      .then((userData) => {
+        setUser(userData);
+      })
+      .catch((error) => {
+        console.error("Error fetching user:", error);
+      });
+  }, []);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Card style={styles.card}>
         <Card.Cover
           source={{
-            uri: "https://i.pinimg.com/originals/82/4c/75/824c75d5d8baddac1e3ab99a48b77f36.jpg",
+            uri: user.img_url
           }}
           resizeMode="cover"
           style={styles.container}
@@ -49,18 +89,37 @@ const AccountPage = () => {
             resizeMode="cover"
             style={styles.cover}
           />
-          <Title style={{ color: "white" }}>Hello World</Title>
-          <XPBar currentXP={currentXP} maxXP={maxXP} />
+          <Title style={{ color: "white" }}>{user.username}</Title>
+          <Title style={{ color: "white" }}>Level: {user.characterStats.level}</Title>
+          <XPBar currentXP={user.characterStats.experience} maxXP={user.characterStats.experienceToLevelUp} />
           <View>
-            <Text style={styles.xpText}>{`${currentXP} / ${maxXP} XP`}</Text>
+            <Text style={styles.xpText}>{`${user.characterStats.experience} / ${user.characterStats.experienceToLevelUp} XP`}</Text>
           </View>
         </Card.Content>
       </Card>
       <Card style={styles.navcard}>
-        <Card.Content style={styles.previewBar}></Card.Content>
+        <Card.Content style={styles.previewBar}>
+          <View style={styles.buttonContainer}>
+            <Button mode="outlined" onPress={() => console.log("Messages button pressed")}>
+              Messages
+            </Button>
+
+            <Button mode="outlined" onPress={() => console.log("Friend List button pressed")}>
+              Friend List
+            </Button>
+            <Button mode="outlined" onPress={() => console.log("Collection button pressed")}>
+              Collection
+            </Button>
+
+          </View>
+        </Card.Content>
       </Card>
       <AccountPageEventList />
+
     </SafeAreaView>
+
+    </SafeAreaView >
+
   );
 };
 const styles = StyleSheet.create({
@@ -101,11 +160,9 @@ const styles = StyleSheet.create({
     width: "90%",
     marginLeft: "auto",
     marginRight: "auto",
-    height: "15%",
+    height: 60,
   },
   previewBar: {
-    alignItems: "center",
-    flexDirection: "row",
   },
   eventCard: {
     height: 50,
@@ -113,6 +170,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     justifyContent: "center",
     alignItems: "center",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    marginHorizontal: 20,
+    alignItems: "center",
+    height: "100%",
   },
 });
 export default AccountPage;
