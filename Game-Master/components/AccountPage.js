@@ -1,19 +1,28 @@
-
 import React, { useState, useEffect, useContext } from "react";
-import { Text, Button, Card, Paragraph, Title, Avatar, IconButton } from "react-native-paper";
-import { SafeAreaView, TextInput, Alert, View, Image, StyleSheet, ImageBackground } from "react-native";
+import {
+  Text,
+  Button,
+  Card,
+  Paragraph,
+  Title,
+  Avatar,
+  IconButton,
+} from "react-native-paper";
+import {
+  SafeAreaView,
+  TextInput,
+  Alert,
+  View,
+  Image,
+  StyleSheet,
+  ImageBackground,
+} from "react-native";
 
 import XPBar from "./AccountPage-Components/XPBar";
 import CreaturePreview from "./AccountPage-Components/CreaturePreview";
 import AccountPageEventList from "./AccountPage-Components/AccountPageEventList";
 import { fetchUserByUserId } from "./APIs/returnUsers";
 import UserContext from "./Context/UserContext";
-
-
-
-const handleCreateEvent = () => {
-  navigation.navigate("Create Event");
-};
 
 const AccountPage = ({ navigation }) => {
   const [currentEventList, setcurrentEventList] = useState([]);
@@ -24,7 +33,8 @@ const AccountPage = ({ navigation }) => {
     name: "Jamie",
     username: user.email,
     email: user.email,
-    img_url: "https://i.pinimg.com/originals/82/4c/75/824c75d5d8baddac1e3ab99a48b77f36.jpg",
+    img_url:
+      "https://i.pinimg.com/originals/82/4c/75/824c75d5d8baddac1e3ab99a48b77f36.jpg",
     friends: ["2", "3", "4"],
     friendRequestsReceived: ["6", "10", "11", "9"],
     friendRequestsSent: ["5"],
@@ -53,7 +63,7 @@ const AccountPage = ({ navigation }) => {
       <Card style={styles.card}>
         <Card.Cover
           source={{
-            uri: currentUser.img_url
+            uri: currentUser.img_url,
           }}
           resizeMode="cover"
           style={styles.container}
@@ -67,31 +77,47 @@ const AccountPage = ({ navigation }) => {
             style={styles.cover}
           />
           <Title style={{ color: "white" }}>{currentUser.username}</Title>
-          <Title style={{ color: "white" }}>Level: {currentUser.characterStats.level}</Title>
-          <XPBar currentXP={currentUser.characterStats.experience} maxXP={currentUser.characterStats.experienceToLevelUp} />
+          <Title style={{ color: "white" }}>
+            Level: {currentUser.characterStats.level}
+          </Title>
+          <XPBar
+            currentXP={currentUser.characterStats.experience}
+            maxXP={currentUser.characterStats.experienceToLevelUp}
+          />
           <View>
-            <Text style={styles.xpText}>{`${currentUser.characterStats.experience} / ${currentUser.characterStats.experienceToLevelUp} XP`}</Text>
+            <Text
+              style={styles.xpText}
+            >{`${currentUser.characterStats.experience} / ${currentUser.characterStats.experienceToLevelUp} XP`}</Text>
           </View>
         </Card.Content>
       </Card>
       <Card style={styles.navcard}>
         <Card.Content style={styles.previewBar}>
           <View style={styles.buttonContainer}>
-            <Button mode="outlined" onPress={() => console.log("Messages button pressed")}>
+            <Button
+              mode="outlined"
+              onPress={() => console.log("Messages button pressed")}
+            >
               Messages
             </Button>
-            <Button mode="outlined" onPress={() => console.log("Friend List button pressed")}>
+            <Button
+              mode="outlined"
+              onPress={() => console.log("Friend List button pressed")}
+            >
               Friend List
             </Button>
-            <Button mode="outlined" onPress={() => console.log("Collection button pressed")}>
+            <Button
+              mode="outlined"
+              onPress={() => console.log("Collection button pressed")}
+            >
               Collection
             </Button>
           </View>
         </Card.Content>
-      </Card>;
+      </Card>
+      ;
       <AccountPageEventList navigation={navigation} />
-    </SafeAreaView >
-
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
@@ -134,8 +160,7 @@ const styles = StyleSheet.create({
     marginRight: "auto",
     height: 60,
   },
-  previewBar: {
-  },
+  previewBar: {},
   eventCard: {
     height: 50,
     backgroundColor: "lightgray",
