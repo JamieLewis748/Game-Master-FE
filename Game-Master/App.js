@@ -1,4 +1,3 @@
-
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { SafeAreaView, Text } from "react-native";
@@ -97,7 +96,7 @@ function App() {
     <UserProvider>
       <PaperProvider theme={theme}>
         <NavigationContainer>
-          <AppStack.Navigator initialRouteName="Login">
+          <AppStack.Navigator initialRouteName="Events">
             <AppStack.Screen
               name="Login"
               component={LoginPage}
