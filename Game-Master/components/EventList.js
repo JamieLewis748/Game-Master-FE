@@ -11,58 +11,24 @@ import {
 import { Card, Paragraph, IconButton } from "react-native-paper";
 import axios from "axios";
 
-// const axiosBase = axios.create({
-//   baseURL: "https://game-master-be.onrender.com/api/",
-// });
+const axiosBase = axios.create({
+  baseURL: "https://game-master-be.onrender.com/api/",
+});
 
-// const fetchEvents = () => axiosBase.get("events");
-
-const DATA = [
-  {
-    event_id: "1",
-    host_id: "1",
-    image: "https://media.timeout.com/images/105627949/750/422/image.jpg",
-    public: true,
-    game_type: "boardgame",
-    location: "locationdata",
-    time: 10,
-    date: "01/01/01",
-    capacity: "full",
-    current_attending: ["user1", "user2", "user3"],
-    prize: `https://img.itch.zone/aW1nLzEzMzIzNDA0LmdpZg==/original/QUoq1B.gif`,
-    description:
-      "Looking for fellow Monopoly lovers for a weekly session. All experiences levels welcome ",
-  },
-
-  {
-    event_id: "2",
-    host_id: "2",
-    public: false,
-    game_type: "cardgame",
-    location: "locationdata",
-    time: 11,
-    date: "02/01/01",
-    capacity: "3/5",
-    prize: `https://img.itch.zone/aW1nLzEzMzIzMzkzLmdpZg==/original/A7JFLC.gif`,
-    description:
-      "Looking for fellow Monopoly lovers for a weekly session. All experiences levels welcome ",
-  },
-];
-
-
+const fetchEvents = () => axiosBase.get("events");
 
 const EventList = ({ navigation }) => {
   const [currentEventList, setCurrentEventList] = useState([]);
 
-  // useEffect(() => {
-  //   fetchEvents()
-  //     .then(({ data }) => {
-  //       setCurrentEventList(data.events);
-  //     })
-  //     .catch((err) => {
-  //       console.error("Error fetching events: ", err);
-  //     });
-  // }, []);
+  useEffect(() => {
+    fetchEvents()
+      .then(({ data }) => {
+        setCurrentEventList(data);
+      })
+      .catch((err) => {
+        console.error("Error fetching events: ", err);
+      });
+  }, []);
 
   const handleMouseEnter = () => {
     Animated.spring(scale, {
@@ -97,15 +63,15 @@ const EventList = ({ navigation }) => {
               <View style={styles.infoContainer}>
                 <Paragraph>
                   <IconButton icon="calendar" size={16} color="gray" />
-                  {event.date}
+                  {event.dateTime}
                   <IconButton icon="clock-outline" size={16} color="gray" />
-                  {event.time}
+                  {event.duration}
                 </Paragraph>
                 <Paragraph>
                   <IconButton icon="account-group" size={16} color="gray" />
                   {event.capacity}
                   <IconButton icon="map-marker" size={16} color="gray" />
-                  {event.location}
+                  {/* {event.location} */} Needs to be added to event object
                 </Paragraph>
               </View>
             </View>
@@ -134,7 +100,7 @@ const EventList = ({ navigation }) => {
   return (
     <View style={{ flex: 1 }}>
       <FlatList
-        data={DATA}
+        data={currentEventList}
         renderItem={renderItem}
         keyExtractor={(item) => item._id}
         numColumns={1}
