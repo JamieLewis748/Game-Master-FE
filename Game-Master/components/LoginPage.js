@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { SafeAreaView, TextInput, Button, Alert, StyleSheet, View, Image, Text } from "react-native";
-import UserContext from "./Context/UserContext";
+import { UserContext, DbUserContext } from "./Context/UserContext";
 import { auth } from "./Authentication/firebase-config";
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
 
@@ -12,7 +12,8 @@ function LoginPage({ navigation }) {
 
   async function handleLogin() {
     try {
-      const user = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+      const isConfirmed = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+      console.log("🚀 ~ isConfirmed:", isConfirmed);
       navigation.navigate("MainTabs", { screen: "Account" });
     }
     catch (error) {
