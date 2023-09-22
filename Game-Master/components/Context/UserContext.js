@@ -2,8 +2,9 @@ import { createContext } from "react";
 
 
 const UserContext = createContext();
+const DbUserContext = createContext();
 
-export default UserContext;
+export { UserContext, DbUserContext };
 
 // const user = {
 //   _id: "2",

@@ -22,31 +22,32 @@ import XPBar from "./AccountPage-Components/XPBar";
 import CreaturePreview from "./AccountPage-Components/CreaturePreview";
 import AccountPageEventList from "./AccountPage-Components/AccountPageEventList";
 import { fetchUserByUserId } from "./APIs/returnUsers";
-import UserContext from "./Context/UserContext";
+import { UserContext, DbUserContext } from "./Context/UserContext";
 
 const AccountPage = ({ navigation }) => {
   const [currentEventList, setcurrentEventList] = useState([]);
   const { user, setUser } = useContext(UserContext);
+  const { dbUser, setdbUser } = useContext(DbUserContext);
 
-  const currentUser = {
-    _id: "2",
-    name: "Jamie",
-    username: user.email,
-    email: user.email,
-    img_url:
-      "https://i.pinimg.com/originals/82/4c/75/824c75d5d8baddac1e3ab99a48b77f36.jpg",
-    friends: ["2", "3", "4"],
-    friendRequestsReceived: ["6", "10", "11", "9"],
-    friendRequestsSent: ["5"],
-    blocked: [],
-    topics: ["Card Games", "RPG"],
-    characterStats: {
-      name: "Character1",
-      level: "7",
-      experience: "29",
-      experienceToLevelUp: "70",
-    },
-  };
+  const currentUser = user;
+  //   _id: "2",
+  //   name: "Jamie",
+  //   username: user.email,
+  //   email: user.email,
+  //   img_url:
+  //     "https://i.pinimg.com/originals/82/4c/75/824c75d5d8baddac1e3ab99a48b77f36.jpg",
+  //   friends: ["2", "3", "4"],
+  //   friendRequestsReceived: ["6", "10", "11", "9"],
+  //   friendRequestsSent: ["5"],
+  //   blocked: [],
+  //   topics: ["Card Games", "RPG"],
+  //   characterStats: {
+  //     name: "Character1",
+  //     level: "7",
+  //     experience: "29",
+  //     experienceToLevelUp: "70",
+  //   },
+  // };
 
   // useEffect(() => {
   //   fetchUserByUserId(user.__id)

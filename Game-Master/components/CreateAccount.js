@@ -10,7 +10,7 @@ import {
 import { useState, useEffect, useContext } from "react";
 import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { auth } from "./Authentication/firebase-config";
-import UserContext from "./Context/UserContext";
+import { UserContext, DbUserContext } from "./Context/UserContext";
 import postNewUser from "./APIs/postUser";
 
 const CreateAccount = ({ navigation }) => {
