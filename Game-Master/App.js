@@ -11,105 +11,67 @@ import Collection from "./components/Collection";
 import { createStackNavigator } from "@react-navigation/stack";
 import { PaperProvider, DefaultTheme } from "react-native-paper";
 import UserProvider from "./components/Context/UserProvider";
+import { UserContext, DbUserContext } from "./components/Context/UserContext";
+import React, { useState, useContext, useEffect } from "react";
 
-const AppStack = createStackNavigator();
-const EventsStack = createStackNavigator();
-const Tab = createBottomTabNavigator();
-
-function AccountStackNavigator() {
-  return (
-    <EventsStack.Navigator>
-      <EventsStack.Screen
-        name="Account"
-        component={AccountPage}
-        options={{ title: "Account" }}
-      />
-    </EventsStack.Navigator>
-  );
-}
-
-function CreateEventsStackNavigator() {
-  return (
-    <EventsStack.Navigator>
-      <EventsStack.Screen
-        name="Create Event"
-        component={CreateEvent}
-        options={{ title: "Create Event" }}
-      />
-    </EventsStack.Navigator>
-  );
-}
-
-function EventsStackNavigator() {
-  return (
-    <EventsStack.Navigator>
-      <EventsStack.Screen
-        name="EventList"
-        component={EventList}
-        options={{ title: "Events" }}
-      />
-      <EventsStack.Screen
-        name="Event Details"
-        component={EventDetails}
-        options={{ title: "Event Details" }}
-      />
-    </EventsStack.Navigator>
-  );
-}
+const Stack = createStackNavigator()
+const Tab = createBottomTabNavigator()
 
 function MainTabs() {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="Account Tab" component={AccountStackNavigator} />
-      <Tab.Screen
-        name="Create Event Tab"
-        component={CreateEventsStackNavigator}
-      />
-      <Tab.Screen name="Events Tab" component={EventsStackNavigator} />
+      <Tab.Screen name="Account Tab" component={AccountPage} />
+      <Tab.Screen name="Create Event Tab" component={CreateEvent} />
+      <Tab.Screen name="Events Tab" component={EventList} />
     </Tab.Navigator>
   );
 }
 
-const theme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    primary: "#3498db",
-    secondary: "#f39c12",
-  },
-};
-
 function App() {
   return (
     <UserProvider>
-      <PaperProvider theme={theme}>
+      <PaperProvider>
         <NavigationContainer>
-          <AppStack.Navigator initialRouteName="Events">
-            <AppStack.Screen
-              name="Login"
-              component={LoginPage}
-              options={{ title: "Login" }}
-            />
-            <AppStack.Screen
-              name="Create Account"
-              component={CreateAccount}
-              options={{ title: "Create Account" }}
-            />
-            <AppStack.Screen
-              name="Create Event"
-              component={CreateEvent}
-              options={{ title: "Create Event" }}
-            />
-            <AppStack.Screen
-              name="MainTabs"
-              component={MainTabs}
-              options={{ headerShown: false }}
-            />
-          </AppStack.Navigator>
+          <Stack.Navigator>
+            <Stack.Group>
+              <Stack.Screen
+                name="Login"
+                component={LoginPage}
+                options={{ title: "Login" }}
+              />
+              <Stack.Screen
+                name="Create Account"
+                component={CreateAccount}
+                options={{ title: "Create Account" }}
+              />
+            </Stack.Group>
+            <Stack.Group>
+              <Stack.Screen
+                name="Create Event"
+                component={CreateEvent}
+                options={{ title: "Create Event" }}
+              />
+              <Stack.Screen
+                name="MainTabs"
+                component={MainTabs}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Account"
+                component={AccountPage}
+                options={{ title: "Account" }}
+              />
+              <Stack.Screen
+                name="Event Details"
+                component={EventDetails}
+                options={{ title: "Event Details" }}
+              />
+            </Stack.Group>
+          </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>
     </UserProvider>
-  );
+  )
 }
 
 export default App;

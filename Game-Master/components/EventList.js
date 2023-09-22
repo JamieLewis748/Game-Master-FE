@@ -31,19 +31,19 @@ const EventList = ({ navigation }) => {
   }, []);
 
   const handleMouseEnter = () => {
-    Animated.spring(scale, {
-      toValue: 1.05,
-      friction: 3,
-      useNativeDriver: false,
-    }).start();
+    // Animated.spring(Scale, {
+    //   toValue: 1.05,
+    //   friction: 3,
+    //   useNativeDriver: false,
+    // }).start();
   };
 
   const handleMouseLeave = () => {
-    Animated.spring(scale, {
-      toValue: 1,
-      friction: 3,
-      useNativeDriver: false,
-    }).start();
+    // Animated.spring(Scale, {
+    //   toValue: 1,
+    //   friction: 3,
+    //   useNativeDriver: false,
+    // }).start();
   };
 
   const EventItem = ({ event }) => {

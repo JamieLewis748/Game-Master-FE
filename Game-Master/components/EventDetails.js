@@ -16,6 +16,7 @@ import AttendeesInfo from "./EventDetails-Components/AttendeesInfo";
 import TimeInfo from "./EventDetails-Components/TimeInfo";
 
 const EventDetails = ({ route }) => {
+  console.log(route.params)
   const { selectedEvent } = route.params;
 
   return (
