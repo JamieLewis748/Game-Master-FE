@@ -14,15 +14,34 @@ import UserProvider from "./components/Context/UserProvider";
 import { UserContext, DbUserContext } from "./components/Context/UserContext";
 import React, { useState, useContext, useEffect } from "react";
 
-const Stack = createStackNavigator()
-const Tab = createBottomTabNavigator()
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+const EventsStack = createStackNavigator();
+
+function EventsStackNavigator() {
+  return (
+    <EventsStack.Navigator>
+      <EventsStack.Screen
+        name="EventList"
+        component={EventList}
+        options={{ title: "Events" }}
+      />
+
+      <EventsStack.Screen
+        name="Event Details"
+        component={EventDetails}
+        options={{ title: "Event Details" }}
+      />
+    </EventsStack.Navigator>
+  );
+}
 
 function MainTabs() {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen name="Account Tab" component={AccountPage} />
       <Tab.Screen name="Create Event Tab" component={CreateEvent} />
-      <Tab.Screen name="Events Tab" component={EventList} />
+      <Tab.Screen name="Events" component={EventsStackNavigator} />
     </Tab.Navigator>
   );
 }
@@ -61,17 +80,12 @@ function App() {
                 component={AccountPage}
                 options={{ title: "Account" }}
               />
-              <Stack.Screen
-                name="Event Details"
-                component={EventDetails}
-                options={{ title: "Event Details" }}
-              />
             </Stack.Group>
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>
     </UserProvider>
-  )
+  );
 }
 
 export default App;
