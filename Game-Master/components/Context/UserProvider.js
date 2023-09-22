@@ -4,13 +4,11 @@ import { UserContext, DbUserContext } from "./UserContext";
 
 
 const UserProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [dbUser, setdbUser] = useState(null);
-
-
+    const [user, setUser] = useState();
+    const [dbUser, setDbUser] = useState();
 
     return (
-        <DbUserContext.Provider value={{ dbUser, setdbUser }}>
+        <DbUserContext.Provider value={{ dbUser, setDbUser }}>
             <UserContext.Provider value={{ user, setUser }}>
                 {children}
             </UserContext.Provider>
