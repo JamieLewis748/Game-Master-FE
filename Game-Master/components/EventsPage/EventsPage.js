@@ -17,6 +17,10 @@ const axiosBase = axios.create({
 const fetchEvents = () => axiosBase.get("events");
 const fetchBoardGameEvents = () => axiosBase.get("events?gameType=Board Games")
 const fetchCardGameEvents = () => axiosBase.get("events?gameType=Card Games")
+const fetchTabletopEvents = () => axiosBase.get("events?gameType=Tabletop")
+const fetchRPGEvents = () => axiosBase.get("events?gameType=RPG")
+
+
 
     
  
@@ -37,7 +41,6 @@ const EventsPage = () => {
             console.error("Error fetching events: ", err);
           });
       } else if (selectedValue === "Board Game") {
-        console.log('Inside the Board Games block', selectedValue)
         fetchBoardGameEvents()
           .then(({ data }) => {
             setCurrentEventList(data);
@@ -46,16 +49,30 @@ const EventsPage = () => {
             console.error("Error fetching board game events: ", err);
           });
       } else if (selectedValue === "Card Game") {
-        console.log('Inside the Card Games block', selectedValue)
-
         fetchCardGameEvents()
           .then(({ data }) => {
             setCurrentEventList(data);
           })
           .catch((err) => {
-            console.error("Error fetching board game events: ", err);
+            console.error("Error fetching card game events: ", err);
           });
-      }
+      } else if (selectedValue === "Tabletop") {
+        fetchTabletopEvents()
+          .then(({ data }) => {
+            setCurrentEventList(data);
+          })
+          .catch((err) => {
+            console.error("Error fetching Tabletop game events: ", err);
+          });
+        } else if (selectedValue === "RPG") {
+          fetchRPGEvents()
+            .then(({ data }) => {
+              setCurrentEventList(data);
+            })
+            .catch((err) => {
+              console.error("Error fetching RPG game events: ", err);
+            });
+          }
     }, [selectedValue]);
     
   return (

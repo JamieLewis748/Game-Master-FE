@@ -18,6 +18,8 @@ const DropDownMenu = ({ selectedValue, onValueChange }) => {
         <Picker.Item label='All'  />
         <Picker.Item label='Board Game'  />
         <Picker.Item label='Card Game'  />
+        <Picker.Item label='Tabletop'  />
+        <Picker.Item label='RPG'  />
       </Picker>
       <Text>You have selected: {selectedValue}</Text>
     </>
