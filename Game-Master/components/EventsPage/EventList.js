@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { Card, Paragraph, IconButton } from "react-native-paper";
 
-const EventList = ({ currentEventList}) => {      
+const EventList = ({ currentEventList}) => {
 
   const handleMouseEnter = () => {
     Animated.spring(scale, {
@@ -83,14 +83,14 @@ const EventList = ({ currentEventList}) => {
   const renderItem = ({ item }) => <EventItem event={item} />;
 
   return (
-    <View style={{ flex: 1 }}>
-      <FlatList
-        data={currentEventList}
-        renderItem={renderItem}
-        keyExtractor={(item) => item._id}
-        numColumns={1}
-      />
-    </View>
+      <SafeAreaView style={{ flex: 1 }}>
+        <FlatList
+          data={currentEventList}
+          renderItem={renderItem}
+          keyExtractor={(item) => item._id}
+          numColumns={1}
+        />
+      </SafeAreaView>
   );
 };
 
@@ -126,4 +126,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+
 export default EventList;

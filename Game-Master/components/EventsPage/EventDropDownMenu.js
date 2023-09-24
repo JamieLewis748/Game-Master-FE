@@ -6,10 +6,19 @@ import {
 
 
 
-const DropDownMenu = ({ selectedValue, onValueChange }) => {
+const DropDownMenu = ({ selectedValue, onValueChange, selectedTimeDateValue, onTimeDateValueChange }) => {
 
   return (
     <>
+      <Text>Filter by date</Text>
+      <Picker
+        selectedValue={selectedTimeDateValue}
+        onValueChange={(itemValue) => onTimeDateValueChange(itemValue)}
+      >
+        <Picker.Item label='Latest'  />
+        <Picker.Item label='Oldest'  />
+      </Picker>
+
       <Text>Select a game type</Text>
       <Picker
         selectedValue={selectedValue}
@@ -21,7 +30,6 @@ const DropDownMenu = ({ selectedValue, onValueChange }) => {
         <Picker.Item label='Tabletop'  />
         <Picker.Item label='RPG'  />
       </Picker>
-      <Text>You have selected: {selectedValue}</Text>
     </>
   );
 

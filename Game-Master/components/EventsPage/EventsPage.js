@@ -8,8 +8,6 @@ import DropDownMenu from "./EventDropDownMenu";
 import EventList from "./EventList";
 import axios from "axios";
 
-
-
 const axiosBase = axios.create({
     baseURL: "https://game-master-be.onrender.com/api/",
   });
@@ -20,16 +18,35 @@ const fetchCardGameEvents = () => axiosBase.get("events?gameType=Card Games")
 const fetchTabletopEvents = () => axiosBase.get("events?gameType=Tabletop")
 const fetchRPGEvents = () => axiosBase.get("events?gameType=RPG")
 
-
-
-    
- 
+const fetchDescendingOrderEvents = () => axiosBase.get("events?sortBy=dateTime&order=1")
+const fetchAscendingOrderEvents = () => axiosBase.get("events?sortBy=dateTime&order=-1")
 
 const EventsPage = () => {
 
     const [selectedValue, setSelectedValue] = useState('All')
     const [currentEventList, setCurrentEventList] = useState([]);
 
+    const [selectedTimeDateValue, setSelectedTimeDateValue] = useState('Latest')
+
+    useEffect(() => {
+      if (selectedTimeDateValue === "Latest") {
+        fetchAscendingOrderEvents()
+          .then(({ data }) => {
+            setCurrentEventList(data);
+          })
+          .catch((err) => {
+            console.error("Error fetching events in ascending date and time order: ", err);
+          });
+      } else if (selectedTimeDateValue === "Oldest") {
+        fetchDescendingOrderEvents()
+          .then(({ data }) => {
+            setCurrentEventList(data);
+          })
+          .catch((err) => {
+            console.error("Error fetching board game events in descending date and time  order: ", err);
+          });
+      }
+    }, [selectedTimeDateValue]);
 
     useEffect(() => {
       if (selectedValue === "All") {
@@ -40,7 +57,7 @@ const EventsPage = () => {
           .catch((err) => {
             console.error("Error fetching events: ", err);
           });
-      } else if (selectedValue === "Board Game") {
+      } else if (selectedValue === "Board Game" && selectedTimeDateValue) {
         fetchBoardGameEvents()
           .then(({ data }) => {
             setCurrentEventList(data);
@@ -74,10 +91,12 @@ const EventsPage = () => {
             });
           }
     }, [selectedValue]);
+
+  
     
   return (
     <View>
-      <DropDownMenu  selectedValue={selectedValue} onValueChange={setSelectedValue} />
+      <DropDownMenu  selectedValue={selectedValue} onValueChange={setSelectedValue} selectedTimeDateValue={selectedTimeDateValue} onTimeDateValueChange={setSelectedTimeDateValue} />
       <EventList currentEventList={currentEventList} />
     </View>
   );
