@@ -6,25 +6,20 @@ import {
 
 
 
-const DropDownMenu = () => {
-
-  const [value, setValue] = useState(['']);
-    
-  const handleValueChange = (itemValue) => {
-    setValue(itemValue)
-  }
+const DropDownMenu = ({ selectedValue, onValueChange }) => {
 
   return (
     <>
       <Text>Select a game type</Text>
       <Picker
-        value={value}
-        onValueChange={handleValueChange}
+        selectedValue={selectedValue}
+        onValueChange={(itemValue) => onValueChange(itemValue)}
       >
-        <Picker.Item label='Board Game' value='boardGame' />
-        <Picker.Item label='Card Game' value='cardGame' />
+        <Picker.Item label='All'  />
+        <Picker.Item label='Board Game'  />
+        <Picker.Item label='Card Game'  />
       </Picker>
-      <Text>You have selected: {value}</Text>
+      <Text>You have selected: {selectedValue}</Text>
     </>
   );
 

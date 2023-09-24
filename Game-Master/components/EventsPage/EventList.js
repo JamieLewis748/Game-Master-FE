@@ -7,28 +7,11 @@ import {
   Animated,
   TouchableWithoutFeedback,
   Button,
+  SafeAreaView,
 } from "react-native";
 import { Card, Paragraph, IconButton } from "react-native-paper";
-import axios from "axios";
 
-const axiosBase = axios.create({
-  baseURL: "https://game-master-be.onrender.com/api/",
-});
-
-const fetchEvents = () => axiosBase.get("events");
-
-const EventList = ({ navigation }) => {
-  const [currentEventList, setCurrentEventList] = useState([]);
-
-  useEffect(() => {
-    fetchEvents()
-      .then(({ data }) => {
-        setCurrentEventList(data);
-      })
-      .catch((err) => {
-        console.error("Error fetching events: ", err);
-      });
-  }, []);
+const EventList = ({ currentEventList}) => {      
 
   const handleMouseEnter = () => {
     Animated.spring(scale, {
@@ -51,6 +34,7 @@ const EventList = ({ navigation }) => {
     const scale = new Animated.Value(1);
 
     return (
+      <SafeAreaView>
       <TouchableWithoutFeedback onPress={() => setIsExpanded(!isExpanded)}>
         <Animated.View
           style={{ ...styles.container, transform: [{ scale }] }}
@@ -92,6 +76,7 @@ const EventList = ({ navigation }) => {
           </Card>
         </Animated.View>
       </TouchableWithoutFeedback>
+      </SafeAreaView>
     );
   };
 
