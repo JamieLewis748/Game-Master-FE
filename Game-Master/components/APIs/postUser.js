@@ -1,9 +1,10 @@
 import axios from "axios";
-import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from "../Authentication/firebase-config";
 
 
-const postNewUser = async (name, username, email, img_url, characterName, password) => {
+const PostNewUser = async (name, username, email, img_url, characterName, password, setDbUser) => {
+    console.log(name, username, email, img_url, characterName)
     return axios
         .post(`https://game-master-be.onrender.com/api/users`, {
             name: name,
@@ -13,14 +14,21 @@ const postNewUser = async (name, username, email, img_url, characterName, passwo
             characterName: characterName,
         })
         .then(async ({ data }) => {
+            console.log(data)
             if (data.acknowledged === true) {
-                const user = await createUserWithEmailAndPassword(auth, email, password);
+                await createUserWithEmailAndPassword(auth, email, password);
+                const user = await axios.get(`https://game-master-be.onrender.com/api/users/${data.insertedId}`,
+                    { userWhoRequested: "00000020f51bb4362eee2a02" }
+                )
+                setDbUser(user.user)
                 return;
             } else {
                 return;
             }
 
-        });
+        }).then(() => {
+            return { acknowledged: true }
+        })
 };
 
 // const data = {
@@ -30,4 +38,4 @@ const postNewUser = async (name, username, email, img_url, characterName, passwo
 //     "img_url": "",
 //     "characterName": "Bam"
 //   }
-export default postNewUser;
+export default PostNewUser;
