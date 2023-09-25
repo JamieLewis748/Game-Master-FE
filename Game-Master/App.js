@@ -42,6 +42,7 @@ function MainTabs() {
       <Tab.Screen name="Account Tab" component={AccountPage} />
       <Tab.Screen name="Create Event Tab" component={CreateEvent} />
       <Tab.Screen name="Events" component={EventsStackNavigator} />
+      <Tab.Screen name="Collection" component={Collection} />
     </Tab.Navigator>
   );
 }
