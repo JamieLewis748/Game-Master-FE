@@ -8,7 +8,10 @@ import {
   View,
 } from "react-native";
 import { useState, useEffect, useContext } from "react";
-import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { auth } from "./Authentication/firebase-config";
 import { UserContext, DbUserContext } from "./Context/UserContext";
 import postNewUser from "./APIs/postUser";
@@ -22,15 +25,16 @@ const CreateAccount = ({ navigation }) => {
   const [characterName, setCharacterName] = useState("");
   const [imageUrl, setImageUrl] = useState("");
 
-
   async function handleSignUp() {
     try {
+
       const response = await postNewUser(fullName, username, registerEmail, imageUrl, characterName, registerPassword);
       if (response.acknowledged === true) {
         navigation.navigate("MainTabs", { screen: "Account" });
       }
     }
     catch (error) {
+
       console.log(error.message);
     }
   }
@@ -43,7 +47,6 @@ const CreateAccount = ({ navigation }) => {
       unsubscribe();
     };
   }, []);
-
 
   return (
     <View style={styles.container}>
