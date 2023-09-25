@@ -4,8 +4,6 @@ import {
   Picker,
 } from "react-native";
 
-
-
 const DropDownMenu = ({ selectedValue, onValueChange, selectedTimeDateValue, onTimeDateValueChange }) => {
 
   return (
@@ -15,8 +13,8 @@ const DropDownMenu = ({ selectedValue, onValueChange, selectedTimeDateValue, onT
         selectedValue={selectedTimeDateValue}
         onValueChange={(itemValue) => onTimeDateValueChange(itemValue)}
       >
-        <Picker.Item label='Latest'  />
-        <Picker.Item label='Oldest'  />
+        <Picker.Item label='Next'  />
+        <Picker.Item label='Last'  />
       </Picker>
       
       <Text>Select a game type</Text>
@@ -29,6 +27,7 @@ const DropDownMenu = ({ selectedValue, onValueChange, selectedTimeDateValue, onT
         <Picker.Item label='Card Game'  />
         <Picker.Item label='Tabletop'  />
         <Picker.Item label='RPG'  />
+        <Picker.Item label='Event happening'  />
       </Picker>
     </>
   );
