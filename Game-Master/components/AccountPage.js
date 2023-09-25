@@ -25,7 +25,7 @@ import { fetchUserByUserId } from "./APIs/returnUsers";
 import { UserContext, DbUserContext } from "./Context/UserContext";
 import { auth } from "./Authentication/firebase-config";
 import { signOut } from "firebase/auth";
-import EventList from "./EventList";
+import WatchList from "./WatchList";
 
 const AccountPage = ({ navigation }) => {
   const [currentEventList, setcurrentEventList] = useState([]);
@@ -101,7 +101,7 @@ const AccountPage = ({ navigation }) => {
         </Card.Content>
       </Card>
       <Card>
-        <EventList />
+        <WatchList watchList={dbUser.watchList} navigation={navigation} />
       </Card>
     </SafeAreaView>
   );
