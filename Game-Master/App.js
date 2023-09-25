@@ -3,7 +3,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { SafeAreaView, Text } from "react-native";
 import LoginPage from "../Game-Master/components/LoginPage";
 import EventDetails from "../Game-Master/components/EventDetails";
-import EventList from "./components/EventList";
 import AccountPage from "./components/AccountPage";
 import CreateAccount from "./components/CreateAccount";
 import CreateEvent from "./components/CreateEvent";
@@ -16,9 +15,15 @@ import React, { useState, useContext, useEffect } from "react";
 import Chat from "./components/Chat";
 import io from 'socket.io-client';
 
+import { Ionicons } from "@expo/vector-icons";
+
+import EventsPage from "./components/EventsPage/EventsPage";
+
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const EventsStack = createStackNavigator();
+
 
 const socket = io('https://socket-server-3xoa.onrender.com');
 
@@ -31,13 +36,61 @@ socket.on('connect', () => {
 
 console.log(socket)
 
+function AccountStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Account"
+        component={AccountPage}
+        options={{
+          title: "Account",
+          headerBackTitleVisible: false,
+          headerLeft: null,
+          headerRight: () => (
+            <Ionicons
+              name="menu"
+              size={28}
+              color="black"
+              style={{ marginLeft: 15, marginRight: 5 }}
+            />
+          ),
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+function CollectionStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Collection"
+        component={Collection}
+        options={{ title: "Collection" }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function CreateEventStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Create Event"
+        component={CreateEvent}
+        options={{ title: "Create Event" }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+
 function EventsStackNavigator() {
   return (
     <EventsStack.Navigator>
       <EventsStack.Screen
-        name="EventList"
-        component={EventList}
-        options={{ title: "Events" }}
+        name="EventsPage"
+        component={EventsPage}
+        options={{ title: "EventsPage" }}
       />
 
       <EventsStack.Screen
@@ -52,11 +105,14 @@ function EventsStackNavigator() {
 function MainTabs() {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="Account Tab" component={AccountPage} />
-      <Tab.Screen name="Create Event Tab" component={CreateEvent} />
+      <Tab.Screen name="Account Tab" component={AccountStack} />
+      <Tab.Screen name="Create Event Tab" component={CreateEventStack} />
       <Tab.Screen name="Events" component={EventsStackNavigator} />
+
       <Tab.Screen name="Collection" component={Collection} />
       <Tab.Screen name="Chat" component={Chat} />
+ //     <Tab.Screen name="Collection" component={CollectionStack} />
+
     </Tab.Navigator>
   );
 }

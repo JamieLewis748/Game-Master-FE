@@ -32,7 +32,9 @@ const axiosBase = axios.create({
 const fetchUsers = () => axiosBase.get("users");
 
 const EventDetails = ({ route }) => {
+  console.log("Route", route);
   const { selectedEvent } = route.params;
+  console.log("selectedEvent", selectedEvent);
 
   const [userList, setUserList] = useState([]);
 
