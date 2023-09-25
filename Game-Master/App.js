@@ -13,10 +13,58 @@ import { PaperProvider, DefaultTheme } from "react-native-paper";
 import UserProvider from "./components/Context/UserProvider";
 import { UserContext, DbUserContext } from "./components/Context/UserContext";
 import React, { useState, useContext, useEffect } from "react";
+import { Ionicons } from "@expo/vector-icons";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const EventsStack = createStackNavigator();
+
+function AccountStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Account"
+        component={AccountPage}
+        options={{
+          title: "Account",
+          headerBackTitleVisible: false,
+          headerLeft: null,
+          headerRight: () => (
+            <Ionicons
+              name="menu"
+              size={28}
+              color="black"
+              style={{ marginLeft: 15, marginRight: 5 }}
+            />
+          ),
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+function CollectionStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Collection"
+        component={Collection}
+        options={{ title: "Collection" }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function CreateEventStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Create Event"
+        component={CreateEvent}
+        options={{ title: "Create Event" }}
+      />
+    </Stack.Navigator>
+  );
+}
 
 function EventsStackNavigator() {
   return (
@@ -39,14 +87,10 @@ function EventsStackNavigator() {
 function MainTabs() {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen
-        name="Account Tab"
-        component={AccountPage}
-        options={{ title: "Account" }}
-      />
-      <Tab.Screen name="Create Event Tab" component={CreateEvent} />
+      <Tab.Screen name="Account Tab" component={AccountStack} />
+      <Tab.Screen name="Create Event Tab" component={CreateEventStack} />
       <Tab.Screen name="Events" component={EventsStackNavigator} />
-      <Tab.Screen name="Collection" component={Collection} />
+      <Tab.Screen name="Collection" component={CollectionStack} />
     </Tab.Navigator>
   );
 }

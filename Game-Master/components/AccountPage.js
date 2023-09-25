@@ -108,12 +108,11 @@ const AccountPage = ({ navigation }) => {
       </View>
       <Card
         style={{
-          flex: 1,
           marginLeft: 10,
           marginRight: 10,
         }}
       >
-        <WatchList watchList={dbUser.watchList} navigation={navigation} />
+        <WatchList watchList={dbUser.watchList} />
       </Card>
     </SafeAreaView>
   );
@@ -130,7 +129,7 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
     marginRight: "auto",
     marginTop: 20,
-    height: "40%",
+    height: "45%",
     marginBottom: 10,
   },
   cover: {
