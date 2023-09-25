@@ -12,6 +12,8 @@ import { PaperProvider, DefaultTheme } from "react-native-paper";
 import UserProvider from "./components/Context/UserProvider";
 import { UserContext, DbUserContext } from "./components/Context/UserContext";
 import React, { useState, useContext, useEffect } from "react";
+import Chat from "./components/Chat";
+import io from 'socket.io-client';
 
 import { Ionicons } from "@expo/vector-icons";
 
@@ -21,6 +23,18 @@ import EventsPage from "./components/EventsPage/EventsPage";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const EventsStack = createStackNavigator();
+
+
+const socket = io('https://socket-server-3xoa.onrender.com');
+
+console.log("here")
+
+socket.on('connect', () => {
+  console.log('Connected to the WebSocket server on port 8080');
+  socket.emit('join', 'New user has connected');
+});
+
+console.log(socket)
 
 function AccountStack() {
   return (
@@ -69,6 +83,7 @@ function CreateEventStack() {
   );
 }
 
+
 function EventsStackNavigator() {
   return (
     <EventsStack.Navigator>
@@ -93,12 +108,28 @@ function MainTabs() {
       <Tab.Screen name="Account Tab" component={AccountStack} />
       <Tab.Screen name="Create Event Tab" component={CreateEventStack} />
       <Tab.Screen name="Events" component={EventsStackNavigator} />
-      <Tab.Screen name="Collection" component={CollectionStack} />
+
+      <Tab.Screen name="Collection" component={Collection} />
+      <Tab.Screen name="Chat" component={Chat} />
+ //     <Tab.Screen name="Collection" component={CollectionStack} />
+
     </Tab.Navigator>
   );
 }
 
 function App() {
+  const [messagesCount, setMessagesCount] = useState([]);
+
+  useEffect(() => {
+    socket.on('chat message', (msg) => {
+      setMessages(++messagesCount);
+    });
+
+    return () => {
+      socket.off('chat message');
+    };
+  }, []);
+
   return (
     <UserProvider>
       <PaperProvider>
@@ -131,6 +162,11 @@ function App() {
                 name="Account"
                 component={AccountPage}
                 options={{ title: "Account" }}
+              />
+              <Stack.Screen
+                name="Chat"
+                component={Chat}
+                options={{ title: "Chat" }}
               />
             </Stack.Group>
           </Stack.Navigator>
