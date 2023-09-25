@@ -3,7 +3,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { SafeAreaView, Text } from "react-native";
 import LoginPage from "../Game-Master/components/LoginPage";
 import EventDetails from "../Game-Master/components/EventDetails";
-import EventList from "./components/EventList";
 import AccountPage from "./components/AccountPage";
 import CreateAccount from "./components/CreateAccount";
 import CreateEvent from "./components/CreateEvent";
@@ -13,7 +12,11 @@ import { PaperProvider, DefaultTheme } from "react-native-paper";
 import UserProvider from "./components/Context/UserProvider";
 import { UserContext, DbUserContext } from "./components/Context/UserContext";
 import React, { useState, useContext, useEffect } from "react";
+
 import { Ionicons } from "@expo/vector-icons";
+
+import EventsPage from "./components/EventsPage/EventsPage";
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -70,9 +73,9 @@ function EventsStackNavigator() {
   return (
     <EventsStack.Navigator>
       <EventsStack.Screen
-        name="EventList"
-        component={EventList}
-        options={{ title: "Events" }}
+        name="EventsPage"
+        component={EventsPage}
+        options={{ title: "EventsPage" }}
       />
 
       <EventsStack.Screen
