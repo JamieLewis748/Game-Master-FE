@@ -18,7 +18,7 @@ const DropDownMenu = ({ selectedValue, onValueChange, selectedTimeDateValue, onT
         <Picker.Item label='Latest'  />
         <Picker.Item label='Oldest'  />
       </Picker>
-
+      
       <Text>Select a game type</Text>
       <Picker
         selectedValue={selectedValue}

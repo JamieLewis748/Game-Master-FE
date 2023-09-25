@@ -22,11 +22,20 @@ const fetchDescendingOrderEvents = () => axiosBase.get("events?sortBy=dateTime&o
 const fetchAscendingOrderEvents = () => axiosBase.get("events?sortBy=dateTime&order=-1")
 
 const EventsPage = () => {
-
+    
     const [selectedValue, setSelectedValue] = useState('All')
     const [currentEventList, setCurrentEventList] = useState([]);
-
     const [selectedTimeDateValue, setSelectedTimeDateValue] = useState('Latest')
+
+    const [query, setQuery] = useState('')
+    const [order, setOrder] = useState('Asc')
+    const [sortBy, setSortBy] = useState('dateTime')
+    const [gameType, setGameType] = useState('')
+
+
+    useEffect(()=> {
+      setQuery(`?sortBy=${sortBy}&order=${order}`)
+    }, [order, sortBy, gameType])
 
     useEffect(() => {
       if (selectedTimeDateValue === "Latest") {
@@ -46,7 +55,7 @@ const EventsPage = () => {
             console.error("Error fetching board game events in descending date and time  order: ", err);
           });
       }
-    }, [selectedTimeDateValue]);
+    }, [selectedTimeDateValue, selectedValue]);
 
     useEffect(() => {
       if (selectedValue === "All") {
@@ -57,7 +66,7 @@ const EventsPage = () => {
           .catch((err) => {
             console.error("Error fetching events: ", err);
           });
-      } else if (selectedValue === "Board Game" && selectedTimeDateValue) {
+      } else if (selectedValue === "Board Game") {
         fetchBoardGameEvents()
           .then(({ data }) => {
             setCurrentEventList(data);
@@ -91,8 +100,6 @@ const EventsPage = () => {
             });
           }
     }, [selectedValue]);
-
-  
     
   return (
     <View>
