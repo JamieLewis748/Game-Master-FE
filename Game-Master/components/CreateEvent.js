@@ -1,38 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { SafeAreaView, Text, TextInput, Button, StyleSheet, View, Switch } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import postNewEvent from './APIs/postEvent'
+import { DbUserContext } from "./Context/UserContext";
 
-const CreateEvent = () => {
+const CreateEvent = ({ navigation }) => {
+  const { dbUser, setDbUser } = useContext(DbUserContext)
+
   const [eventData, setEventData] = useState({
-    event_id: "",
-    host_id: "",
+    host_id: "1",
     image: "",
-    public: false,
+    gameInfo: "",
+    isGameFull: false,
     game_type: "Board Game",
-    location: "",
-    time: "",
-    date: "",
+    dateTime: "",
+    duration: '2:00:00',
     capacity: "",
-    prize: "",
-    description: "",
+    prizeCollection_id: "1",
   });
 
-  const handleCreateEvent = () => {
-    if (isValidTime(eventData.time) && isValidDate(eventData.date)) {
-      // Logic for form submit here....
-    } else {
-      alert("Invalid time or date format. Please enter valid formats.");
+  const handleCreateEvent = async () => {
+    try {
+      const postResult = await PostNewUser(eventData, setDbUser)
+      if (postResult.acknowledged === true) {
+        eventData._id = postResult.data.insertedId
+        navigation.navigate("Event Details", {
+          selectedEvent: eventData,
+        })
+      }
     }
-  };
+    catch (err) {
 
-  const isValidTime = (input) => {
-    const regex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
-    return regex.test(input);
-  };
-
-  const isValidDate = (input) => {
-    const regex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
-    return regex.test(input);
+    }
   };
 
   return (
@@ -68,18 +67,18 @@ const CreateEvent = () => {
         <TextInput
           style={styles.input}
           placeholder="Time (HH:MM)"
-          value={eventData.time}
+          value={eventData.duration}
           onChangeText={(text) =>
-            setEventData({ ...eventData, time: text })
+            setEventData({ ...eventData, duration: text })
           }
         />
 
         <TextInput
           style={styles.input}
-          placeholder="Date (DD/MM/YYYY)"
-          value={eventData.date}
+          placeholder="dateTime"
+          value={eventData.dateTime}
           onChangeText={(text) =>
-            setEventData({ ...eventData, date: text })
+            setEventData({ ...eventData, dateTime: text })
           }
         />
 
@@ -98,18 +97,18 @@ const CreateEvent = () => {
         <TextInput
           style={styles.input}
           placeholder="Prize"
-          value={eventData.prize}
+          value={eventData.prizeCollection_id}
           onChangeText={(text) =>
-            setEventData({ ...eventData, prize: text })
+            setEventData({ ...eventData, prizeCollection_id: text })
           }
         />
 
         <TextInput
           style={styles.input}
           placeholder="Description"
-          value={eventData.description}
+          value={eventData.gameInfo}
           onChangeText={(text) =>
-            setEventData({ ...eventData, description: text })
+            setEventData({ ...eventData, gameInfo: text })
           }
         />
 

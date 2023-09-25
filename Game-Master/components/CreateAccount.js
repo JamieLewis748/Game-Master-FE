@@ -25,8 +25,10 @@ const CreateAccount = ({ navigation }) => {
 
   async function handleSignUp() {
     try {
-      await postNewUser(fullName, username, registerEmail, imageUrl, characterName, registerPassword);
-      navigation.navigate("MainTabs", { screen: "Account" });
+      const response = await postNewUser(fullName, username, registerEmail, imageUrl, characterName, registerPassword);
+      if (response.acknowledged === true) {
+        navigation.navigate("MainTabs", { screen: "Account" });
+      }
     }
     catch (error) {
       console.log(error.message);
