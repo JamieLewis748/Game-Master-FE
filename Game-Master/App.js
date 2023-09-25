@@ -17,6 +17,7 @@ import EventsPage from "./components/EventsPage/EventsPage";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const EventsStack = createStackNavigator();
+const CreateEventStack = createStackNavigator();
 
 function EventsStackNavigator() {
   return (
@@ -35,12 +36,30 @@ function EventsStackNavigator() {
     </EventsStack.Navigator>
   );
 }
+function CreateEventStackNavigator() {
+  return (
+    <CreateEventStack.Navigator>
+      <CreateEventStack.Screen
+        name="Create Event"
+        component={CreateEvent}
+        options={{ title: "Create Event" }}
+      />
+
+      <CreateEventStack.Screen
+        name="Event Details"
+        component={EventDetails}
+        options={{ title: "Event Details" }}
+      />
+    </CreateEventStack.Navigator>
+  );
+}
+
 
 function MainTabs() {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen name="Account Tab" component={AccountPage} />
-      <Tab.Screen name="Create Event Tab" component={CreateEvent} />
+      <Tab.Screen name="Create Event Tab" component={CreateEventStackNavigator} />
       <Tab.Screen name="Events" component={EventsStackNavigator} />
       <Tab.Screen name="Collection" component={Collection} />
     </Tab.Navigator>
