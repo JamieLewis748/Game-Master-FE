@@ -16,6 +16,7 @@ import {
   Image,
   StyleSheet,
   ImageBackground,
+  ScrollView,
 } from "react-native";
 
 import XPBar from "./AccountPage-Components/XPBar";
@@ -68,7 +69,7 @@ const AccountPage = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "purple" }}>
       <Card style={styles.card}>
         <Card.Cover
           source={{
@@ -100,7 +101,18 @@ const AccountPage = ({ navigation }) => {
           </View>
         </Card.Content>
       </Card>
-      <Card>
+      <View>
+        <Paragraph style={{ marginLeft: 12, fontWeight: "bold", fontSize: 15 }}>
+          Watching:
+        </Paragraph>
+      </View>
+      <Card
+        style={{
+          flex: 1,
+          marginLeft: 10,
+          marginRight: 10,
+        }}
+      >
         <WatchList watchList={dbUser.watchList} navigation={navigation} />
       </Card>
     </SafeAreaView>
@@ -119,7 +131,7 @@ const styles = StyleSheet.create({
     marginRight: "auto",
     marginTop: 20,
     height: "40%",
-    marginBottom: 20,
+    marginBottom: 10,
   },
   cover: {
     width: 100,

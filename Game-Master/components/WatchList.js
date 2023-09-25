@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Card, Paragraph, IconButton } from "react-native-paper";
 import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
 
 const axiosBase = axios.create({
   baseURL: "https://game-master-be.onrender.com/api/",
@@ -17,8 +18,9 @@ const axiosBase = axios.create({
 
 const fetchEvents = () => axiosBase.get("events");
 
-const WatchList = ({ navigation, watchList }) => {
+const WatchList = ({ watchList }) => {
   const [currentWatchList, setCurrentWatchList] = useState([]);
+  const navigation = useNavigation();
 
   useEffect(() => {
     fetchEvents()
@@ -57,7 +59,9 @@ const WatchList = ({ navigation, watchList }) => {
         onPress={() =>
           navigation.navigate("Events", {
             screen: "Event Details",
-            selectedEvent: { _id: "test", image: "testImage" },
+            params: {
+              selectedEvent: event,
+            },
           })
         }
       >
