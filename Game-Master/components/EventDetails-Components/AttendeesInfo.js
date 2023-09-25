@@ -2,8 +2,11 @@ import React from "react";
 import { Paragraph, IconButton } from "react-native-paper";
 import { View } from "react-native";
 
-const AttendeesInfo = ({ attendees }) => {
-  console.log(attendees);
+const AttendeesInfo = ({ userList, host, participants }) => {
+  const users = participants.map((participantId) =>
+    userList.find((user) => user._id === participantId)
+  );
+
   return (
     <View>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -12,10 +15,13 @@ const AttendeesInfo = ({ attendees }) => {
           Currently attending:
         </Paragraph>
       </View>
-
-      {attendees &&
-        attendees.map((player, index) => (
-          <Paragraph key={index}>{player}</Paragraph>
+      {users &&
+        users.map((user, index) => (
+          <Paragraph style={{ marginLeft: 30 }} key={index}>
+            {"\u2022 "}
+            {user.username}
+            {user._id === host && " (Host)"}
+          </Paragraph>
         ))}
     </View>
   );

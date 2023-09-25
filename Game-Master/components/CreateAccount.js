@@ -10,7 +10,7 @@ import {
 import { useState, useEffect, useContext } from "react";
 import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { auth } from "./Authentication/firebase-config";
-import UserContext from "./Context/UserContext";
+import { UserContext, DbUserContext } from "./Context/UserContext";
 import postNewUser from "./APIs/postUser";
 
 const CreateAccount = ({ navigation }) => {
@@ -25,8 +25,10 @@ const CreateAccount = ({ navigation }) => {
 
   async function handleSignUp() {
     try {
-      await postNewUser(fullName, username, registerEmail, imageUrl, characterName, registerPassword);
-      navigation.navigate("MainTabs", { screen: "Account" });
+      const response = await postNewUser(fullName, username, registerEmail, imageUrl, characterName, registerPassword);
+      if (response.acknowledged === true) {
+        navigation.navigate("MainTabs", { screen: "Account" });
+      }
     }
     catch (error) {
       console.log(error.message);

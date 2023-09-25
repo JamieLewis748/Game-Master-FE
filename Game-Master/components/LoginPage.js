@@ -1,18 +1,54 @@
 import React, { useState, useContext, useEffect } from "react";
 import { SafeAreaView, TextInput, Button, Alert, StyleSheet, View, Image, Text } from "react-native";
-import UserContext from "./Context/UserContext";
+import { UserContext, DbUserContext } from "./Context/UserContext";
 import { auth } from "./Authentication/firebase-config";
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
 
 function LoginPage({ navigation }) {
   const { user, setUser } = useContext(UserContext);
+  const { dbUser, setDbUser } = useContext(DbUserContext);
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user); 
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  if(user){
+    navigation.navigate("MainTabs", { screen: "Account" });
+  }
 
   async function handleLogin() {
     try {
-      const user = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+      const isConfirmed = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+      if (isConfirmed.user.email === loginEmail){
+        setDbUser({
+            _id: "2",
+            name: "Jamie",
+            username: "jamie1234",
+            email: loginEmail,
+            img_url: "https://i.pinimg.com/originals/82/4c/75/824c75d5d8baddac1e3ab99a48b77f36.jpg",
+            friends: ["2", "3", "4"],
+            friendRequestsReceived: ["6", "10", "11", "9"],
+            friendRequestsSent: ["5"],
+            blocked: [],
+            topics: ["Card Games", "RPG"],
+            characterStats: {
+              name: "Character1",
+              level: "7",
+              experience: "29",
+              experienceToLevelUp: "70",
+            },
+          })
+      }
+      else{
+
+      }
+      console.log("🚀 ~ isConfirmed:", isConfirmed);
       navigation.navigate("MainTabs", { screen: "Account" });
     }
     catch (error) {

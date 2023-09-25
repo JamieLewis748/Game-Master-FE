@@ -22,19 +22,25 @@ import XPBar from "./AccountPage-Components/XPBar";
 import CreaturePreview from "./AccountPage-Components/CreaturePreview";
 import AccountPageEventList from "./AccountPage-Components/AccountPageEventList";
 import { fetchUserByUserId } from "./APIs/returnUsers";
-import UserContext from "./Context/UserContext";
+import { UserContext, DbUserContext } from "./Context/UserContext";
+import { auth } from "./Authentication/firebase-config";
+import { signOut } from 'firebase/auth';
 
 const AccountPage = ({ navigation }) => {
   const [currentEventList, setcurrentEventList] = useState([]);
   const { user, setUser } = useContext(UserContext);
+  const { dbUser, setDbUser } = useContext(DbUserContext);
 
-  const currentUser = {
+  if (user === null) {
+    navigation.navigate("Login");
+  }
+
+  setDbUser({
     _id: "2",
     name: "Jamie",
-    username: user.email,
-    email: user.email,
-    img_url:
-      "https://i.pinimg.com/originals/82/4c/75/824c75d5d8baddac1e3ab99a48b77f36.jpg",
+    username: "jamie1234",
+    email: "dfsfsdfs",
+    img_url: "https://i.pinimg.com/originals/82/4c/75/824c75d5d8baddac1e3ab99a48b77f36.jpg",
     friends: ["2", "3", "4"],
     friendRequestsReceived: ["6", "10", "11", "9"],
     friendRequestsSent: ["5"],
@@ -46,7 +52,18 @@ const AccountPage = ({ navigation }) => {
       experience: "29",
       experienceToLevelUp: "70",
     },
-  };
+  })
+
+  async function logout() {
+    try {
+      await signOut(auth)
+      navigation.navigate("Login");
+    }
+    catch (error) {
+      navigation.navigate("Login");
+      console.log(error.message)
+    }
+  }
 
   // useEffect(() => {
   //   fetchUserByUserId(user.__id)
@@ -58,12 +75,14 @@ const AccountPage = ({ navigation }) => {
   //     });
   // }, []);
 
+
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Card style={styles.card}>
         <Card.Cover
           source={{
-            uri: currentUser.img_url,
+            uri: dbUser.img_url,
           }}
           resizeMode="cover"
           style={styles.container}
@@ -76,18 +95,18 @@ const AccountPage = ({ navigation }) => {
             resizeMode="cover"
             style={styles.cover}
           />
-          <Title style={{ color: "white" }}>{currentUser.username}</Title>
+          <Title style={{ color: "white" }}>{dbUser.email}</Title>
           <Title style={{ color: "white" }}>
-            Level: {currentUser.characterStats.level}
+            Level: {dbUser.characterStats.level}
           </Title>
           <XPBar
-            currentXP={currentUser.characterStats.experience}
-            maxXP={currentUser.characterStats.experienceToLevelUp}
+            currentXP={dbUser.characterStats.experience}
+            maxXP={dbUser.characterStats.experienceToLevelUp}
           />
           <View>
             <Text
               style={styles.xpText}
-            >{`${currentUser.characterStats.experience} / ${currentUser.characterStats.experienceToLevelUp} XP`}</Text>
+            >{`${dbUser.characterStats.experience} / ${dbUser.characterStats.experienceToLevelUp} XP`}</Text>
           </View>
         </Card.Content>
       </Card>
@@ -112,10 +131,15 @@ const AccountPage = ({ navigation }) => {
             >
               Collection
             </Button>
+            <Button
+              mode="outlined"
+              onPress={logout}
+            >
+              Sign Out
+            </Button>
           </View>
         </Card.Content>
       </Card>
-      ;
       <AccountPageEventList navigation={navigation} />
     </SafeAreaView>
   );
