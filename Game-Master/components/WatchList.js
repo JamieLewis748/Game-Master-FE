@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   FlatList,
   Image,
@@ -11,6 +11,7 @@ import {
 import { Card, Paragraph, IconButton } from "react-native-paper";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import { WatchListContext } from "../Context/WatchListContext";
 
 const axiosBase = axios.create({
   baseURL: "https://game-master-be.onrender.com/api/",
@@ -21,8 +22,10 @@ const fetchEvents = () => axiosBase.get("events");
 const WatchList = ({ watchList }) => {
   const [currentWatchList, setCurrentWatchList] = useState([]);
   const navigation = useNavigation();
+  const { WatchListChanged, setWatchListChanged } = useContext(WatchListContext);
 
   useEffect(() => {
+    setWatchListChanged(false)
     fetchEvents()
       .then(({ data }) => {
         const watchListFilter = data.filter((event) =>
@@ -33,7 +36,7 @@ const WatchList = ({ watchList }) => {
       .catch((err) => {
         console.error("Error fetching events: ", err);
       });
-  }, [watchList]);
+  }, [watchList, WatchListChanged]);
 
   const handleMouseEnter = () => {
     // Animated.spring(Scale, {
