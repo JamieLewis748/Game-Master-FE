@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const modifyWatchList = async (user_id, event_id) => {
+  console.log('in modWatL')
   try {
     return axios
       .post(

@@ -3,7 +3,9 @@ import { FlatList, Image, StyleSheet, View, Animated, TouchableWithoutFeedback, 
 import { Card, Paragraph, IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { UserContext, DbUserContext } from "../Context/UserContext";
-import { Axios } from "axios";
+import modifyWatchList from "../APIs/modifyWatchList";
+import cancelEvent from "../APIs/handleEventCancel";
+
 const EventList = ({ currentEventList }) => {
   const { dbUser, setDbUser } = useContext(DbUserContext);
   const navigation = useNavigation();
@@ -25,16 +27,13 @@ const EventList = ({ currentEventList }) => {
   };
 
 
-  const handleWatchlist = () => {
-    Axios.post("/api/events/:event_id/watchList", {
-      user_id: UserContext,
-    });
+  const handleWatchlist = (event) => {
+    modifyWatchList(dbUser._id, event._id)
   };
 
-  const handleCancel = () => {
-      Axios.post("/api/events/:event_id/cancel", {
-        user_id: UserContext,
-      });
+  const handleCancel = (event) => {
+    cancelEvent(dbUser._id, event._id);
+
   };
 
   const EventItem = ({ event }) => {
@@ -109,7 +108,7 @@ const EventList = ({ currentEventList }) => {
                         title="Watchlist"
                         mode="contained"
                         colour="purple"
-                        onPress={() => handleWatchlist}
+                        onPress={() => handleWatchlist(event)}
                       />
                       ,
 
@@ -119,7 +118,7 @@ const EventList = ({ currentEventList }) => {
                           title="Cancel"
                           mode="contained"
                           colour="purple"
-                          onPress={() => handleCancel}
+                          onPress={() => handleCancel(event)}
                         />
                       ) : (
                         <></>
