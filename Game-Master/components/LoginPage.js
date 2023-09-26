@@ -32,7 +32,7 @@ function LoginPage({ navigation }) {
     async function getDbUser() {
       if (user) {
         await setDbUser(await GetUser(user.email));
-        navigation.navigate("MainTabs", { screen: "Account" });
+        navigation.navigate("MainDrawer");
       }
     }
     getDbUser();

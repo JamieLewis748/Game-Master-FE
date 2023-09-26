@@ -6,7 +6,7 @@ function Footer() {
 
 const styles = StyleSheet.create({
   footer: {
-    height: 20,
+    height: 5,
     backgroundColor: "black",
     borderTopWidth: 1,
     borderTopColor: "#c0c0c0",
