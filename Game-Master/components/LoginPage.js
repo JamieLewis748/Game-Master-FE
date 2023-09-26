@@ -26,7 +26,10 @@ function LoginPage({ navigation }) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user);
+      setUser(user); 
+      if (user) {
+        navigation.navigate("MainTabs", { screen: "Account" });
+      }
     });
 
     async function getDbUser() {
@@ -35,10 +38,7 @@ function LoginPage({ navigation }) {
         navigation.navigate("MainTabs", { screen: "Account" });
       }
     }
-
-    getDbUser()
-    
-
+    getDbUser()  
     return () => unsubscribe();
   }, [user]);
 
@@ -73,7 +73,6 @@ function LoginPage({ navigation }) {
         });
       } else {
       }
-      console.log("🚀 ~ isConfirmed:", isConfirmed);
       navigation.navigate("MainTabs", { screen: "Account" });
     } catch (error) {
       console.log(error.message);

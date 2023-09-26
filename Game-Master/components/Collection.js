@@ -1,129 +1,235 @@
-import React from "react";
-import {
-  FlatList,
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  Pressable,
-  Dimensions,
-} from "react-native";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View, Text, Image, ScrollView, Modal, TouchableOpacity } from "react-native";
+import axios from "axios";
+import FlipCard from "react-native-flip-card";
 
-const Collection = () => {
-  const [selectedImage, setSelectedImage] = useState("");
+const localImages = [
+  require("../CollectionAssets/Biteme.png"),
+  require("../CollectionAssets/water.png"),
+  require("../CollectionAssets/flame-boy.webp"),
+  require("../CollectionAssets/wind-lineart.webp"),
+];
 
-  const IMAGES = [
-    {
-      id: "1",
-      uri: `https://img.itch.zone/aW1nLzEzMzIzMzkzLmdpZg==/original/A7JFLC.gif`,
-      name: "dinosaur thing",
-      date_collected: "11.11.01",
-      location: "Local Gameshop",
-      game: "Twister",
-    },
-    {
-      id: "2",
-      uri: `https://img.itch.zone/aW1nLzEzMzIzNDA0LmdpZg==/original/QUoq1B.gif`,
-      name: "Green-haired elf lady",
-      date_collected: "1.4.01",
-      location: "Pub",
-      game: "Darts",
-    },
-    {
-      id: "3",
-      uri: `https://img.itch.zone/aW1nLzEzMzIzMzc4LmdpZg==/original/SjP5Aq.gif`,
-      name: "Gargoyle",
-      date_collected: "4.12.02",
-      location: "Halloween Event",
-      game: "Monopoly",
-    },
+const pastelColors = [
+  "#F7B385", // Peach
+  "#BEC8D8", // 
+  "#FFA07A", // LightSalmon
+  "#C4E5C9", // Pistachio
+  "#EFF57C", // Pastel Yellow
+  "#FCF1F2", // 
+  "#C8C3F8", // Lavander
+];
+const axiosBase = axios.create({
+  baseURL: "https://game-master-be.onrender.com/api/",
+});
 
-    {
-      id: "4",
-      uri: `https://img.itch.zone/aW1nLzEzMzIzMzk2LmdpZg==/original/KF%2FOv5.gif`,
-      name: "turtle",
-      date_collected: "11.4.01",
-      location: "Library",
-      game: "Chess",
-    },
-    {
-      id: "5",
-      uri: `https://img.itch.zone/aW1nLzEzMzIzMzg0LmdpZg==/original/AirNMy.gif`,
-      name: "No idea what this is",
-      date_collected: "1.2.09",
-      location: "Some Competition",
-      game: "D&D",
-    },
-    {
-      id: "6",
-      uri: `https://img.itch.zone/aW1nLzEzMzIzMzk4LmdpZg==/original/A78CD3.gif`,
-      name: "Bug lady",
-      date_collected: "4.12.02",
-      location: "Game night",
-      game: "Scrabble",
-    },
-  ];
+const fetchedCollections = () => axiosBase.get("collections");
+
+const PopupMessage = ({ visible, onClose }) => {
   return (
-    <View style={styles.container}>
-      {IMAGES.map((image) => (
-        <Pressable key={image.id} onPress={() => setSelectedImage(image)}>
-          <Image source={{ uri: image.uri }} style={styles.image} />
-        </Pressable>
-      ))}
+    <Modal
+      animationType="fade"
+      transparent={true}
+      visible={visible}
+      onRequestClose={onClose}
+    >
+      <View style={styles.centeredView}>
+        <View style={styles.modalView}>
+          <Text style={styles.modalText}>Tap on the Creature</Text>
+          <TouchableOpacity onPress={onClose}>
+            <Text style={styles.closeButton}>Close</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </Modal>
+  );
+};
+
+const CollectionsList = () => {
+  const [selectedImage, setSelectedImage] = useState("");
+  const [collectionData, setCollectionData] = useState([]);
+  const [showPopup, setShowPopup] = useState(true); // Initially, show the pop-up
+
+  useEffect(() => {
+    fetchedCollections().then(({ data }) => {
+      setCollectionData(data);
+    });
+  }, []);
+
+  const getRandomColor = () => {
+    const randomIndex = Math.floor(Math.random() * pastelColors.length);
+    return pastelColors[randomIndex];
+  };
+
+  
+
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.title}>Collections</Text>
+      <View style={styles.gridContainer}>
+        {collectionData.map((item, index) => (
+          <View style={styles.gridItem} key={item.id}>
+            <FlipCard
+              friction={15}
+              perspective={200}
+              flipHorizontal={true}
+              flipVertical={false}
+              flip={false}
+              clickable={true}
+              onPress={() => setSelectedImage(item)}
+            >
+              {/* Front Card */}
+              <View style={[styles.cardFront]}>
+                <Image
+                  source={localImages[index]} 
+                  style={styles.image}
+                  onError={(error) => console.log("Image failed to load. Error:", error)}
+                />
+                <Text style={styles.cardFrontText}>{item.name}</Text>
+              </View>
+
+              {/* Back Card */}
+              <View style={[
+                styles.cardBack,
+                { backgroundColor: getRandomColor() }
+              ]}>
+                <Text style={styles.cardBackText}>{item.name} Can also have more information in this card</Text>
+              </View>
+            </FlipCard>
+          </View>
+        ))}
+      </View>
 
       {selectedImage && (
         <View style={styles.selectedImageView}>
-          <Image
-            source={{ uri: selectedImage.uri }}
-            style={styles.selectedImage}
-          />
-          <View style={styles.info}>
-            <Text>{selectedImage.name}</Text>
-            <Text>{selectedImage.date_collected}</Text>
-            <Text>{selectedImage.location}</Text>
-            <Text>{selectedImage.game}</Text>
-          </View>
+          <Image source={{ uri: selectedImage.img_url }} style={styles.selectedImage} />
+          <Text>{selectedImage.name}</Text>
         </View>
       )}
-    </View>
+
+      <PopupMessage
+        visible={showPopup}
+        onClose={() => setShowPopup(false)} // Close the pop-up when the user taps "Close"
+      />
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "center",
+    paddingTop: 20,
+    backgroundColor: "rgb(190,190,190)",
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+  },
+  modalContainer: {
+    backgroundColor: 'transparent', 
+  },
+  modalView: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 20,
+    alignItems: 'center',
+    elevation: 5,
+  },
+  title: {
+    fontSize: 35,
+    fontWeight: "bold",
+    marginBottom: 30,
+  },
+  gridContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
+    justifyContent: "space-evenly",
+  },
+  gridItem: {
+    width: 150,
+    marginBottom: 30,
+  },
+  cardFront: {
+    backgroundColor: "rgb(37,35,42)",
+    borderWidth: 2,
+    borderColor: "white",
+    borderRadius: 10,
+    width: "100%",
+    height: "100%",
     justifyContent: "center",
     alignItems: "center",
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.50,
+    shadowRadius: 3.84,
+  },
+  cardFrontText: {
+    fontWeight: 'bold', 
+    color: 'white',    
+  },
+  
+  cardBack: {
+    backgroundColor: "rgb(134,160,177)",
+    borderWidth: 2,
+    borderColor: "white",
+    borderRadius: 10,
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.50,
+    shadowRadius: 3.84,
+  },
+  cardBackText: {
+    textAlign: 'center',
+    color: 'black',
   },
   image: {
-    margin: 10,
+    margin: 5,
     height: 100,
-    width: Dimensions.get("window").width / 4 - 20,
+    width: 100,
     resizeMode: "contain",
   },
-
   selectedImageView: {
     width: "100%",
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 10,
     flexDirection: "row",
     justifyContent: "center",
   },
-
   selectedImage: {
-    width: 150,
-    height: 150,
+    width: 200,
+    height: 200,
   },
-
-  info: {
-    padding: 10,
-    marginLeft: 10,
-    height: 100,
-    width: 150,
+  modalView: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 20,
+    alignItems: 'center',
+    elevation: 5,
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 10,
+  },
+  closeButton: {
+    fontSize: 16,
+    color: '#888',
+    marginTop: 10,
   },
 });
 
-export default Collection;
+export default CollectionsList;
