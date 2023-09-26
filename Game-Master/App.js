@@ -10,7 +10,7 @@ import Collection from "./components/Collection";
 import MessagesScreen from "./components/MessagesScreen";
 import { createStackNavigator } from "@react-navigation/stack";
 import { PaperProvider, DefaultTheme } from "react-native-paper";
-import UserProvider from "./components/Context/UserProvider";
+import UserProvider from "./components/Context/ContextProvider";
 import { UserContext, DbUserContext } from "./components/Context/UserContext";
 import React, { useState, useContext, useEffect } from "react";
 import Chat from "./components/Chat";
@@ -25,17 +25,6 @@ const Tab = createBottomTabNavigator();
 const EventsStack = createStackNavigator();
 const CreateEventStack = createStackNavigator();
 
-
-const socket = io("https://socket-server-3xoa.onrender.com");
-
-console.log("here");
-
-socket.on("connect", () => {
-  console.log("Connected to the WebSocket server on port 8080");
-  socket.emit("join", "New user has connected");
-});
-
-console.log(socket);
 
 function AccountStack() {
   return (
@@ -124,18 +113,6 @@ function MainTabs() {
 }
 
 function App() {
-  const [messagesCount, setMessagesCount] = useState([]);
-
-  useEffect(() => {
-    socket.on("chat message", (msg) => {
-      setMessages(++messagesCount);
-    });
-
-    return () => {
-      socket.off("chat message");
-    };
-  }, []);
-
   return (
     <UserProvider>
       <PaperProvider>
