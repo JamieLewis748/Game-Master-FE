@@ -1,18 +1,12 @@
 import React, { useState, useEffect } from "react";
-import {
-  FlatList,
-  Image,
-  StyleSheet,
-  View,
-  Animated,
-  TouchableWithoutFeedback,
-  Button,
-  SafeAreaView,
-} from "react-native";
+import {FlatList, Image, StyleSheet, View, Animated, TouchableWithoutFeedback, Button, SafeAreaView, ScrollView} from "react-native";
 import { Card, Paragraph, IconButton } from "react-native-paper";
-
-const EventList = ({ currentEventList}) => {
-
+import { useNavigation } from "@react-navigation/native";
+import { UserContext } from "../Context/UserContext";
+import { Axios } from "axios";
+const EventList = ({ currentEventList }) => {
+const navigation = useNavigation()
+  
   const handleMouseEnter = () => {
     // Animated.spring(Scale, {
     //   toValue: 1.05,
@@ -29,60 +23,109 @@ const EventList = ({ currentEventList}) => {
     // }).start();
   };
 
+
+  const handleWatchlist = () => {
+          Axios.post("/api/events/:event_id/watchList", {
+            user_id: UserContext,
+          });
+  }
+
+  const handleCancel = () => {
+    //make delete event func
+  }
+
   const EventItem = ({ event }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const scale = new Animated.Value(1);
 
     return (
-      <SafeAreaView>
-      <TouchableWithoutFeedback onPress={() => setIsExpanded(!isExpanded)}>
-        <Animated.View
-          style={{ ...styles.container, transform: [{ scale }] }}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          <Card style={styles.container}>
-            <View style={styles.eventInfoContainer}>
-              <Image source={{ uri: event.image }} style={styles.eventImage} />
-              <View style={styles.infoContainer}>
-                <Paragraph>
-                  <IconButton icon="calendar" size={16} color="gray" />
-                  {event.dateTime}
-                  <IconButton icon="clock-outline" size={16} color="gray" />
-                  {event.duration}
+      <ScrollView>
+        <SafeAreaView>
+          <TouchableWithoutFeedback onPress={() => setIsExpanded(!isExpanded)}>
+            <Animated.View
+              style={{ ...styles.container, transform: [{ scale }] }}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <Card style={styles.container}>
+                <Paragraph style={styles.cardHeading}>
+                  {event.gameInfo}
                 </Paragraph>
-                <Paragraph>
-                  <IconButton icon="account-group" size={16} color="gray" />
-                  {event.capacity}
-                  <IconButton icon="map-marker" size={16} color="gray" />
-                  {/* {event.location} */} Needs to be added to event object
-                </Paragraph>
-              </View>
-            </View>
-            <Card.Actions>
-              {isExpanded && (
-                <Button
-                  title="See event"
-                  mode="contained"
-                  colour="purple"
-                  onPress={() =>
-                    navigation.navigate("Event Details", {
-                      selectedEvent: event,
-                    })
-                  }
-                />
-              )}
-            </Card.Actions>
-          </Card>
-        </Animated.View>
-      </TouchableWithoutFeedback>
-      </SafeAreaView>
+                <View style={styles.eventInfoContainer}>
+                  <Image
+                    source={{ uri: event.image }}
+                    style={styles.eventImage}
+                  />
+                  <View style={styles.infoContainer}>
+                    <View style={styles.infoSubContainer}>
+                      <Paragraph style={styles.infoSubParagraph}>
+                        <IconButton icon="calendar" size={16} color="gray" />
+                        {event.dateTime.toString().substring(0, 8)}
+                      </Paragraph>
+                      <Paragraph style={styles.infoSubParagraph}>
+                        <IconButton
+                          icon="account-group"
+                          size={16}
+                          color="gray"
+                        />
+                        {event.participants.length}/{event.capacity}
+                      </Paragraph>
+                      <Paragraph style={styles.infoSubParagraph}>
+                        <IconButton icon="map-marker" size={16} color="gray" />
+                        {/* {event.location} */} Location
+                      </Paragraph>
+                    </View>
+                  </View>
+                </View>
+                <Card.Actions>
+                  <View style={styles.buttonWrapper}>
+                    {isExpanded && (
+                      <View style={styles.cardButtons}>
+                        <Button
+                          title="See event"
+                          mode="contained"
+                          colour="purple"
+                          onPress={() =>
+                            navigation.navigate("Event Details", {
+                              selectedEvent: event,
+                            })
+                          }
+                        />
+                        ,
+                        <Button
+                          title="Watchlist"
+                          mode="contained"
+                          colour="purple"
+                          onPress={() => handleWatchlist}
+                        />
+                        ,
+                        {event.hostedBy === UserContext._id ? (
+                          <Button
+                            style={styles.cardButtons}
+                            title="Cancel"
+                            mode="contained"
+                            colour="purple"
+                            onPress={() => handleCancel}
+                          />
+                        ) : (
+                          <></>
+                        )}
+                      </View>
+                    )}
+                  </View>
+                </Card.Actions>
+              </Card>
+            </Animated.View>
+          </TouchableWithoutFeedback>
+        </SafeAreaView>
+      </ScrollView>
     );
   };
 
   const renderItem = ({ item }) => <EventItem event={item} />;
 
   return (
+    <ScrollView>
       <SafeAreaView style={{ flex: 1 }}>
         <FlatList
           data={currentEventList}
@@ -91,6 +134,7 @@ const EventList = ({ currentEventList}) => {
           numColumns={1}
         />
       </SafeAreaView>
+    </ScrollView>
   );
 };
 
@@ -111,11 +155,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   eventImage: {
-    width: 100,
-    height: 100,
+    width: 130,
+    height: 130,
     marginRight: 10,
     marginTop: 15,
     marginLeft: 10,
+    marginBottom: 10,
     borderRadius: 25,
     borderWidth: 1,
     borderColor: "black",
@@ -124,6 +169,29 @@ const styles = StyleSheet.create({
   infoContainer: {
     flex: 1,
     justifyContent: "center",
+  },
+  infoSubContainer: {
+    flex: 1,
+    flexDirection: "column",
+  },
+  cardHeading: {
+    fontSize: 18,
+    marginLeft: 8,
+  },
+  cardButtons: {
+    flex: 1,
+    flexDirection: "row",
+    marginLeft: 45,
+    marginRight: 25,
+    justifyContent: "space-evenly",
+  },
+  buttonWrapper: {
+    display: 'flex',
+    justifyContent: "center",
+    marginLeft: 45,
+    marginRight: 25,
+    
+    
   },
 });
 
