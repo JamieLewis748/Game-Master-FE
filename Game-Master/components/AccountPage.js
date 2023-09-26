@@ -116,6 +116,13 @@ const AccountPage = ({ navigation }) => {
         >
           <WatchList watchList={dbUser.watchList} />
         </Card>
+        <Button
+          onPress={() => {
+            logout();
+          }}
+        >
+          Logout
+        </Button>
       </ScrollView>
     </SafeAreaView>
   );
