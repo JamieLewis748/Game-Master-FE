@@ -99,6 +99,7 @@ function MainDrawer({ navigation }) {
           name="Create Event"
           component={CreateEventStackNavigator}
         />
+        <Drawer.Screen name="Messages" component={MessagesScreen} />
       </Drawer.Navigator>
       <Footer />
     </View>
