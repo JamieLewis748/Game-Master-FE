@@ -5,6 +5,7 @@ import {
     StyleSheet,
     View,
     ScrollView,
+    Pressable,
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
 
@@ -21,9 +22,11 @@ import DateInfo from "./EventDetails-Components/DateInfo";
 import CapacityInfo from "./EventDetails-Components/CapacityInfo";
 import PublicInfo from "./EventDetails-Components/PublicInfo";
 import AttendeesInfo from "./EventDetails-Components/AttendeesInfo";
+import RequestedParticipantInfo from "./EventDetails-Components/RequestedParticipantsInfo";
 import TimeInfo from "./EventDetails-Components/TimeInfo";
 import DescriptionInfo from "./EventDetails-Components/DescriptionInfo";
 import axios from "axios";
+import completeEvent from "./APIs/completeEvent";
 
 
 const axiosBase = axios.create({
@@ -33,8 +36,10 @@ const axiosBase = axios.create({
 const fetchUsers = () => axiosBase.get("users");
 
 const MyEventPage = ({ route }) => {
+    const [userList, setUserList] = useState([])
 
     const { selectedEvent } = route.params;
+    console.log(selectedEvent)
 
     useEffect(() => {
         fetchUsers()
@@ -78,7 +83,7 @@ const MyEventPage = ({ route }) => {
                             />
                             <PublicInfo public={selectedEvent.public} />
                         </View>
-                        {/* <View styles={styles.attendeeList}>
+                        <View styles={styles.attendeeList}>
                             {userList.length > 0 && (
                                 <AttendeesInfo
                                     userList={userList}
@@ -86,7 +91,23 @@ const MyEventPage = ({ route }) => {
                                     participants={selectedEvent.participants}
                                 />
                             )}
-                        </View> */}
+                        </View>
+                        <View styles={styles.attendeeList}>
+                            {userList.length > 0 && (
+                                <RequestedParticipantInfo
+                                    userList={userList}
+                                    requestedToParticipate={selectedEvent.requestedToParticipate}
+                                    event_id={selectedEvent._id}
+                                />
+                            )}
+                        </View>
+                        <View styles={styles.attendeeList}>
+                            {selectedEvent.isCompleted === "false" ? (
+                                <Pressable onPress={() => completeEvent(selectedEvent._id, selectedEvent.hostedBy,selectedEvent.participants, selectedEvent.participants[0])}><Text>Complete Event</Text></Pressable>
+                            ) : (
+                                <Text>This event is already completed</Text>
+                            )}
+                        </View>
                     </Card.Content>
                     <Card.Actions>
                         <View
