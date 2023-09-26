@@ -1,6 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { SafeAreaView, Text } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import LoginPage from "../Game-Master/components/LoginPage";
 import EventDetails from "../Game-Master/components/EventDetails";
 import AccountPage from "./components/AccountPage";
@@ -16,51 +16,18 @@ import { UserContext, DbUserContext } from "./components/Context/UserContext";
 import React, { useState, useContext, useEffect } from "react";
 import Chat from "./components/Chat";
 import io from "socket.io-client";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import Footer from "./components/Footer";
+import { CommonActions } from "@react-navigation/native";
 
 import { Ionicons } from "@expo/vector-icons";
 
 import EventsPage from "./components/EventsPage/EventsPage";
 
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 const EventsStack = createStackNavigator();
 const CreateEventStack = createStackNavigator();
-
-
-function AccountStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Account"
-        component={AccountPage}
-        options={{
-          title: "Account",
-          headerBackTitleVisible: false,
-          headerLeft: null,
-          headerRight: () => (
-            <Ionicons
-              name="menu"
-              size={28}
-              color="black"
-              style={{ marginLeft: 15, marginRight: 5 }}
-            />
-          ),
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
-function CollectionStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Collection"
-        component={Collection}
-        options={{ title: "Collection" }}
-      />
-    </Stack.Navigator>
-  );
-}
 
 function EventsStackNavigator() {
   return (
@@ -68,18 +35,18 @@ function EventsStackNavigator() {
       <EventsStack.Screen
         name="EventsPage"
         component={EventsPage}
-        options={{ title: "EventsPage" }}
+        options={{ headerShown: false }}
       />
 
       <EventsStack.Screen
         name="Event Details"
         component={EventDetails}
-        options={{ title: "Event Details" }}
+        options={{ headerShown: false }}
       />
       <EventsStack.Screen
         name="My Event"
         component={MyEventPage}
-        options={{ title: "My Event" }}
+        options={{ headerShown: false }}
       />
     </EventsStack.Navigator>
   );
@@ -90,32 +57,51 @@ function CreateEventStackNavigator() {
       <CreateEventStack.Screen
         name="Create Event"
         component={CreateEvent}
-        options={{ title: "Create Event" }}
+        options={{ headerShown: false }}
       />
       <CreateEventStack.Screen
         name="My Event"
         component={MyEventPage}
-        options={{ title: "My Event" }}
+        options={{ headerShown: false }}
       />
     </CreateEventStack.Navigator>
   );
 }
 
-function MainTabs() {
+function MainDrawer({ navigation }) {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="Account Tab" component={AccountStack} />
-      <Tab.Screen
-        name="Create Event Tab"
-        component={CreateEventStackNavigator}
-      />
-      <Tab.Screen name="Messages" component={MessagesScreen} />
-      <Tab.Screen name="Events" component={EventsStackNavigator} />
-      <Tab.Screen name="Chat" component={Chat} />
-      <Tab.Screen name="CollectionStack" component={CollectionStack} />
-
-
-    </Tab.Navigator>
+    <View style={{ flex: 1 }}>
+      <Drawer.Navigator
+        screenOptions={{
+          headerShown: true,
+          headerStyle: { backgroundColor: "black" },
+          headerTintColor: "white",
+        }}
+      >
+        <Drawer.Screen name="My Account" component={AccountPage} />
+        <Drawer.Screen
+          name="Events"
+          listeners={{
+            focus: () => {
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{ name: "EventsPage" }],
+                })
+              );
+            },
+          }}
+          component={EventsStackNavigator}
+        />
+        <Drawer.Screen name="Collection" component={Collection} />
+        <Drawer.Screen name="Chat" component={Chat} />
+        <Drawer.Screen
+          name="Create Event"
+          component={CreateEventStackNavigator}
+        />
+      </Drawer.Navigator>
+      <Footer />
+    </View>
   );
 }
 
@@ -124,41 +110,10 @@ function App() {
     <UserProvider>
       <PaperProvider>
         <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Group>
-              <Stack.Screen
-                name="Login"
-                component={LoginPage}
-                options={{ title: "Login" }}
-              />
-              <Stack.Screen
-                name="Create Account"
-                component={CreateAccount}
-                options={{ title: "Create Account" }}
-              />
-            </Stack.Group>
-            <Stack.Group>
-              <Stack.Screen
-                name="Create Event"
-                component={CreateEvent}
-                options={{ title: "Create Event" }}
-              />
-              <Stack.Screen
-                name="MainTabs"
-                component={MainTabs}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Account"
-                component={AccountPage}
-                options={{ title: "Account" }}
-              />
-              <Stack.Screen
-                name="Chat"
-                component={Chat}
-                options={{ title: "Chat" }}
-              />
-            </Stack.Group>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Login" component={LoginPage} />
+            <Stack.Screen name="Create Account" component={CreateAccount} />
+            <Stack.Screen name="MainDrawer" component={MainDrawer} />
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>
