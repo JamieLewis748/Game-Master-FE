@@ -39,7 +39,6 @@ const EventDetails = ({ route }) => {
   const {dbUser} = useContext(DbUserContext)
   const [requestInviteState, setRequestInviteState] = useState("Request Invite")
 
-
   const [userList, setUserList] = useState([]);
 
   useEffect(() => {
