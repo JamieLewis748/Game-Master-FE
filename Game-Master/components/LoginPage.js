@@ -13,6 +13,9 @@ function LoginPage({ navigation }) {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setUser(user); 
+      if (user) {
+        navigation.navigate("MainTabs", { screen: "Account" });
+      }
     });
 
     return () => unsubscribe();
