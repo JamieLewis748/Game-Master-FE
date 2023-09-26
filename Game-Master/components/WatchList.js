@@ -11,7 +11,8 @@ import {
 import { Card, Paragraph, IconButton } from "react-native-paper";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
-import { WatchListContext } from "../Context/WatchListContext";
+// import { WatchListContext } from "../Context/WatchListContext";
+
 
 const axiosBase = axios.create({
   baseURL: "https://game-master-be.onrender.com/api/",
@@ -22,10 +23,10 @@ const fetchEvents = () => axiosBase.get("events");
 const WatchList = ({ watchList }) => {
   const [currentWatchList, setCurrentWatchList] = useState([]);
   const navigation = useNavigation();
-  const { WatchListChanged, setWatchListChanged } = useContext(WatchListContext);
+  // const { WatchListChanged, setWatchListChanged } = useContext(WatchListContext);
 
   useEffect(() => {
-    setWatchListChanged(false)
+    // setWatchListChanged(false)
     fetchEvents()
       .then(({ data }) => {
         const watchListFilter = data.filter((event) =>
@@ -36,7 +37,7 @@ const WatchList = ({ watchList }) => {
       .catch((err) => {
         console.error("Error fetching events: ", err);
       });
-  }, [watchList, WatchListChanged]);
+  }, [watchList]);
 
   const handleMouseEnter = () => {
     // Animated.spring(Scale, {

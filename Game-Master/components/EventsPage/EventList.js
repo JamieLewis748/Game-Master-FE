@@ -3,16 +3,16 @@ import { FlatList, Image, StyleSheet, View, Animated, TouchableWithoutFeedback, 
 import { Card, Paragraph, IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { UserContext, DbUserContext } from "../Context/UserContext";
-import { WatchListContext } from "../Context/WatchListContext";
+// import { WatchListContext } from "../Context/WatchListContext";
 import modifyWatchList from "../APIs/modifyWatchList";
 import cancelEvent from "../APIs/handleEventCancel";
 
 const EventList = ({ currentEventList }) => {
   const { dbUser, setDbUser } = useContext(DbUserContext);
-  const { WatchListChanged, setWatchListChanged } = useContext(WatchListContext);
+  // const { WatchListChanged, setWatchListChanged } = useContext(WatchListContext);
   const navigation = useNavigation();
 
-  setWatchListChanged(false)
+  // setWatchListChanged(false)
   
   const handleMouseEnter = () => {
     // Animated.spring(Scale, {
@@ -32,7 +32,7 @@ const EventList = ({ currentEventList }) => {
 
 
   const handleWatchlist = (event) => {
-    setWatchListChanged(true)
+    // setWatchListChanged(true)
     modifyWatchList(dbUser._id, event._id)
   };
 
