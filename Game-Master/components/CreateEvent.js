@@ -234,6 +234,7 @@ const CreateEvent = ({ navigation }) => {
           />
 
         </View>
+        <View>
         <TextInput
           style={styles.input}
           placeholder="Image URL"
@@ -274,7 +275,7 @@ const CreateEvent = ({ navigation }) => {
             />
           )}
         </View>
-      </View>
+      
       <Modal
         animationType="slide"
         transparent={true}
@@ -314,8 +315,6 @@ const CreateEvent = ({ navigation }) => {
           <View style={styles.imageContainer}>{/* <Image /> */}</View>
         </View>
 
-
-    </SafeAreaView >
         <View style={styles.submitButton}>
           <Button title="Create Event" onPress={handleCreateEvent} />
         </View>

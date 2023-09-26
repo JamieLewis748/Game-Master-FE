@@ -72,17 +72,7 @@ function CollectionStack() {
   );
 }
 
-function CreateEventStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Create Event"
-        component={CreateEvent}
-        options={{ title: "Create Event" }}
-      />
-    </Stack.Navigator>
-  );
-}
+
 
 
 function EventsStackNavigator() {
@@ -124,8 +114,8 @@ function CreateEventStackNavigator() {
 function MainTabs() {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="Create Event Tab" component={CreateEventStackNavigator} />
       <Tab.Screen name="Account Tab" component={AccountStack} />
+      <Tab.Screen name="Create Event Tab" component={CreateEventStackNavigator} />
       <Tab.Screen name="Events" component={EventsStackNavigator} />
 
       <Tab.Screen name="Collection" component={Collection} />
