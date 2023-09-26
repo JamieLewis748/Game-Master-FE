@@ -130,7 +130,7 @@ function MainTabs() {
 
       <Tab.Screen name="Collection" component={Collection} />
       <Tab.Screen name="Chat" component={Chat} />
- //     <Tab.Screen name="Collection" component={CollectionStack} />
+      <Tab.Screen name="CollectionStack" component={CollectionStack} />
 
     </Tab.Navigator>
   );

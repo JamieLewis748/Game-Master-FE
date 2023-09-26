@@ -1,10 +1,23 @@
 
 import React, { useState, useContext } from "react";
-import { SafeAreaView, Text, TextInput, Button, StyleSheet, View, Switch, Modal, Image } from "react-native";
+import {
+  SafeAreaView,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  View,
+  Switch,
+  ScrollView,
+  Modal, 
+  Image
+} from "react-native";
+
 
 import { Picker } from "@react-native-picker/picker";
 import postNewEvent from './APIs/postEvent';
 import { DbUserContext } from "./Context/UserContext";
+
 
 const CreateEvent = ({ navigation }) => {
   const { dbUser, setDbUser } = useContext(DbUserContext);
@@ -150,7 +163,6 @@ const CreateEvent = ({ navigation }) => {
           value={eventData.location}
           onChangeText={(text) => setEventData({ ...eventData, location: text })}
         />
-
         <TextInput
           style={styles.input}
           // durationError ? styles.errorInput : null
