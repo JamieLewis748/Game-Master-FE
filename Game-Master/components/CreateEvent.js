@@ -236,7 +236,7 @@ const CreateEvent = ({ navigation }) => {
                 <Text>Selected Collection:</Text>
                 <Text>{selectedCollection.name}</Text>
                 <Image
-                  source={{ uri: selectedCollection.img}}
+                  source={{ uri: selectedCollection.img }}
                   style={{ width: 100, height: 100 }}
                 />
               </View>
@@ -265,45 +265,22 @@ const CreateEvent = ({ navigation }) => {
         </View>
         <View>
           <View style={styles.imageContainer}>
-            {selectedGameType === "Board Game" && (
-              <Image
-                source={{
-                  uri: "https://media.timeout.com/images/105627949/image.jpg",
-                }}
-                style={{ width: 200, height: 200 }}
-              />
-            )}
-            {selectedGameType === "Card Game" && (
-              <Image
-                source={{
-                  uri: "https://www.thesprucecrafts.com/thmb/fn4eXykxus96RvTdCdY2mDIerB0=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/queen-of-hearts-182147242-467e848b1c764421bb699a027648b972.jpg",
-                }}
-                style={{ width: 200, height: 200 }}
-              />
-            )}
-            {selectedGameType === "Tabletop Game" && (
-              <Image
-                source={{
-                  uri: "https://emsw9w6wsq2.exactdn.com/wp-content/uploads/2022/05/wargame-table-face-off.jpg?strip=all&lossy=1&resize=800%2C536&ssl=1",
-                }}
-                style={{ width: 200, height: 200 }}
-              />
-            )}
-            {selectedGameType === "RPG" && (
-              <Image
-                source={{
-                  uri: "https://cdn.vox-cdn.com/thumbor/R9UVrC1X6phoW8Dqwpf8gqENqlc=/0x0:4288x2848/1200x800/filters:focal(1819x763:2505x1449)/cdn.vox-cdn.com/uploads/chorus_image/image/66601351/165224970.jpg.0.jpg",
-                }}
-                style={{ width: 200, height: 200 }}
-              />
-            )}
-            {selectedGameType === "Video Game" && (
-              <Image
-                source={{
-                  uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsmYbJbeMWssW-KyqKPTGJTEU_6BdCWrOKfg&usqp=CAU",
-                }}
-                style={{ width: 200, height: 200 }}
-              />
+            {selectedGameType ? (
+              <>
+                <Image
+                  style={styles.images}
+                  source={require(`../assets/gameType/${
+                    selectedGameType.split(" ")[0]
+                  }.jpg`)}
+                />
+              </>
+            ) : (
+              <>
+                <Image
+                  source={require(`../assets/gameType/Dice.jpg`)}
+                  style={styles.images}
+                />
+              </>
             )}
           </View>
 
@@ -406,11 +383,18 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     marginTop: 20,
+    marginBottom: 20,
   },
   imageContainer: {
+    marginTop: 20,
     height: 200,
     width: 200,
     backgroundColor: "#ccc",
+  },
+  images: {
+    margin: "auto",
+    width: 180,
+    height: 180
   },
   input: {
     height: 40,
