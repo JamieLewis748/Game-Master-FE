@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   SafeAreaView,
   Text,
@@ -15,6 +15,7 @@ import {
 import { Picker } from "@react-native-picker/picker";
 import postNewEvent from "./APIs/postEvent";
 import { DbUserContext } from "./Context/UserContext";
+import { fetchCollections } from "./APIs/getCollections";
 
 const CreateEvent = ({ navigation }) => {
   const { dbUser, setDbUser } = useContext(DbUserContext);
@@ -26,8 +27,36 @@ const CreateEvent = ({ navigation }) => {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [selectedGameType, setSelectedGameType] = useState("");
+  const [collections, setCollections] = useState([])
+
+  const [collectionDropdownVisible, setCollectionDropdownVisible] = useState(false);
+  const [selectedCollection, setSelectedCollection] = useState(null);
+
+  const toggleCollectionDropdown = () => {
+    setCollectionDropdownVisible(!collectionDropdownVisible);
+  };
+
+  const selectCollection = (collection) => {
+    setEventData({ ...eventData, prizeCollection_id: collection._id });
+    setSelectedCollection(collection)
+    toggleCollectionDropdown();
+  };
 
   // const [durationError, setDurationError] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const collectionsData = await fetchCollections();
+        setCollections(collectionsData);
+        console.log(collectionsData);
+      } catch (error) {
+        console.error("Error fetching collections:", error);
+      }
+    };
+
+    fetchData();
+  }, [])
 
   const [eventData, setEventData] = useState({
     host_id: dbUser._id,
@@ -199,14 +228,31 @@ const CreateEvent = ({ navigation }) => {
             keyboardType="numeric"
           />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Prize"
-            value={eventData.prizeCollection_id}
-            onChangeText={(text) =>
-              setEventData({ ...eventData, prizeCollection_id: text })
-            }
-          />
+          <View style={styles.inputContainer}>
+            <Text>Prize Collection</Text>
+            <Button title="Reward" onPress={toggleCollectionDropdown} />
+            {selectedCollection && (
+              <View style={styles.selectedCollection}>
+                <Text>Selected Collection:</Text>
+                <Text>{selectedCollection.name}</Text>
+                <Image
+                  source={{ uri: selectedCollection.img}}
+                  style={{ width: 100, height: 100 }}
+                />
+              </View>
+            )}
+            {collectionDropdownVisible && (
+              <View style={styles.collectionDropdown}>
+                {collections.map((collection) => (
+                  <Button
+                    key={collection._id}
+                    title={collection.name}
+                    onPress={() => selectCollection(collection)}
+                  />
+                ))}
+              </View>
+            )}
+          </View>
 
           <TextInput
             style={styles.input}

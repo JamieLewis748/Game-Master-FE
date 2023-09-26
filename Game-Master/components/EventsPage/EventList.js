@@ -3,7 +3,7 @@ import { FlatList, Image, StyleSheet, View, Animated, TouchableWithoutFeedback, 
 import { Card, Paragraph, IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { UserContext, DbUserContext } from "../Context/UserContext";
-import { Axios } from "axios";
+import axios from "axios";
 const EventList = ({ currentEventList }) => {
   const { dbUser, setDbUser } = useContext(DbUserContext);
   const navigation = useNavigation();
@@ -26,15 +26,15 @@ const EventList = ({ currentEventList }) => {
 
 
   const handleWatchlist = () => {
-    Axios.post("/api/events/:event_id/watchList", {
-      user_id: UserContext,
+    axios.post("/api/events/:event_id/watchList", {
+      user_id: dbUser._id,
     });
   };
 
   const handleCancel = () => {
-      Axios.post("/api/events/:event_id/cancel", {
-        user_id: UserContext,
-      });
+    axios.post("/api/events/:event_id/cancel", {
+      user_id: dbUser._id,
+    });
   };
 
   const EventItem = ({ event }) => {
