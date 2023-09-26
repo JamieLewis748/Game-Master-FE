@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import {
-  Text,
-  Picker,
-  View,
-} from "react-native";
+import { Card} from "react-native-paper";
+import { Text, Picker, View, ScrollView, SafeAreaView } from "react-native";
 import DropDownMenu from "./EventDropDownMenu";
 import EventList from "./EventList";
 import axios from "axios";
+import { convertToRGBA } from "react-native-reanimated";
 
 const axiosBase = axios.create({
     baseURL: "https://game-master-be.onrender.com/api/"});
@@ -57,10 +55,28 @@ const EventsPage = (navigation={navigation}) => {
   },[query])
     
   return (
-    <View>
-      <DropDownMenu  selectedValue={selectedValue} onValueChange={setSelectedValue} selectedTimeDateValue={selectedTimeDateValue} onTimeDateValueChange={setSelectedTimeDateValue} />
-      <EventList currentEventList={currentEventList} navigation={navigation} />
-    </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "purple" }}>
+      <DropDownMenu
+        selectedValue={selectedValue}
+        onValueChange={setSelectedValue}
+        selectedTimeDateValue={selectedTimeDateValue}
+        onTimeDateValueChange={setSelectedTimeDateValue}
+      />
+      <ScrollView>
+        <Card
+          style={{
+            marginLeft: 10,
+            marginRight: 10,
+            backgroundColor: 'mediumorchid',
+          }}
+        >
+          <EventList
+            currentEventList={currentEventList}
+            navigation={navigation}
+          />
+        </Card>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {FlatList, Image, StyleSheet, View, Animated, TouchableWithoutFeedback, Button, SafeAreaView, ScrollView} from "react-native";
+import { FlatList, Image, StyleSheet, View, Animated, TouchableWithoutFeedback, Button, SafeAreaView, ScrollView } from "react-native";
 import { Card, Paragraph, IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { UserContext } from "../Context/UserContext";
@@ -39,14 +39,14 @@ const navigation = useNavigation()
     const scale = new Animated.Value(1);
 
     return (
-      <ScrollView>
         <SafeAreaView>
           <TouchableWithoutFeedback onPress={() => setIsExpanded(!isExpanded)}>
             <Animated.View
               style={{ ...styles.container, transform: [{ scale }] }}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
-            >
+          >
+    
               <Card style={styles.container}>
                 <Paragraph style={styles.cardHeading}>
                   {event.gameInfo}
@@ -90,26 +90,26 @@ const navigation = useNavigation()
                               selectedEvent: event,
                             })
                           }
-                        />
+                          />
                         ,
                         <Button
                           title="Watchlist"
                           mode="contained"
                           colour="purple"
                           onPress={() => handleWatchlist}
-                        />
+                          />
                         ,
                         {event.hostedBy === UserContext._id ? (
                           <Button
-                            style={styles.cardButtons}
-                            title="Cancel"
-                            mode="contained"
-                            colour="purple"
-                            onPress={() => handleCancel}
+                          style={styles.cardButtons}
+                          title="Cancel"
+                          mode="contained"
+                          colour="purple"
+                          onPress={() => handleCancel}
                           />
-                        ) : (
-                          <></>
-                        )}
+                          ) : (
+                            <></>
+                            )}
                       </View>
                     )}
                   </View>
@@ -118,15 +118,13 @@ const navigation = useNavigation()
             </Animated.View>
           </TouchableWithoutFeedback>
         </SafeAreaView>
-      </ScrollView>
     );
   };
 
   const renderItem = ({ item }) => <EventItem event={item} />;
 
   return (
-    <ScrollView>
-      <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }}>   
         <FlatList
           data={currentEventList}
           renderItem={renderItem}
@@ -134,7 +132,6 @@ const navigation = useNavigation()
           numColumns={1}
         />
       </SafeAreaView>
-    </ScrollView>
   );
 };
 
@@ -190,8 +187,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginLeft: 45,
     marginRight: 25,
-    
-    
   },
 });
 
