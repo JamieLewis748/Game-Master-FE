@@ -7,6 +7,7 @@ import AccountPage from "./components/AccountPage";
 import CreateAccount from "./components/CreateAccount";
 import CreateEvent from "./components/CreateEvent";
 import Collection from "./components/Collection";
+import MessagesScreen from "./components/MessagesScreen";
 import { createStackNavigator } from "@react-navigation/stack";
 import { PaperProvider, DefaultTheme } from "react-native-paper";
 import UserProvider from "./components/Context/UserProvider";
@@ -23,6 +24,7 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const EventsStack = createStackNavigator();
 const CreateEventStack = createStackNavigator();
+
 
 const socket = io("https://socket-server-3xoa.onrender.com");
 
@@ -113,6 +115,7 @@ function MainTabs() {
         name="Create Event Tab"
         component={CreateEventStackNavigator}
       />
+      <Tab.Screen name="Messages" component={MessagesScreen} />
       <Tab.Screen name="Events" component={EventsStackNavigator} />
       <Tab.Screen name="Chat" component={Chat} />
       <Tab.Screen name="CollectionStack" component={CollectionStack} />
