@@ -26,20 +26,18 @@ function LoginPage({ navigation }) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user); 
+      setUser(user);
     });
 
     async function getDbUser() {
       if (user) {
-        await setDbUser(await GetUser(user.email))
+        await setDbUser(await GetUser(user.email));
         navigation.navigate("MainTabs", { screen: "Account" });
       }
     }
-    getDbUser()  
+    getDbUser();
     return () => unsubscribe();
   }, [user]);
-
-
 
   async function handleLogin() {
     try {
@@ -48,29 +46,6 @@ function LoginPage({ navigation }) {
         loginEmail,
         loginPassword
       );
-      if (isConfirmed.user.email === loginEmail) {
-        setDbUser({
-          _id: "2",
-          name: "Jamie",
-          username: "jamie1234",
-          email: loginEmail,
-          img_url:
-            "https://i.pinimg.com/originals/82/4c/75/824c75d5d8baddac1e3ab99a48b77f36.jpg",
-          friends: ["2", "3", "4"],
-          friendRequestsReceived: ["6", "10", "11", "9"],
-          friendRequestsSent: ["5"],
-          blocked: [],
-          topics: ["Card Games", "RPG"],
-          characterStats: {
-            name: "Character1",
-            level: "7",
-            experience: "29",
-            experienceToLevelUp: "70",
-          },
-        });
-      } else {
-      }
-      navigation.navigate("MainTabs", { screen: "Account" });
     } catch (error) {
       console.log(error.message);
     }
