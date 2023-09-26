@@ -45,7 +45,6 @@ const AccountPage = ({ navigation }) => {
   //   return () => unsubscribe();
   // }, []);
 
-  console.log(dbUser);
 
   async function logout() {
     try {

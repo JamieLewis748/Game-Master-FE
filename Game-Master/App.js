@@ -29,14 +29,12 @@ const CreateEventStack = createStackNavigator();
 
 const socket = io("https://socket-server-3xoa.onrender.com");
 
-console.log("here");
 
 socket.on("connect", () => {
-  console.log("Connected to the WebSocket server on port 8080");
+  // console.log("Connected to the WebSocket server on port 8080");
   socket.emit("join", "New user has connected");
 });
 
-console.log(socket);
 
 function AccountStack() {
   return (

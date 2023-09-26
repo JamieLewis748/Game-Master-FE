@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { FlatList, Image, StyleSheet, View, Animated, TouchableWithoutFeedback, Button, SafeAreaView, ScrollView } from "react-native";
 import { Card, Paragraph, IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
-import { UserContext } from "../Context/UserContext";
-import  {modifyWatchList}  from "../APIs/modifyWatchList";
+import { UserContext, DbUserContext} from "../Context/UserContext";
+import  modifyWatchList  from "../APIs/modifyWatchList";
+import cancelEvent from "../APIs/handleEventCancel";
 
 const EventList = ({ currentEventList }) => {
   const navigation = useNavigation();
+  const { dbUser, setDbUser } = useContext(DbUserContext);
 
   const handleMouseEnter = () => {
     // Animated.spring(Scale, {
@@ -24,14 +26,14 @@ const EventList = ({ currentEventList }) => {
     // }).start();
   };
 
+  
 
-  const handleWatchlist = (event, UserContext) => {
-    console.log("inside handleCancel");
-    modifyWatchList(e.currentTarget.value, UserContext)
+  const handleWatchlist = (event) => {
+    modifyWatchList(dbUser._id, event._id);
   };
 
-  const handleCancel = (event, UserContext) => {
-    console.log('inside handleCancel')
+  const handleCancel = (event) => {
+    cancelEvent(dbUser._id, event._id);
   };
 
   const EventItem = ({ event }) => {
@@ -93,7 +95,7 @@ const EventList = ({ currentEventList }) => {
                         title="Watchlist"
                         mode="contained"
                         colour="purple"
-                        onPress={() => handleWatchlist()}
+                        onPress={() => handleWatchlist(event)}
                         value={event}
                       />
                       ,
@@ -103,7 +105,7 @@ const EventList = ({ currentEventList }) => {
                           title="Cancel"
                           mode="contained"
                           colour="purple"
-                          onPress={() => handleCancel()}
+                          onPress={() => handleCancel(event)}
                           value={event}
                         />
                       ) : (

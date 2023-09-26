@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Card } from "react-native-paper";
-import { Text, Picker, View, ScrollView, SafeAreaView } from "react-native";
+import {ScrollView, SafeAreaView } from "react-native";
 import DropDownMenu from "./EventDropDownMenu";
 import EventList from "./EventList";
 import axios from "axios";
-import { convertToRGBA } from "react-native-reanimated";
 import { DbUserContext } from "../Context/UserContext";
 
 
@@ -13,7 +12,6 @@ const axiosBase = axios.create({
 });
 
 const EventsPage = (navigation = { navigation }) => {
-  console.log("🚀 ~ file: EventsPage.js:15 ~ EventsPage ~ navigation:", navigation);
   const { dbUser, setDbUser } = useContext(DbUserContext);
 
   const [currentEventList, setCurrentEventList] = useState([]);

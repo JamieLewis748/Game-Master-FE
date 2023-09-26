@@ -1,14 +1,18 @@
 import axios from "axios";
 
-const modifyWatchList = (event_id, user_id) => {
+const modifyWatchList = async (user_id, event_id) => {
+  try {
     return axios
-      .post(`/api/events/${event_id}/cancel`)
-      .send({ _id: user_id })
-        .then((data) => {
-          return data
-        })
-        .catch((err) => {
-        return err
-    })
+      .post(
+        `https://game-master-be.onrender.com/api/events/${event_id}/watchList`,
+        { "user_id": user_id }
+      )
+      .then((data) => {
+        return data;
+      });
+  }
+      catch(err) {
+        console.log(err)
+      }
 }
 export default modifyWatchList;
