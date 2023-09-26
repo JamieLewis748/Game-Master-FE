@@ -24,6 +24,7 @@ import AttendeesInfo from "./EventDetails-Components/AttendeesInfo";
 import TimeInfo from "./EventDetails-Components/TimeInfo";
 import DescriptionInfo from "./EventDetails-Components/DescriptionInfo";
 import axios from "axios";
+import { requestInvite } from "./APIs/requestInvite";
 
 const axiosBase = axios.create({
   baseURL: "https://game-master-be.onrender.com/api/",
@@ -103,7 +104,7 @@ const EventDetails = ({ route }) => {
               <Button
                 mode="contained"
                 colour="purple"
-                onPress={() => navigation.navigate("Event Details", {})}
+                onPress={() => requestInvite(selectedEvent._id, dbUser._id)}
               >
                 Request Invite
               </Button>
