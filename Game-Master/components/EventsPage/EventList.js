@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import {FlatList, Image, StyleSheet, View, Animated, TouchableWithoutFeedback, Button, SafeAreaView, ScrollView} from "react-native";
+import { FlatList, Image, StyleSheet, View, Animated, TouchableWithoutFeedback, Button, SafeAreaView, ScrollView } from "react-native";
 import { Card, Paragraph, IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { UserContext } from "../Context/UserContext";
 import { Axios } from "axios";
 const EventList = ({ currentEventList }) => {
-const navigation = useNavigation()
-  
+  const navigation = useNavigation();
+
   const handleMouseEnter = () => {
     // Animated.spring(Scale, {
     //   toValue: 1.05,
@@ -25,14 +25,14 @@ const navigation = useNavigation()
 
 
   const handleWatchlist = () => {
-          Axios.post("/api/events/:event_id/watchList", {
-            user_id: UserContext,
-          });
-  }
+    Axios.post("/api/events/:event_id/watchList", {
+      user_id: UserContext,
+    });
+  };
 
   const handleCancel = () => {
     //make delete event func
-  }
+  };
 
   const EventItem = ({ event }) => {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -85,11 +85,15 @@ const navigation = useNavigation()
                           title="See event"
                           mode="contained"
                           colour="purple"
-                          onPress={() =>
-                            navigation.navigate("Event Details", {
-                              selectedEvent: event,
-                            })
-                          }
+                          onPress={() => {
+                            if (dbUser._id === selectedEvent.hostedBy) {
+                              navigation.navigate("MyEventPage");
+                            } else {
+                              navigation.navigate("Event Details", {
+                                selectedEvent: event,
+                              });
+                            }
+                          }}
                         />
                         ,
                         <Button
@@ -99,17 +103,19 @@ const navigation = useNavigation()
                           onPress={() => handleWatchlist}
                         />
                         ,
-                        {event.hostedBy === UserContext._id ? (
-                          <Button
-                            style={styles.cardButtons}
-                            title="Cancel"
-                            mode="contained"
-                            colour="purple"
-                            onPress={() => handleCancel}
-                          />
-                        ) : (
-                          <></>
-                        )}
+                        {
+                          event.hostedBy === UserContext._id ? (
+                            <Button
+                              style={styles.cardButtons}
+                              title="Cancel"
+                              mode="contained"
+                              colour="purple"
+                              onPress={() => handleCancel}
+                            />
+                          ) : (
+                            <></>
+                          )
+                        }
                       </View>
                     )}
                   </View>
@@ -190,8 +196,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginLeft: 45,
     marginRight: 25,
-    
-    
+
+
   },
 });
 
