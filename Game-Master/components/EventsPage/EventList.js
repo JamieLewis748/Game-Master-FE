@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { FlatList, Image, StyleSheet, View, Animated, TouchableWithoutFeedback, Button, SafeAreaView, ScrollView } from "react-native";
 import { Card, Paragraph, IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
-import { UserContext, DbUserContext } from "../Context/UserContext";
-import { Axios } from "axios";
+import { UserContext } from "../Context/UserContext";
+import  {modifyWatchList}  from "../APIs/modifyWatchList";
+
 const EventList = ({ currentEventList }) => {
-  const { dbUser, setDbUser } = useContext(DbUserContext);
   const navigation = useNavigation();
 
   const handleMouseEnter = () => {
@@ -25,16 +25,13 @@ const EventList = ({ currentEventList }) => {
   };
 
 
-  const handleWatchlist = () => {
-    Axios.post("/api/events/:event_id/watchList", {
-      user_id: UserContext,
-    });
+  const handleWatchlist = (event, UserContext) => {
+    console.log("inside handleCancel");
+    modifyWatchList(e.currentTarget.value, UserContext)
   };
 
-  const handleCancel = () => {
-      Axios.post("/api/events/:event_id/cancel", {
-        user_id: UserContext,
-      });
+  const handleCancel = (event, UserContext) => {
+    console.log('inside handleCancel')
   };
 
   const EventItem = ({ event }) => {
@@ -49,11 +46,8 @@ const EventList = ({ currentEventList }) => {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-
             <Card style={styles.container}>
-              <Paragraph style={styles.cardHeading}>
-                {event.gameInfo}
-              </Paragraph>
+              <Paragraph style={styles.cardHeading}>{event.gameInfo}</Paragraph>
               <View style={styles.eventInfoContainer}>
                 <Image
                   source={{ uri: event.image }}
@@ -66,11 +60,7 @@ const EventList = ({ currentEventList }) => {
                       {event.dateTime.toString().substring(0, 8)}
                     </Paragraph>
                     <Paragraph style={styles.infoSubParagraph}>
-                      <IconButton
-                        icon="account-group"
-                        size={16}
-                        color="gray"
-                      />
+                      <IconButton icon="account-group" size={16} color="gray" />
                       {event.participants.length}/{event.capacity}
                     </Paragraph>
                     <Paragraph style={styles.infoSubParagraph}>
@@ -88,14 +78,9 @@ const EventList = ({ currentEventList }) => {
                         title="See event"
                         mode="contained"
                         colour="purple"
-
                         onPress={() => {
-                          console.log(dbUser._id);
-                          console.log(event);
-                          if (dbUser._id === event.hostedBy) {
-                            navigation.navigate("My Event", {
-                              selectedEvent: event,
-                            });
+                          if (dbUser._id === selectedEvent.hostedBy) {
+                            navigation.navigate("MyEventPage");
                           } else {
                             navigation.navigate("Event Details", {
                               selectedEvent: event,
@@ -103,28 +88,27 @@ const EventList = ({ currentEventList }) => {
                           }
                         }}
                       />
-
                       ,
                       <Button
                         title="Watchlist"
                         mode="contained"
                         colour="purple"
-                        onPress={() => handleWatchlist}
+                        onPress={() => handleWatchlist()}
+                        value={event}
                       />
                       ,
-
                       {event.hostedBy === UserContext._id ? (
                         <Button
                           style={styles.cardButtons}
                           title="Cancel"
                           mode="contained"
                           colour="purple"
-                          onPress={() => handleCancel}
+                          onPress={() => handleCancel()}
+                          value={event}
                         />
                       ) : (
                         <></>
                       )}
-
                     </View>
                   )}
                 </View>
@@ -139,14 +123,14 @@ const EventList = ({ currentEventList }) => {
   const renderItem = ({ item }) => <EventItem event={item} />;
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <FlatList
-        data={currentEventList}
-        renderItem={renderItem}
-        keyExtractor={(item) => item._id}
-        numColumns={1}
-      />
-    </SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>   
+        <FlatList
+          data={currentEventList}
+          renderItem={renderItem}
+          keyExtractor={(item) => item._id}
+          numColumns={1}
+        />
+      </SafeAreaView>
   );
 };
 
