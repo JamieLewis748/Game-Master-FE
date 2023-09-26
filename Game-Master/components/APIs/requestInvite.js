@@ -1,15 +1,20 @@
-const axios = require('axios');
+import axios from "axios";
 
 
 
 
-exports.requestInvite = async (eventId, userId) => {
-    try {
-        const response = await axios.patch(`https://game-master-be.onrender.com/api/events/${eventId}/request`, { user_id: userId });
-        console.log('Request sent successfully:', response.data);
-        return response.data;
-    } catch (error) {
-        console.error('Error sending request:', error);
-        throw error;
-    }
+const requestInvite = (eventId, userId, setRequestInviteState) => {
+    setRequestInviteState("Loading")
+        return axios.patch(`https://game-master-be.onrender.com/api/events/${eventId}/request`, { user_id: userId })
+        .then((response) => {
+            if(response.data.acknowledged === true){
+                setRequestInviteState("Request Sent")
+            }
+            console.log(response)
+        })
+        .catch(() => {
+            setRequestInviteState("Request Invite")
+        })
 };
+
+export default requestInvite;

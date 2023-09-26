@@ -3,8 +3,10 @@ import { FlatList, Image, StyleSheet, View, Animated, TouchableWithoutFeedback, 
 import { Card, Paragraph, IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { UserContext, DbUserContext } from "../Context/UserContext";
+import axios from "axios";
 import modifyWatchList from "../APIs/modifyWatchList";
 import cancelEvent from "../APIs/handleEventCancel";
+
 
 const EventList = ({ currentEventList }) => {
   const { dbUser, setDbUser } = useContext(DbUserContext);
@@ -33,7 +35,6 @@ const EventList = ({ currentEventList }) => {
 
   const handleCancel = (event) => {
     cancelEvent(dbUser._id, event._id);
-
   };
 
   const EventItem = ({ event }) => {

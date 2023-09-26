@@ -25,6 +25,7 @@ const WatchList = ({ watchList }) => {
   useEffect(() => {
     fetchEvents()
       .then(({ data }) => {
+        console.log(data)
         const watchListFilter = data.filter((event) =>
           watchList.includes(event._id)
         );

@@ -21,16 +21,15 @@ const MessagesScreen = () => {
     { msg: "Happy birthday! 🎉" },
   ]);
 
-  // useEffect(() => {
-  //     setMessageData(messages);
-  //     console.log("here")
-  // }, []);
+  useEffect(() => {
+    setMessageData((prevMessages) => [...prevMessages].reverse());
+  }, []);
 
   useEffect(() => {
     socket.on("notification", (notification) => {
       setMessageData((prevMessages) => [
-        ...prevMessages,
         { msg: notification },
+        ...prevMessages,
       ]);
     });
 
@@ -50,16 +49,6 @@ const MessagesScreen = () => {
       console.log("Socket is not connected. Unable to send notification.");
     }
   };
-
-  // useEffect(() => {
-  //     axios.get('')
-  //         .then((response) => {
-  //             setMessageData(response.data);
-  //         })
-  //         .catch((error) => {
-  //             console.error('Error fetching messages:', error);
-  //         });
-  // }, []);
 
   return (
     <View style={{ flex: 1 }}>

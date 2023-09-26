@@ -5,8 +5,9 @@ import {
   StyleSheet,
   View,
   ScrollView,
+  Pressable,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import {
   Text,
@@ -24,7 +25,8 @@ import AttendeesInfo from "./EventDetails-Components/AttendeesInfo";
 import TimeInfo from "./EventDetails-Components/TimeInfo";
 import DescriptionInfo from "./EventDetails-Components/DescriptionInfo";
 import axios from "axios";
-import { requestInvite } from "./APIs/requestInvite";
+import requestInvite from "./APIs/requestInvite";
+import { DbUserContext } from "./Context/UserContext";
 
 const axiosBase = axios.create({
   baseURL: "https://game-master-be.onrender.com/api/",
@@ -33,9 +35,10 @@ const axiosBase = axios.create({
 const fetchUsers = () => axiosBase.get("users");
 
 const EventDetails = ({ route }) => {
-  console.log("Route", route);
   const { selectedEvent } = route.params;
-  console.log("selectedEvent", selectedEvent);
+  const {dbUser} = useContext(DbUserContext)
+  const [requestInviteState, setRequestInviteState] = useState("Request Invite")
+
 
   const [userList, setUserList] = useState([]);
 
@@ -100,14 +103,17 @@ const EventDetails = ({ route }) => {
                 marginRight: 100,
                 marginBottom: 100,
               }}
-            >
+            >{
+              selectedEvent.participants.includes(dbUser._id) || selectedEvent.requestedToParticipate.includes(dbUser._id)?
+              <Text>Already requested</Text> :
               <Button
-                mode="contained"
-                colour="purple"
-                onPress={() => requestInvite(selectedEvent._id, dbUser._id)}
-              >
-                Request Invite
-              </Button>
+              mode="contained"
+              colour="purple"
+              onPress={() => {if(requestInviteState === "Request Invite") {requestInvite(selectedEvent._id, dbUser._id, setRequestInviteState)}}}
+            >
+              <Text>{requestInviteState}</Text>
+            </Button>
+}
             </View>
           </Card.Actions>
         </Card>
