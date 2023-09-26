@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { SafeAreaView, Text, TextInput, Button, StyleSheet, View, Switch, Modal } from "react-native";
+import { SafeAreaView, Text, TextInput, Button, StyleSheet, View, Switch, Modal, Image } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import postNewEvent from './APIs/postEvent';
 import { DbUserContext } from "./Context/UserContext";
@@ -13,6 +13,8 @@ const CreateEvent = ({ navigation }) => {
   const [dateError, setDateError] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+  const [selectedGameType, setSelectedGameType] = useState('');
+
   // const [durationError, setDurationError] = useState("");
 
 
@@ -128,9 +130,10 @@ const CreateEvent = ({ navigation }) => {
           <Picker
             selectedValue={eventData.game_type}
             style={styles.picker}
-            onValueChange={(itemValue) =>
-              setEventData({ ...eventData, game_type: itemValue })
-            }
+            onValueChange={(itemValue) => {
+              setEventData({ ...eventData, game_type: itemValue });
+              setSelectedGameType(itemValue);
+            }}
           >
             <Picker.Item label="Board Game" value="Board Game" />
             <Picker.Item label="Card Game" value="Card Game" />
@@ -223,7 +226,36 @@ const CreateEvent = ({ navigation }) => {
           }
         />
         <View style={styles.imageContainer}>
-          {/* <Image /> */}
+          {selectedGameType === 'Board Game' && (
+            <Image
+              source={{ uri: 'https://media.timeout.com/images/105627949/image.jpg' }}
+              style={{ width: 200, height: 200 }}
+            />
+          )}
+          {selectedGameType === 'Card Game' && (
+            <Image
+              source={{ uri: 'https://www.thesprucecrafts.com/thmb/fn4eXykxus96RvTdCdY2mDIerB0=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/queen-of-hearts-182147242-467e848b1c764421bb699a027648b972.jpg' }}
+              style={{ width: 200, height: 200 }}
+            />
+          )}
+          {selectedGameType === 'Tabletop Game' && (
+            <Image
+              source={{ uri: 'https://emsw9w6wsq2.exactdn.com/wp-content/uploads/2022/05/wargame-table-face-off.jpg?strip=all&lossy=1&resize=800%2C536&ssl=1' }}
+              style={{ width: 200, height: 200 }}
+            />
+          )}
+          {selectedGameType === 'RPG' && (
+            <Image
+              source={{ uri: 'https://cdn.vox-cdn.com/thumbor/R9UVrC1X6phoW8Dqwpf8gqENqlc=/0x0:4288x2848/1200x800/filters:focal(1819x763:2505x1449)/cdn.vox-cdn.com/uploads/chorus_image/image/66601351/165224970.jpg.0.jpg' }}
+              style={{ width: 200, height: 200 }}
+            />
+          )}
+          {selectedGameType === 'Video Game' && (
+            <Image
+              source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsmYbJbeMWssW-KyqKPTGJTEU_6BdCWrOKfg&usqp=CAU' }}
+              style={{ width: 200, height: 200 }}
+            />
+          )}
         </View>
       </View>
       <Modal
