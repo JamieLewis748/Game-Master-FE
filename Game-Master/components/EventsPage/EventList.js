@@ -90,7 +90,8 @@ const EventList = ({ currentEventList }) => {
 
                         onPress={() => {
                           console.log(dbUser._id);
-                          console.log(event);
+                          console.log(event.hostedBy);
+                          console.log(UserContext._id);
                           if (dbUser._id === event.hostedBy) {
                             navigation.navigate("My Event", {
                               selectedEvent: event,
@@ -111,19 +112,19 @@ const EventList = ({ currentEventList }) => {
                         onPress={() => handleWatchlist(event)}
                       />
                       ,
-
-                      {event.hostedBy === UserContext._id ? (
+                      {event.hostedBy === dbUser._id ? (
                         <Button
                           style={styles.cardButtons}
                           title="Cancel"
                           mode="contained"
                           colour="purple"
                           onPress={() => handleCancel(event)}
+                          
                         />
                       ) : (
                         <></>
                       )}
-
+                      
                     </View>
                   )}
                 </View>
