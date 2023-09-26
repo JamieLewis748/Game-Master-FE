@@ -3,6 +3,7 @@ import { SafeAreaView, TextInput, Button, Alert, StyleSheet, View, Image, Text }
 import { UserContext, DbUserContext } from "./Context/UserContext";
 import { auth } from "./Authentication/firebase-config";
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
+import GetUser from "./APIs/getUser"
 
 function LoginPage({ navigation }) {
   const { user, setUser } = useContext(UserContext);
@@ -10,42 +11,48 @@ function LoginPage({ navigation }) {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user); 
-    });
+  // useEffect(async () => {
+  //   const unsubscribe = auth.onAuthStateChanged(async (user) => {
+  //     setUser(user);
+      
+  //   });
 
-    return () => unsubscribe();
-  }, []);
+  //   return () => unsubscribe();
+  // }, []);
 
-  if(user){
-    navigation.navigate("MainTabs", { screen: "Account" });
+  if (user) {
+    // const response = (await setDbUser(GetUser(user.email)))
+    // console.log(response)
+
+      navigation.navigate("MainTabs", { screen: "Account" });
+    
   }
+
 
   async function handleLogin() {
     try {
       const isConfirmed = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
-      if (isConfirmed.user.email === loginEmail){
+      if (isConfirmed.user.email === loginEmail) {
         setDbUser({
-            _id: "2",
-            name: "Jamie",
-            username: "jamie1234",
-            email: loginEmail,
-            img_url: "https://i.pinimg.com/originals/82/4c/75/824c75d5d8baddac1e3ab99a48b77f36.jpg",
-            friends: ["2", "3", "4"],
-            friendRequestsReceived: ["6", "10", "11", "9"],
-            friendRequestsSent: ["5"],
-            blocked: [],
-            topics: ["Card Games", "RPG"],
-            characterStats: {
-              name: "Character1",
-              level: "7",
-              experience: "29",
-              experienceToLevelUp: "70",
-            },
-          })
+          _id: "2",
+          name: "Jamie",
+          username: "jamie1234",
+          email: loginEmail,
+          img_url: "https://i.pinimg.com/originals/82/4c/75/824c75d5d8baddac1e3ab99a48b77f36.jpg",
+          friends: ["2", "3", "4"],
+          friendRequestsReceived: ["6", "10", "11", "9"],
+          friendRequestsSent: ["5"],
+          blocked: [],
+          topics: ["Card Games", "RPG"],
+          characterStats: {
+            name: "Character1",
+            level: "7",
+            experience: "29",
+            experienceToLevelUp: "70",
+          },
+        })
       }
-      else{
+      else {
 
       }
       console.log("🚀 ~ isConfirmed:", isConfirmed);
@@ -60,15 +67,50 @@ function LoginPage({ navigation }) {
     navigation.navigate("Create Account");
   };
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+  //     setUser(authUser);
+  //   });
+  
+  //   return () => {
+  //     unsubscribe();
+  //   };
+  // }, []);
+  
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+  //     setUser(authUser);
+  //   });
+  
+  //   return () => {
+  //     unsubscribe();
+  //   };
+  // }, []);
+  
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
+  //     setUser(authUser);
+  
+  //     if (authUser) {
+  //       const response = await setDbUser(GetUser(authUser.email));
+  //       console.log(response);
+  
+  //       if (response) {
+  //         navigation.navigate("MainTabs", { screen: "Account" });
+  //       }
+  //     }
+  //   });
+  
+  //   return () => {
+  //     unsubscribe();
+  //   };
+  // }, [navigation]);
+  
+  
+  
+  
+  
+  
 
   return (
     <SafeAreaView style={styles.container}>

@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   SafeAreaView,
   Text,
@@ -14,6 +14,7 @@ import {
 import { Picker } from "@react-native-picker/picker";
 import postNewEvent from './APIs/postEvent'
 import { DbUserContext } from "./Context/UserContext";
+
 
 const CreateEvent = ({ navigation }) => {
   const { dbUser, setDbUser } = useContext(DbUserContext)
@@ -74,6 +75,7 @@ const CreateEvent = ({ navigation }) => {
             onChangeText={(text) =>
               setEventData({ ...eventData, location: text })
             }
+            />
         <TextInput
           style={styles.input}
           placeholder="Time (HH:MM)"
