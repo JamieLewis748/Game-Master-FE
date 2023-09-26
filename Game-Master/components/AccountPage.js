@@ -16,6 +16,7 @@ import {
   Image,
   StyleSheet,
   ImageBackground,
+  ScrollView,
 } from "react-native";
 
 import XPBar from "./AccountPage-Components/XPBar";
@@ -24,7 +25,8 @@ import AccountPageEventList from "./AccountPage-Components/AccountPageEventList"
 import { fetchUserByUserId } from "./APIs/returnUsers";
 import { UserContext, DbUserContext } from "./Context/UserContext";
 import { auth } from "./Authentication/firebase-config";
-import { signOut } from 'firebase/auth';
+import { signOut, onAuthStateChanged } from "firebase/auth";
+import WatchList from "./WatchList";
 
 const AccountPage = ({ navigation }) => {
   const [currentEventList, setcurrentEventList] = useState([]);
@@ -35,50 +37,30 @@ const AccountPage = ({ navigation }) => {
     navigation.navigate("Login");
   }
 
-  setDbUser({
-    _id: "2",
-    name: "Jamie",
-    username: "jamie1234",
-    email: "dfsfsdfs",
-    img_url: "https://i.pinimg.com/originals/82/4c/75/824c75d5d8baddac1e3ab99a48b77f36.jpg",
-    friends: ["2", "3", "4"],
-    friendRequestsReceived: ["6", "10", "11", "9"],
-    friendRequestsSent: ["5"],
-    blocked: [],
-    topics: ["Card Games", "RPG"],
-    characterStats: {
-      name: "Character1",
-      level: "7",
-      experience: "29",
-      experienceToLevelUp: "70",
-    },
-  })
+  // useEffect(() => {
+  //   const unsubscribe = auth.onAuthStateChanged((user) => {
+  //     setUser(user);
+  //   });
+
+  //   return () => unsubscribe();
+  // }, []);
+
+  console.log(dbUser.characterStats)
 
   async function logout() {
     try {
-      await signOut(auth)
+      await signOut(auth);
       navigation.navigate("Login");
-    }
-    catch (error) {
+    } catch (error) {
       navigation.navigate("Login");
-      console.log(error.message)
+      console.log(error.message);
     }
   }
-
-  // useEffect(() => {
-  //   fetchUserByUserId(user.__id)
-  //     .then((userData) => {
-  //       setUser(userData);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching user:", error);
-  //     });
-  // }, []);
 
 
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "purple" }}>
       <Card style={styles.card}>
         <Card.Cover
           source={{
@@ -90,60 +72,45 @@ const AccountPage = ({ navigation }) => {
         <Card.Content style={styles.content}>
           <Card.Cover
             source={{
-              uri: "https://t3.ftcdn.net/jpg/02/22/85/16/360_F_222851624_jfoMGbJxwRi5AWGdPgXKSABMnzCQo9RN.jpg",
+              uri: "https://img.freepik.com/premium-vector/man-avatar-profile-round-icon_24640-14044.jpg?w=740",
             }}
             resizeMode="cover"
             style={styles.cover}
           />
-          <Title style={{ color: "white" }}>{dbUser.email}</Title>
-          <Title style={{ color: "white" }}>
-            Level: {dbUser.characterStats.level}
-          </Title>
+          <Title style={{ color: "white" }}>{dbUser.username}</Title>
+          <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+            Level: {dbUser.characterStats[0].level}
+          </Text>
           <XPBar
-            currentXP={dbUser.characterStats.experience}
-            maxXP={dbUser.characterStats.experienceToLevelUp}
+            currentXP={dbUser.characterStats[0].experience}
+            maxXP={dbUser.characterStats[0].experienceToLevelUp}
           />
           <View>
             <Text
               style={styles.xpText}
-            >{`${dbUser.characterStats.experience} / ${dbUser.characterStats.experienceToLevelUp} XP`}</Text>
+            >{`${dbUser.characterStats[0].experience} / ${dbUser.characterStats[0].experienceToLevelup} XP`}</Text>
           </View>
         </Card.Content>
       </Card>
-      <Card style={styles.navcard}>
-        <Card.Content style={styles.previewBar}>
-          <View style={styles.buttonContainer}>
-            <Button
-              mode="outlined"
-              onPress={() => console.log("Messages button pressed")}
-            >
-              Messages
-            </Button>
-            <Button
-              mode="outlined"
-              onPress={() => console.log("Friend List button pressed")}
-            >
-              Friend List
-            </Button>
-            <Button
-              mode="outlined"
-              onPress={() => console.log("Collection button pressed")}
-            >
-              Collection
-            </Button>
-            <Button
-              mode="outlined"
-              onPress={logout}
-            >
-              Sign Out
-            </Button>
-          </View>
-        </Card.Content>
-      </Card>
-      <AccountPageEventList navigation={navigation} />
+      <View>
+        <Paragraph style={{ marginLeft: 12, fontWeight: "bold", fontSize: 15 }}>
+          Watching:
+        </Paragraph>
+      </View>
+      <ScrollView>
+        <Card
+          style={{
+            marginLeft: 10,
+            marginRight: 10,
+          }}
+        >
+          <WatchList watchList={dbUser.watchList} />
+        </Card>
+      </ScrollView>
     </SafeAreaView>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     height: 250,
@@ -155,8 +122,8 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
     marginRight: "auto",
     marginTop: 20,
-    height: "40%",
-    marginBottom: 20,
+    height: "45%",
+    marginBottom: 10,
   },
   cover: {
     width: 100,
@@ -182,22 +149,11 @@ const styles = StyleSheet.create({
     width: "90%",
     marginLeft: "auto",
     marginRight: "auto",
-    height: 60,
+    height: "15%",
   },
-  previewBar: {},
-  eventCard: {
-    height: 50,
-    backgroundColor: "lightgray",
-    marginBottom: 10,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  buttonContainer: {
+  previewBar: {
+    flex: 1,
     flexDirection: "row",
-    justifyContent: "space-evenly",
-    marginHorizontal: 20,
-    alignItems: "center",
-    height: "100%",
   },
 });
 export default AccountPage;

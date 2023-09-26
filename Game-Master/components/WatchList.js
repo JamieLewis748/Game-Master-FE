@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Card, Paragraph, IconButton } from "react-native-paper";
 import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
 
 const axiosBase = axios.create({
   baseURL: "https://game-master-be.onrender.com/api/",
@@ -17,18 +18,22 @@ const axiosBase = axios.create({
 
 const fetchEvents = () => axiosBase.get("events");
 
-const EventList = ({ navigation }) => {
-  const [currentEventList, setCurrentEventList] = useState([]);
+const WatchList = ({ watchList }) => {
+  const [currentWatchList, setCurrentWatchList] = useState([]);
+  const navigation = useNavigation();
 
   useEffect(() => {
     fetchEvents()
       .then(({ data }) => {
-        setCurrentEventList(data);
+        const watchListFilter = data.filter((event) =>
+          watchList.includes(event._id)
+        );
+        setCurrentWatchList(watchListFilter);
       })
       .catch((err) => {
         console.error("Error fetching events: ", err);
       });
-  }, []);
+  }, [watchList]);
 
   const handleMouseEnter = () => {
     // Animated.spring(Scale, {
@@ -47,11 +52,19 @@ const EventList = ({ navigation }) => {
   };
 
   const EventItem = ({ event }) => {
-    const [isExpanded, setIsExpanded] = useState(false);
     const scale = new Animated.Value(1);
 
     return (
-      <TouchableWithoutFeedback onPress={() => setIsExpanded(!isExpanded)}>
+      <TouchableWithoutFeedback
+        onPress={() =>
+          navigation.navigate("Events", {
+            screen: "Event Details",
+            params: {
+              selectedEvent: event,
+            },
+          })
+        }
+      >
         <Animated.View
           style={{ ...styles.container, transform: [{ scale }] }}
           onMouseEnter={handleMouseEnter}
@@ -75,20 +88,6 @@ const EventList = ({ navigation }) => {
                 </Paragraph>
               </View>
             </View>
-            <Card.Actions>
-              {isExpanded && (
-                <Button
-                  title="See event"
-                  mode="contained"
-                  colour="purple"
-                  onPress={() =>
-                    navigation.navigate("Event Details", {
-                      selectedEvent: event,
-                    })
-                  }
-                />
-              )}
-            </Card.Actions>
           </Card>
         </Animated.View>
       </TouchableWithoutFeedback>
@@ -100,7 +99,7 @@ const EventList = ({ navigation }) => {
   return (
     <View style={{ flex: 1 }}>
       <FlatList
-        data={currentEventList}
+        data={currentWatchList}
         renderItem={renderItem}
         keyExtractor={(item) => item._id}
         numColumns={1}
@@ -141,4 +140,4 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-export default EventList;
+export default WatchList;
