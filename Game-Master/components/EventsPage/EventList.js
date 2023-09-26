@@ -4,6 +4,10 @@ import { Card, Paragraph, IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { UserContext, DbUserContext } from "../Context/UserContext";
 import axios from "axios";
+import modifyWatchList from "../APIs/modifyWatchList";
+import cancelEvent from "../APIs/handleEventCancel";
+
+
 const EventList = ({ currentEventList }) => {
   const { dbUser, setDbUser } = useContext(DbUserContext);
   const navigation = useNavigation();
@@ -13,7 +17,7 @@ const EventList = ({ currentEventList }) => {
     //   toValue: 1.05,
     //   friction: 3,
     //   useNativeDriver: false,
-    // }).start();
+    // }).start();;
   };
 
   const handleMouseLeave = () => {
@@ -25,16 +29,12 @@ const EventList = ({ currentEventList }) => {
   };
 
 
-  const handleWatchlist = () => {
-    axios.post("/api/events/:event_id/watchList", {
-      user_id: dbUser._id,
-    });
+  const handleWatchlist = (event) => {
+    modifyWatchList(dbUser._id, event._id)
   };
 
-  const handleCancel = () => {
-    axios.post("/api/events/:event_id/cancel", {
-      user_id: dbUser._id,
-    });
+  const handleCancel = (event) => {
+    cancelEvent(dbUser._id, event._id);
   };
 
   const EventItem = ({ event }) => {
@@ -75,7 +75,7 @@ const EventList = ({ currentEventList }) => {
                     </Paragraph>
                     <Paragraph style={styles.infoSubParagraph}>
                       <IconButton icon="map-marker" size={16} color="gray" />
-                      {/* {event.location} */} Location
+                      {/* {event.location} */}
                     </Paragraph>
                   </View>
                 </View>
@@ -109,7 +109,7 @@ const EventList = ({ currentEventList }) => {
                         title="Watchlist"
                         mode="contained"
                         colour="purple"
-                        onPress={() => handleWatchlist}
+                        onPress={() => handleWatchlist(event)}
                       />
                       ,
 
@@ -119,7 +119,7 @@ const EventList = ({ currentEventList }) => {
                           title="Cancel"
                           mode="contained"
                           colour="purple"
-                          onPress={() => handleCancel}
+                          onPress={() => handleCancel(event)}
                         />
                       ) : (
                         <></>
