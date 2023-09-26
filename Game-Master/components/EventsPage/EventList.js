@@ -48,16 +48,26 @@ const EventList = ({ currentEventList }) => {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-
             <Card style={styles.container}>
-              <Paragraph style={styles.cardHeading}>
-                {event.gameInfo}
-              </Paragraph>
+              <Paragraph style={styles.cardHeading}>{event.gameInfo}</Paragraph>
               <View style={styles.eventInfoContainer}>
-                <Image
-                  source={{ uri: event.image }}
-                  style={styles.eventImage}
-                />
+                {event.image ? (
+                  <>
+                    <Image
+                      source={{ uri: event.image }}
+                      style={styles.eventImage}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <Image
+                      source={require(`../../assets/gameType/${
+                          event.gameType.split(" ")[0]
+                        }.jpg`)}
+                      style={styles.eventImage}
+                    />
+                  </>
+                )}
                 <View style={styles.infoContainer}>
                   <View style={styles.infoSubContainer}>
                     <Paragraph style={styles.infoSubParagraph}>
@@ -65,11 +75,7 @@ const EventList = ({ currentEventList }) => {
                       {event.dateTime.toString().substring(0, 8)}
                     </Paragraph>
                     <Paragraph style={styles.infoSubParagraph}>
-                      <IconButton
-                        icon="account-group"
-                        size={16}
-                        color="gray"
-                      />
+                      <IconButton icon="account-group" size={16} color="gray" />
                       {event.participants.length}/{event.capacity}
                     </Paragraph>
                     <Paragraph style={styles.infoSubParagraph}>
@@ -87,10 +93,7 @@ const EventList = ({ currentEventList }) => {
                         title="See event"
                         mode="contained"
                         colour="purple"
-
                         onPress={() => {
-                          // console.log(dbUser._id);
-                          // console.log(event);
                           if (dbUser._id === event.hostedBy) {
                             navigation.navigate("My Event", {
                               selectedEvent: event,
@@ -102,7 +105,6 @@ const EventList = ({ currentEventList }) => {
                           }
                         }}
                       />
-
                       ,
                       <Button
                         title="Watchlist"
@@ -111,7 +113,6 @@ const EventList = ({ currentEventList }) => {
                         onPress={() => handleWatchlist(event)}
                       />
                       ,
-
                       {event.hostedBy === dbUser._id ? (
                         <Button
                           style={styles.cardButtons}
@@ -123,7 +124,6 @@ const EventList = ({ currentEventList }) => {
                       ) : (
                         <></>
                       )}
-
                     </View>
                   )}
                 </View>
