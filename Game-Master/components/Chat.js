@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
     FlatList,
     StyleSheet,
@@ -13,14 +13,15 @@ import {
     Alert,
     ImageBackground,
 } from "react-native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import io from 'socket.io-client';
+import { UserContext, DbUserContext } from "./Context/UserContext";
 
 const friends = [
-    { username: "user1" },
-    { username: "user2" },
-    { username: "user3" },
-    { username: "user4" },
+    { username: "jamie1234" },
+    { username: "bananaCatMassiv" },
+    { username: "tree1" },
+    { username: "ian123" },
     { username: "user5" },
     { username: "user6" },
     { username: "user7" },
@@ -30,31 +31,38 @@ const friends = [
 ];
 
 const Chat = () => {
-    console.log("Chat component rendered");
-    const [user, setUser] = useState("User 1");
+    const { dbUser, setDbUser } = useContext(DbUserContext)
+    const [sendingTo, setSendingTo] = useState("User 1")
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState("");
     const [socket, setSocket] = useState(null);
     const [loading, setLoading] = useState(false)
+    const scrollViewRef = useRef(null);
 
     function sendMessage() {
-        socket.emit('chat message', { receivedMessage: message, from: user, to: user });
+        socket.emit('chat message', { receivedMessage: message, from: dbUser.username, to: sendingTo });
         setMessages((prevMessages) => [...prevMessages, { isMyMessage: true, msg: message, username: "randomuser" }]);
         setMessage("");
+
+        if (scrollViewRef.current) {
+            scrollViewRef.current.scrollToEnd({ animated: true });
+        }
     }
 
     useEffect(() => {
         const newSocket = io('https://socket-server-3xoa.onrender.com');
-        console.log("here");
 
         newSocket.on('connect', () => {
             console.log('Connected to the WebSocket server');
-            newSocket.emit('join', user);
+            newSocket.emit('join', dbUser.username);
         });
 
         newSocket.on('chat message', (msg) => {
-            console.log(msg)
             setMessages((prevMessages) => [...prevMessages, { isMyMessage: false, msg: msg.receivedMessage }]);
+
+            if (scrollViewRef.current) {
+                scrollViewRef.current.scrollToEnd({ animated: true });
+            }
         });
 
         setSocket(newSocket);
@@ -63,34 +71,45 @@ const Chat = () => {
         };
     }, []);
 
-    useEffect(() => {
-        setLoading(true)
-        
-    }, []);
-
 
     return (
         <View style={styles.centered}>
             <View style={styles.friendsContainer}>
                 <Text style={styles.chatTitle}>Friend chat</Text>
-                <ScrollView>
+                <ScrollView showsVerticalScrollIndicator = {false}>
                     {friends.map((friend) => (
                         <View key={friend.username} style={styles.friendContainer}>
-                            <Text style={styles.friendText}>{friend.username}</Text>
                             <Pressable
                                 style={styles.button}
-                                onPress={() => handleButtonClick(friend.username)}
+                                onPress={() => setSendingTo(friend.username)}
                             >
-                                <Text style={styles.buttonText}>Message</Text>
+                                <Text style={styles.buttonText}>{friend.username}</Text>
                             </Pressable>
                         </View>
                     ))}
                 </ScrollView>
             </View>
             <View style={styles.messagesContainer}>
-                {messages.map((message, index) => (
-                    <Text key={index}>{message.msg}</Text>
-                ))}
+                <ScrollView ref={scrollViewRef}
+                    onContentSizeChange={() => {
+                        if (scrollViewRef.current) {
+                            scrollViewRef.current.scrollToEnd({ animated: true });
+                        }
+                    }}
+                    showsVerticalScrollIndicator = {false}
+                    >
+                    {messages.map((message, index) => (
+                        <Text
+                            key={index}
+                            style={[
+                                styles.message,
+                                message.isMyMessage ? styles.sent : styles.received,
+                            ]}
+                        >
+                            {message.msg}
+                        </Text>
+                    ))}
+                </ScrollView>
                 <View>
                     <TextInput value={message} onChangeText={setMessage}></TextInput>
                     <Pressable onPress={sendMessage}><Text>Send</Text></Pressable>
@@ -107,12 +126,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     friendsContainer: {
-        flex: 1,
+        flex: 3,
         backgroundColor: '#F0F0F0',
         padding: 16,
     },
     messagesContainer: {
-        flex: 4,
+        flex: 7,
         backgroundColor: '#FFFFFF',
         padding: 16,
     },
@@ -137,6 +156,22 @@ const styles = StyleSheet.create({
     chatTitle: {
         fontWeight: 'bold',
         marginBottom: 16,
+    },
+    message: {
+        padding: 10,
+        margin: 5,
+        borderRadius: 5,
+        maxWidth: '70%',
+    },
+    sent: {
+        backgroundColor: '#007bff',
+        color: '#fff',
+        textAlign: 'right',
+    },
+    received: {
+        backgroundColor: '#f0f0f0',
+        color: '#000',
+        textAlign: 'left',
     },
 });
 
