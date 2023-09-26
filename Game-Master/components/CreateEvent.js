@@ -146,7 +146,7 @@ const CreateEvent = ({ navigation }) => {
       console.log(postResult.data);
       if (postResult.data.acknowledged === true) {
         eventData._id = postResult.data.insertedId;
-        navigation.navigate("MyEventPage", {
+        navigation.navigate("My Event", {
           selectedEvent: eventData,
         });
       } else {

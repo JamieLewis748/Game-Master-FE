@@ -39,6 +39,7 @@ const MyEventPage = ({ route }) => {
     const [userList, setUserList] = useState([])
 
     const { selectedEvent } = route.params;
+    console.log(selectedEvent)
 
     useEffect(() => {
         fetchUsers()
