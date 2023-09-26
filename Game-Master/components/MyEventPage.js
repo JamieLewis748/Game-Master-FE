@@ -6,7 +6,7 @@ import {
     View,
     ScrollView,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import {
     Text,
@@ -25,6 +25,7 @@ import TimeInfo from "./EventDetails-Components/TimeInfo";
 import DescriptionInfo from "./EventDetails-Components/DescriptionInfo";
 import axios from "axios";
 
+
 const axiosBase = axios.create({
     baseURL: "https://game-master-be.onrender.com/api/",
 });
@@ -32,7 +33,7 @@ const axiosBase = axios.create({
 const fetchUsers = () => axiosBase.get("users");
 
 const MyEventPage = ({ route }) => {
-    console.log("Route", route);
+
     const { selectedEvent } = route.params;
 
     useEffect(() => {
@@ -77,7 +78,7 @@ const MyEventPage = ({ route }) => {
                             />
                             <PublicInfo public={selectedEvent.public} />
                         </View>
-                        <View styles={styles.attendeeList}>
+                        {/* <View styles={styles.attendeeList}>
                             {userList.length > 0 && (
                                 <AttendeesInfo
                                     userList={userList}
@@ -85,7 +86,7 @@ const MyEventPage = ({ route }) => {
                                     participants={selectedEvent.participants}
                                 />
                             )}
-                        </View>
+                        </View> */}
                     </Card.Content>
                     <Card.Actions>
                         <View
@@ -97,13 +98,13 @@ const MyEventPage = ({ route }) => {
                                 marginBottom: 100,
                             }}
                         >
-                            <Button
+                            {/* <Button
                                 mode="contained"
                                 colour="purple"
                                 onPress={() => navigation.navigate("Event Details", {})}
                             >
                                 Request Invite
-                            </Button>
+                            </Button> */}
                         </View>
                     </Card.Actions>
                 </Card>

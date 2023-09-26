@@ -87,6 +87,11 @@ function EventsStackNavigator() {
         component={EventDetails}
         options={{ title: "Event Details" }}
       />
+      <EventsStack.Screen
+        name="My Event"
+        component={MyEventPage}
+        options={{ title: "My Event" }}
+      />
     </EventsStack.Navigator>
   );
 }
@@ -98,16 +103,10 @@ function CreateEventStackNavigator() {
         component={CreateEvent}
         options={{ title: "Create Event" }}
       />
-
-      <CreateEventStack.Screen
-        name="Event Details"
-        component={EventDetails}
-        options={{ title: "Event Details" }}
-      />
       <CreateEventStack.Screen
         name="My Event"
         component={MyEventPage}
-        options={{ title: "Event Details" }}
+        options={{ title: "My Event" }}
       />
     </CreateEventStack.Navigator>
   );

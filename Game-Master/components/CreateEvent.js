@@ -101,7 +101,7 @@ const CreateEvent = ({ navigation }) => {
     }
     try {
       const dateTime = `${date} ${time}`;
-      console.log("🚀 ~ dateTime:", dateTime);
+
       const postResult = await postNewEvent({
         host_id: eventData.host_id,
         image: eventData.image,
@@ -117,11 +117,7 @@ const CreateEvent = ({ navigation }) => {
       console.log(postResult.data);
       if (postResult.data.acknowledged === true) {
         eventData._id = postResult.data.insertedId;
-        console.log(
-          "🚀 ~ postResult.data.insertedId:",
-          postResult.data.insertedId
-        );
-        navigation.navigate("Event Details", {
+        navigation.navigate("MyEventPage", {
           selectedEvent: eventData,
         });
       } else {
