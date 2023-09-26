@@ -74,7 +74,7 @@ const EventList = ({ currentEventList }) => {
                     </Paragraph>
                     <Paragraph style={styles.infoSubParagraph}>
                       <IconButton icon="map-marker" size={16} color="gray" />
-                      {/* {event.location} */} Location
+                      {/* {event.location} */}
                     </Paragraph>
                   </View>
                 </View>
