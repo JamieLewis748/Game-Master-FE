@@ -7,11 +7,11 @@ const GetUser = async (email) => {
     console.log(email)
     return axios
         .get(`https://game-master-be.onrender.com/api/users/${email}`)
-        .then(({ body }) => {
-            console.log(body)
-            if(body.user !== undefined) {
-                console.log(body)
-                return body.user
+        .then(( {data} ) => {
+            console.log(data)
+            if(data.user !== undefined) {
+                console.log(data)
+                return data.user
             }
             else {
                 return null

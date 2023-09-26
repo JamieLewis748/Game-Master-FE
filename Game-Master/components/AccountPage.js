@@ -45,28 +45,7 @@ const AccountPage = ({ navigation }) => {
   //   return () => unsubscribe();
   // }, []);
 
-  useEffect(() => {
-    setDbUser({
-      _id: "2",
-      name: "Jamie",
-      username: "jamie1234",
-      email: "dfsfsdfs",
-      img_url:
-        "https://i.pinimg.com/originals/82/4c/75/824c75d5d8baddac1e3ab99a48b77f36.jpg",
-      friends: ["2", "3", "4"],
-      friendRequestsReceived: ["6", "10", "11", "9"],
-      friendRequestsSent: ["5"],
-      blocked: [],
-      topics: ["Card Games", "RPG"],
-      watchList: ["00000020f51bb4362eee2e06", "00000020f51bb4362eee2e02"],
-      characterStats: {
-        name: "Character1",
-        level: "7",
-        experience: "29",
-        experienceToLevelUp: "70",
-      },
-    });
-  }, []);
+  console.log(dbUser.characterStats)
 
   async function logout() {
     try {
@@ -77,6 +56,8 @@ const AccountPage = ({ navigation }) => {
       console.log(error.message);
     }
   }
+
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "purple" }}>
@@ -98,16 +79,16 @@ const AccountPage = ({ navigation }) => {
           />
           <Title style={{ color: "white" }}>{dbUser.username}</Title>
           <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-            Level: {dbUser.characterStats.level}
+            Level: {dbUser.characterStats[0].level}
           </Text>
           <XPBar
-            currentXP={dbUser.characterStats.experience}
-            maxXP={dbUser.characterStats.experienceToLevelUp}
+            currentXP={dbUser.characterStats[0].experience}
+            maxXP={dbUser.characterStats[0].experienceToLevelUp}
           />
           <View>
             <Text
               style={styles.xpText}
-            >{`${dbUser.characterStats.experience} / ${dbUser.characterStats.experienceToLevelUp} XP`}</Text>
+            >{`${dbUser.characterStats[0].experience} / ${dbUser.characterStats[0].experienceToLevelup} XP`}</Text>
           </View>
         </Card.Content>
       </Card>

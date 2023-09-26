@@ -24,20 +24,25 @@ function LoginPage({ navigation }) {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
-  // useEffect(() => {
-  //   const unsubscribe = auth.onAuthStateChanged((user) => {
-  //     setUser(user);
-  //   });
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
 
-  //   return () => unsubscribe();
-  // }, []);
+    async function getDbUser() {
+      if (user) {
+        await setDbUser(await GetUser(user.email))
+        navigation.navigate("MainTabs", { screen: "Account" });
+      }
+    }
 
-  if (user) {
-    // const response = (await setDbUser(GetUser(user.email)))
-    // console.log(response)
+    getDbUser()
+    
 
-    navigation.navigate("MainTabs", { screen: "Account" });
-  }
+    return () => unsubscribe();
+  }, [user]);
+
+
 
   async function handleLogin() {
     try {
