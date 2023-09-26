@@ -39,14 +39,14 @@ const EventList = ({ currentEventList }) => {
     const scale = new Animated.Value(1);
 
     return (
-      <ScrollView>
         <SafeAreaView>
           <TouchableWithoutFeedback onPress={() => setIsExpanded(!isExpanded)}>
             <Animated.View
               style={{ ...styles.container, transform: [{ scale }] }}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
-            >
+          >
+    
               <Card style={styles.container}>
                 <Paragraph style={styles.cardHeading}>
                   {event.gameInfo}
@@ -85,6 +85,7 @@ const EventList = ({ currentEventList }) => {
                           title="See event"
                           mode="contained"
                           colour="purple"
+
                           onPress={() => {
                             if (dbUser._id === selectedEvent.hostedBy) {
                               navigation.navigate("MyEventPage");
@@ -95,27 +96,28 @@ const EventList = ({ currentEventList }) => {
                             }
                           }}
                         />
+
                         ,
                         <Button
                           title="Watchlist"
                           mode="contained"
                           colour="purple"
                           onPress={() => handleWatchlist}
-                        />
+                          />
                         ,
-                        {
-                          event.hostedBy === UserContext._id ? (
-                            <Button
-                              style={styles.cardButtons}
-                              title="Cancel"
-                              mode="contained"
-                              colour="purple"
-                              onPress={() => handleCancel}
-                            />
+
+                        {event.hostedBy === UserContext._id ? (
+                          <Button
+                          style={styles.cardButtons}
+                          title="Cancel"
+                          mode="contained"
+                          colour="purple"
+                          onPress={() => handleCancel}
+                          />
                           ) : (
                             <></>
-                          )
-                        }
+                            )}
+
                       </View>
                     )}
                   </View>
@@ -124,15 +126,13 @@ const EventList = ({ currentEventList }) => {
             </Animated.View>
           </TouchableWithoutFeedback>
         </SafeAreaView>
-      </ScrollView>
     );
   };
 
   const renderItem = ({ item }) => <EventItem event={item} />;
 
   return (
-    <ScrollView>
-      <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }}>   
         <FlatList
           data={currentEventList}
           renderItem={renderItem}
@@ -140,7 +140,6 @@ const EventList = ({ currentEventList }) => {
           numColumns={1}
         />
       </SafeAreaView>
-    </ScrollView>
   );
 };
 
@@ -196,7 +195,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginLeft: 45,
     marginRight: 25,
-
 
   },
 });
