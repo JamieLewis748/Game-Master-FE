@@ -27,15 +27,29 @@ import { UserContext, DbUserContext } from "./Context/UserContext";
 import { auth } from "./Authentication/firebase-config";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import WatchList from "./WatchList";
+import { SocketContext } from "./Context/SocketContest";
+import io from 'socket.io-client';
 
 const AccountPage = ({ navigation }) => {
   const [currentEventList, setcurrentEventList] = useState([]);
   const { user, setUser } = useContext(UserContext);
   const { dbUser, setDbUser } = useContext(DbUserContext);
+  const { socket, setSocket } = useContext(SocketContext);
 
   if (user === null) {
     navigation.navigate("Login");
   }
+
+  useEffect(() => {
+    const newSocket = io('https://socket-server-3xoa.onrender.com');
+
+    newSocket.on('connect', () => {
+      console.log('Connected to the WebSocket server');
+      newSocket.emit('join', dbUser.username);
+    });
+
+    setSocket(newSocket)
+  }, [])
 
   // useEffect(() => {
   //   const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -55,6 +69,7 @@ const AccountPage = ({ navigation }) => {
       console.log(error.message);
     }
   }
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "purple" }}>
