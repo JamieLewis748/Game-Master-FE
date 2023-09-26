@@ -1,9 +1,6 @@
 import axios from "axios";
 
 const cancelEvent = async (user_id, event_id) => {
-    console.log("🚀 ~ file: handleEventCancel.js:4 ~ cancelEvent ~ event_id:", event_id)
-    console.log("🚀 ~ file: handleEventCancel.js:4 ~ cancelEvent ~ user_id:", user_id)
-    console.log('inside cancelEvent')
   try {
     return axios
       .post(
