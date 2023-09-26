@@ -1,9 +1,22 @@
 import React, { useState, useContext, useEffect } from "react";
-import { SafeAreaView, TextInput, Button, Alert, StyleSheet, View, Image, Text } from "react-native";
+import {
+  SafeAreaView,
+  TextInput,
+  Button,
+  Alert,
+  StyleSheet,
+  View,
+  Image,
+  Text,
+} from "react-native";
 import { UserContext, DbUserContext } from "./Context/UserContext";
 import { auth } from "./Authentication/firebase-config";
-import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
-import GetUser from "./APIs/getUser"
+import {
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
+} from "firebase/auth";
+import GetUser from "./APIs/getUser";
 
 function LoginPage({ navigation }) {
   const { user, setUser } = useContext(UserContext);
@@ -11,10 +24,9 @@ function LoginPage({ navigation }) {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
-  // useEffect(async () => {
-  //   const unsubscribe = auth.onAuthStateChanged(async (user) => {
+  // useEffect(() => {
+  //   const unsubscribe = auth.onAuthStateChanged((user) => {
   //     setUser(user);
-      
   //   });
 
   //   return () => unsubscribe();
@@ -24,21 +36,24 @@ function LoginPage({ navigation }) {
     // const response = (await setDbUser(GetUser(user.email)))
     // console.log(response)
 
-      navigation.navigate("MainTabs", { screen: "Account" });
-    
+    navigation.navigate("MainTabs", { screen: "Account" });
   }
-
 
   async function handleLogin() {
     try {
-      const isConfirmed = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+      const isConfirmed = await signInWithEmailAndPassword(
+        auth,
+        loginEmail,
+        loginPassword
+      );
       if (isConfirmed.user.email === loginEmail) {
         setDbUser({
           _id: "2",
           name: "Jamie",
           username: "jamie1234",
           email: loginEmail,
-          img_url: "https://i.pinimg.com/originals/82/4c/75/824c75d5d8baddac1e3ab99a48b77f36.jpg",
+          img_url:
+            "https://i.pinimg.com/originals/82/4c/75/824c75d5d8baddac1e3ab99a48b77f36.jpg",
           friends: ["2", "3", "4"],
           friendRequestsReceived: ["6", "10", "11", "9"],
           friendRequestsSent: ["5"],
@@ -50,15 +65,12 @@ function LoginPage({ navigation }) {
             experience: "29",
             experienceToLevelUp: "70",
           },
-        })
-      }
-      else {
-
+        });
+      } else {
       }
       console.log("🚀 ~ isConfirmed:", isConfirmed);
       navigation.navigate("MainTabs", { screen: "Account" });
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error.message);
     }
   }
@@ -71,46 +83,40 @@ function LoginPage({ navigation }) {
   //   const unsubscribe = onAuthStateChanged(auth, (authUser) => {
   //     setUser(authUser);
   //   });
-  
+
   //   return () => {
   //     unsubscribe();
   //   };
   // }, []);
-  
+
   // useEffect(() => {
   //   const unsubscribe = onAuthStateChanged(auth, (authUser) => {
   //     setUser(authUser);
   //   });
-  
+
   //   return () => {
   //     unsubscribe();
   //   };
   // }, []);
-  
+
   // useEffect(() => {
   //   const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
   //     setUser(authUser);
-  
+
   //     if (authUser) {
   //       const response = await setDbUser(GetUser(authUser.email));
   //       console.log(response);
-  
+
   //       if (response) {
   //         navigation.navigate("MainTabs", { screen: "Account" });
   //       }
   //     }
   //   });
-  
+
   //   return () => {
   //     unsubscribe();
   //   };
   // }, [navigation]);
-  
-  
-  
-  
-  
-  
 
   return (
     <SafeAreaView style={styles.container}>

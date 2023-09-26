@@ -25,7 +25,7 @@ import AccountPageEventList from "./AccountPage-Components/AccountPageEventList"
 import { fetchUserByUserId } from "./APIs/returnUsers";
 import { UserContext, DbUserContext } from "./Context/UserContext";
 import { auth } from "./Authentication/firebase-config";
-import { signOut } from "firebase/auth";
+import { signOut, onAuthStateChanged } from "firebase/auth";
 import WatchList from "./WatchList";
 
 const AccountPage = ({ navigation }) => {
@@ -37,6 +37,13 @@ const AccountPage = ({ navigation }) => {
     navigation.navigate("Login");
   }
 
+  // useEffect(() => {
+  //   const unsubscribe = auth.onAuthStateChanged((user) => {
+  //     setUser(user);
+  //   });
+
+  //   return () => unsubscribe();
+  // }, []);
 
   useEffect(() => {
     setDbUser({
@@ -59,8 +66,7 @@ const AccountPage = ({ navigation }) => {
         experienceToLevelUp: "70",
       },
     });
-  },[])
-  
+  }, []);
 
   async function logout() {
     try {
@@ -110,14 +116,16 @@ const AccountPage = ({ navigation }) => {
           Watching:
         </Paragraph>
       </View>
-      <Card
-        style={{
-          marginLeft: 10,
-          marginRight: 10,
-        }}
-      >
-        <WatchList watchList={dbUser.watchList} />
-      </Card>
+      <ScrollView>
+        <Card
+          style={{
+            marginLeft: 10,
+            marginRight: 10,
+          }}
+        >
+          <WatchList watchList={dbUser.watchList} />
+        </Card>
+      </ScrollView>
     </SafeAreaView>
   );
 };
