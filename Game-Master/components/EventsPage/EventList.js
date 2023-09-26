@@ -31,7 +31,9 @@ const EventList = ({ currentEventList }) => {
   };
 
   const handleCancel = () => {
-    //make delete event func
+      Axios.post("/api/events/:event_id/cancel", {
+        user_id: UserContext,
+      });
   };
 
   const EventItem = ({ event }) => {
