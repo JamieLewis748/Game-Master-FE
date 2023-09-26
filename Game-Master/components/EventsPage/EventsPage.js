@@ -11,7 +11,9 @@ import axios from "axios";
 const axiosBase = axios.create({
     baseURL: "https://game-master-be.onrender.com/api/"});
 
-const EventsPage = () => {
+const EventsPage = (navigation={navigation}) => {
+  console.log("🚀 ~ file: EventsPage.js:15 ~ EventsPage ~ navigation:", navigation)
+  
     const [currentEventList, setCurrentEventList] = useState([]);
     const [selectedValue, setSelectedValue] = useState('')
     const [selectedTimeDateValue, setSelectedTimeDateValue] = useState('Next')
@@ -57,7 +59,7 @@ const EventsPage = () => {
   return (
     <View>
       <DropDownMenu  selectedValue={selectedValue} onValueChange={setSelectedValue} selectedTimeDateValue={selectedTimeDateValue} onTimeDateValueChange={setSelectedTimeDateValue} />
-      <EventList currentEventList={currentEventList} />
+      <EventList currentEventList={currentEventList} navigation={navigation} />
     </View>
   );
 }
