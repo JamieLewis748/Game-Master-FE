@@ -89,8 +89,8 @@ const EventList = ({ currentEventList }) => {
                         colour="purple"
 
                         onPress={() => {
-                          console.log(dbUser._id);
-                          console.log(event);
+                          // console.log(dbUser._id);
+                          // console.log(event);
                           if (dbUser._id === event.hostedBy) {
                             navigation.navigate("My Event", {
                               selectedEvent: event,
@@ -112,7 +112,7 @@ const EventList = ({ currentEventList }) => {
                       />
                       ,
 
-                      {event.hostedBy === UserContext._id ? (
+                      {event.hostedBy === dbUser._id ? (
                         <Button
                           style={styles.cardButtons}
                           title="Cancel"
@@ -190,19 +190,10 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   cardButtons: {
-    flex: 1,
+    display: "flex",
     flexDirection: "row",
-    marginLeft: 45,
-    marginRight: 25,
-    justifyContent: "space-evenly",
-  },
-  buttonWrapper: {
-    display: 'flex',
     justifyContent: "center",
-    marginLeft: 45,
-    marginRight: 25,
-
-  },
+  }
 });
 
 
