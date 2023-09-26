@@ -13,7 +13,7 @@ const EventList = ({ currentEventList }) => {
     //   toValue: 1.05,
     //   friction: 3,
     //   useNativeDriver: false,
-    // }).start();
+    // }).start();;
   };
 
   const handleMouseLeave = () => {
