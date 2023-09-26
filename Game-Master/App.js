@@ -8,6 +8,7 @@ import CreateAccount from "./components/CreateAccount";
 import CreateEvent from "./components/CreateEvent";
 import Collection from "./components/Collection";
 import MessagesScreen from "./components/MessagesScreen";
+import MyEventPage from "./components/MyEventPage";
 import { createStackNavigator } from "@react-navigation/stack";
 import { PaperProvider, DefaultTheme } from "react-native-paper";
 import UserProvider from "./components/Context/ContextProvider";
@@ -75,6 +76,11 @@ function EventsStackNavigator() {
         component={EventDetails}
         options={{ title: "Event Details" }}
       />
+      <EventsStack.Screen
+        name="My Event"
+        component={MyEventPage}
+        options={{ title: "My Event" }}
+      />
     </EventsStack.Navigator>
   );
 }
@@ -86,11 +92,10 @@ function CreateEventStackNavigator() {
         component={CreateEvent}
         options={{ title: "Create Event" }}
       />
-
       <CreateEventStack.Screen
-        name="Event Details"
-        component={EventDetails}
-        options={{ title: "Event Details" }}
+        name="My Event"
+        component={MyEventPage}
+        options={{ title: "My Event" }}
       />
     </CreateEventStack.Navigator>
   );
@@ -108,6 +113,8 @@ function MainTabs() {
       <Tab.Screen name="Events" component={EventsStackNavigator} />
       <Tab.Screen name="Chat" component={Chat} />
       <Tab.Screen name="CollectionStack" component={CollectionStack} />
+
+
     </Tab.Navigator>
   );
 }

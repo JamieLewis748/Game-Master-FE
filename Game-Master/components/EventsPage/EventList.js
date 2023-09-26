@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
-import {FlatList, Image, StyleSheet, View, Animated, TouchableWithoutFeedback, Button, SafeAreaView, ScrollView} from "react-native";
+import React, { useState, useEffect, useContext } from "react";
+import { FlatList, Image, StyleSheet, View, Animated, TouchableWithoutFeedback, Button, SafeAreaView, ScrollView } from "react-native";
 import { Card, Paragraph, IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
-import { UserContext } from "../Context/UserContext";
+import { UserContext, DbUserContext } from "../Context/UserContext";
 import { Axios } from "axios";
 const EventList = ({ currentEventList }) => {
-const navigation = useNavigation()
-  
+  const { dbUser, setDbUser } = useContext(DbUserContext);
+  const navigation = useNavigation();
+
   const handleMouseEnter = () => {
     // Animated.spring(Scale, {
     //   toValue: 1.05,
@@ -25,116 +26,127 @@ const navigation = useNavigation()
 
 
   const handleWatchlist = () => {
-          Axios.post("/api/events/:event_id/watchList", {
-            user_id: UserContext,
-          });
-  }
+    Axios.post("/api/events/:event_id/watchList", {
+      user_id: UserContext,
+    });
+  };
 
   const handleCancel = () => {
-    //make delete event func
-  }
+      Axios.post("/api/events/:event_id/cancel", {
+        user_id: UserContext,
+      });
+  };
 
   const EventItem = ({ event }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const scale = new Animated.Value(1);
 
     return (
-      <ScrollView>
-        <SafeAreaView>
-          <TouchableWithoutFeedback onPress={() => setIsExpanded(!isExpanded)}>
-            <Animated.View
-              style={{ ...styles.container, transform: [{ scale }] }}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              <Card style={styles.container}>
-                <Paragraph style={styles.cardHeading}>
-                  {event.gameInfo}
-                </Paragraph>
-                <View style={styles.eventInfoContainer}>
-                  <Image
-                    source={{ uri: event.image }}
-                    style={styles.eventImage}
-                  />
-                  <View style={styles.infoContainer}>
-                    <View style={styles.infoSubContainer}>
-                      <Paragraph style={styles.infoSubParagraph}>
-                        <IconButton icon="calendar" size={16} color="gray" />
-                        {event.dateTime.toString().substring(0, 8)}
-                      </Paragraph>
-                      <Paragraph style={styles.infoSubParagraph}>
-                        <IconButton
-                          icon="account-group"
-                          size={16}
-                          color="gray"
-                        />
-                        {event.participants.length}/{event.capacity}
-                      </Paragraph>
-                      <Paragraph style={styles.infoSubParagraph}>
-                        <IconButton icon="map-marker" size={16} color="gray" />
-                        {/* {event.location} */} Location
-                      </Paragraph>
-                    </View>
+      <SafeAreaView>
+        <TouchableWithoutFeedback onPress={() => setIsExpanded(!isExpanded)}>
+          <Animated.View
+            style={{ ...styles.container, transform: [{ scale }] }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+
+            <Card style={styles.container}>
+              <Paragraph style={styles.cardHeading}>
+                {event.gameInfo}
+              </Paragraph>
+              <View style={styles.eventInfoContainer}>
+                <Image
+                  source={{ uri: event.image }}
+                  style={styles.eventImage}
+                />
+                <View style={styles.infoContainer}>
+                  <View style={styles.infoSubContainer}>
+                    <Paragraph style={styles.infoSubParagraph}>
+                      <IconButton icon="calendar" size={16} color="gray" />
+                      {event.dateTime.toString().substring(0, 8)}
+                    </Paragraph>
+                    <Paragraph style={styles.infoSubParagraph}>
+                      <IconButton
+                        icon="account-group"
+                        size={16}
+                        color="gray"
+                      />
+                      {event.participants.length}/{event.capacity}
+                    </Paragraph>
+                    <Paragraph style={styles.infoSubParagraph}>
+                      <IconButton icon="map-marker" size={16} color="gray" />
+                      {/* {event.location} */} Location
+                    </Paragraph>
                   </View>
                 </View>
-                <Card.Actions>
-                  <View style={styles.buttonWrapper}>
-                    {isExpanded && (
-                      <View style={styles.cardButtons}>
-                        <Button
-                          title="See event"
-                          mode="contained"
-                          colour="purple"
-                          onPress={() =>
+              </View>
+              <Card.Actions>
+                <View style={styles.buttonWrapper}>
+                  {isExpanded && (
+                    <View style={styles.cardButtons}>
+                      <Button
+                        title="See event"
+                        mode="contained"
+                        colour="purple"
+
+                        onPress={() => {
+                          console.log(dbUser._id);
+                          console.log(event);
+                          if (dbUser._id === event.hostedBy) {
+                            navigation.navigate("My Event", {
+                              selectedEvent: event,
+                            });
+                          } else {
                             navigation.navigate("Event Details", {
                               selectedEvent: event,
-                            })
+                            });
                           }
-                        />
-                        ,
+                        }}
+                      />
+
+                      ,
+                      <Button
+                        title="Watchlist"
+                        mode="contained"
+                        colour="purple"
+                        onPress={() => handleWatchlist}
+                      />
+                      ,
+
+                      {event.hostedBy === UserContext._id ? (
                         <Button
-                          title="Watchlist"
+                          style={styles.cardButtons}
+                          title="Cancel"
                           mode="contained"
                           colour="purple"
-                          onPress={() => handleWatchlist}
+                          onPress={() => handleCancel}
                         />
-                        ,
-                        {event.hostedBy === UserContext._id ? (
-                          <Button
-                            style={styles.cardButtons}
-                            title="Cancel"
-                            mode="contained"
-                            colour="purple"
-                            onPress={() => handleCancel}
-                          />
-                        ) : (
-                          <></>
-                        )}
-                      </View>
-                    )}
-                  </View>
-                </Card.Actions>
-              </Card>
-            </Animated.View>
-          </TouchableWithoutFeedback>
-        </SafeAreaView>
-      </ScrollView>
+                      ) : (
+                        <></>
+                      )}
+
+                    </View>
+                  )}
+                </View>
+              </Card.Actions>
+            </Card>
+          </Animated.View>
+        </TouchableWithoutFeedback>
+      </SafeAreaView>
     );
   };
 
   const renderItem = ({ item }) => <EventItem event={item} />;
 
   return (
-    <ScrollView>
-      <SafeAreaView style={{ flex: 1 }}>
-        <FlatList
-          data={currentEventList}
-          renderItem={renderItem}
-          keyExtractor={(item) => item._id}
-          numColumns={1}
-        />
-      </SafeAreaView>
-    </ScrollView>
+    <SafeAreaView style={{ flex: 1 }}>
+      <FlatList
+        data={currentEventList}
+        renderItem={renderItem}
+        keyExtractor={(item) => item._id}
+        numColumns={1}
+      />
+    </SafeAreaView>
   );
 };
 
@@ -190,8 +202,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginLeft: 45,
     marginRight: 25,
-    
-    
+
   },
 });
 

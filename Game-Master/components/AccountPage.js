@@ -59,7 +59,7 @@ const AccountPage = ({ navigation }) => {
   //   return () => unsubscribe();
   // }, []);
 
-  console.log(dbUser)
+  console.log(dbUser);
 
   async function logout() {
     try {
@@ -77,19 +77,31 @@ const AccountPage = ({ navigation }) => {
       <Card style={styles.card}>
         <Card.Cover
           source={{
-            uri: dbUser.img_url,
+            uri: "https://i.pinimg.com/originals/82/4c/75/824c75d5d8baddac1e3ab99a48b77f36.jpg",
           }}
           resizeMode="cover"
           style={styles.container}
         />
         <Card.Content style={styles.content}>
-          <Card.Cover
-            source={{
-              uri: "https://img.freepik.com/premium-vector/man-avatar-profile-round-icon_24640-14044.jpg?w=740",
-            }}
-            resizeMode="cover"
-            style={styles.cover}
-          />
+          {dbUser.img_url && (
+            <Card.Cover
+              source={{
+                uri: dbUser.img_url,
+              }}
+              resizeMode="cover"
+              style={styles.cover}
+            />
+          )}
+          {!dbUser.img_url && (
+            <Card.Cover
+              source={{
+                uri: "https://img.freepik.com/premium-vector/man-avatar-profile-round-icon_24640-14044.jpg?w=740",
+              }}
+              resizeMode="cover"
+              style={styles.cover}
+            />
+          )}
+
           <Title style={{ color: "white" }}>{dbUser.username}</Title>
           <Text style={{ fontSize: 15, fontWeight: "bold" }}>
             Level: {dbUser.characterStats[0].level}
@@ -119,6 +131,13 @@ const AccountPage = ({ navigation }) => {
         >
           <WatchList watchList={dbUser.watchList} />
         </Card>
+        <Button
+          onPress={() => {
+            logout();
+          }}
+        >
+          Logout
+        </Button>
       </ScrollView>
     </SafeAreaView>
   );

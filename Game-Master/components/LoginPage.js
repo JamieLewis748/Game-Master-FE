@@ -26,20 +26,18 @@ function LoginPage({ navigation }) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user); 
+      setUser(user);
     });
 
     async function getDbUser() {
       if (user) {
-        await setDbUser(await GetUser(user.email))
+        await setDbUser(await GetUser(user.email));
         navigation.navigate("MainTabs", { screen: "Account" });
       }
     }
-    getDbUser()  
+    getDbUser();
     return () => unsubscribe();
   }, [user]);
-
-
 
   async function handleLogin() {
     try {
