@@ -4,7 +4,7 @@ import { Pressable, View, Text } from "react-native";
 import approveRequest from "../APIs/approveRequest";
 
 const RequestedParticipantInfo = ({ userList, requestedToParticipate, event_id }) => {
-    const users = []
+    let users = []
     if (userList.length > 0 && requestedToParticipate !== undefined) {
         users = requestedToParticipate.map((participantId) =>
             userList.find((user) => user._id === participantId)
