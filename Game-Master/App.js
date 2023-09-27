@@ -9,6 +9,7 @@ import CreateEvent from "./components/CreateEvent";
 import Collection from "./components/Collection";
 import MessagesScreen from "./components/MessagesScreen";
 import MyEventPage from "./components/MyEventPage";
+import EventList from "./components/EventsPage/EventList";
 import { createStackNavigator } from "@react-navigation/stack";
 import { PaperProvider, DefaultTheme } from "react-native-paper";
 import UserProvider from "./components/Context/ContextProvider";
@@ -125,6 +126,8 @@ function App() {
             <Stack.Screen name="Login" component={LoginPage} />
             <Stack.Screen name="Create Account" component={CreateAccount} />
             <Stack.Screen name="MainDrawer" component={MainDrawer} />
+            <Stack.Screen name="EventDetails" component={EventDetails} />
+            <Stack.Screen name="EventList" component={EventList} />
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>

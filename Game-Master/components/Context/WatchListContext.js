@@ -1,5 +1,6 @@
 import { createContext } from "react";
 
-const WatchListContext = createContext()
+const WatchListContext = createContext();
 
-export {WatchListContext}
+export { WatchListContext };
+
