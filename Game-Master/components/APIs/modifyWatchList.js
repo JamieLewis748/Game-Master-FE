@@ -1,7 +1,8 @@
 import axios from "axios";
+import { useContext } from "react";
+import { WatchListContext } from "../Context/WatchListContext";
 
-const modifyWatchList = async (user_id, event_id) => {
-  console.log('in modWatL')
+const modifyWatchList = async (user_id, event_id, setWatchList) => {
   try {
     return axios
       .post(
@@ -9,11 +10,12 @@ const modifyWatchList = async (user_id, event_id) => {
         { "user_id": user_id }
       )
       .then((data) => {
+        setWatchList((prevWatch) => [...prevWatch, event_id])
         return data;
       });
   }
-      catch(err) {
-        console.log(err)
+  catch (err) {
+    console.log(err)
   };
 }
 

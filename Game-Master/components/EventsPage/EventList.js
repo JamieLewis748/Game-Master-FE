@@ -6,9 +6,11 @@ import { UserContext, DbUserContext } from "../Context/UserContext";
 import axios from "axios";
 import modifyWatchList from "../APIs/modifyWatchList";
 import cancelEvent from "../APIs/handleEventCancel";
+import { WatchListContext } from "../Context/WatchListContext";
 
 
 const EventList = ({ currentEventList }) => {
+  const {watchList, setWatchList} = useContext(WatchListContext)
   const { dbUser, setDbUser } = useContext(DbUserContext);
   const navigation = useNavigation();
 
@@ -30,7 +32,7 @@ const EventList = ({ currentEventList }) => {
 
 
   const handleWatchlist = (event) => {
-    modifyWatchList(dbUser._id, event._id)
+    modifyWatchList(dbUser._id, event._id, setWatchList)
   };
 
   const handleCancel = (event) => {
