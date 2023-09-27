@@ -6,7 +6,7 @@ import { SocketContext } from "./Context/SocketContest";
 import { DbUserContext } from "./Context/UserContext";
 import { NotificationCountContext } from "./Context/NotificationCountContext";
 import notificationPingSound from '../assets/Sound/ping-82822.mp3'
-import { useIsFocused, useNavigation, useRoute  } from "@react-navigation/native"
+import { useIsFocused, useNavigation, useRoute } from "@react-navigation/native"
 
 const MessagesScreen = () => {
   const { socket } = useContext(SocketContext);
@@ -24,6 +24,7 @@ const MessagesScreen = () => {
     { msg: "Let's get wasted" },
     { msg: "Happy birthday! 🎉" },
   ]);
+
   const navigation = useNavigation();
   const route = useRoute();
 
@@ -45,9 +46,7 @@ const MessagesScreen = () => {
         { msg: notification },
         ...prevMessages,
       ]);
-      if (route.name !== "Notifications") {
-        setNotificationCount((prevCount) => ++prevCount);
-      }
+      setNotificationCount((prevCount) => ++prevCount);
       playNotificationSound()
     });
 
@@ -55,7 +54,7 @@ const MessagesScreen = () => {
       unsubscribe()
       socket.off("notification");
     };
-  }, [navigation]);
+  }, [route]);
 
   const sendNotification = (to) => {
     if (socket) {
