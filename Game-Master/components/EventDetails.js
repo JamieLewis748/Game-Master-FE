@@ -31,8 +31,9 @@ import requestInvite from "./APIs/requestInvite";
 import { DbUserContext } from "./Context/UserContext";
 import modifyWatchList from "./APIs/modifyWatchList";
 import { useNavigation } from "@react-navigation/native";
-import MonsterImageSelection from "./CreateEvent-Components/MonsterImageSelect";
 import completeEvent from "./APIs/completeEvent";
+import MonsterPrize from "./EventDetails-Components/MonsterPrize";
+import { WatchListContext } from "./Context/WatchListContext";
 
 const axiosBase = axios.create({
   baseURL: "https://game-master-be.onrender.com/api/",
@@ -43,6 +44,7 @@ const fetchUsers = () => axiosBase.get("users");
 const EventDetails = ({ route }) => {
   const { selectedEvent } = route.params;
   const { dbUser } = useContext(DbUserContext);
+  const { setWatchList } = useContext(WatchListContext);
   const [requestInviteState, setRequestInviteState] = useState("Request Invite");
   const [userList, setUserList] = useState([]);
   const [isWatched, setIsWatched] = useState(false);
@@ -65,7 +67,7 @@ const EventDetails = ({ route }) => {
 
   const handleWatchlist = (selectedEvent) => {
     (isWatched === true)? setIsWatched(false) : setIsWatched (true)
-    modifyWatchList(dbUser._id, selectedEvent._id);
+    modifyWatchList(dbUser._id, selectedEvent._id, setWatchList);
   };
 
   return (
@@ -124,9 +126,11 @@ const EventDetails = ({ route }) => {
               </View>
             </View>
           </Card.Content>
-          <View >
-            <Text>Event Prize:</Text>
-            <MonsterImageSelection collectionId={selectedEvent.prizeCollection_id} />
+          <View style={styles.prizeWrapper}>
+            <MonsterPrize
+              style={styles.prize}
+              collectionId={selectedEvent.prizeCollection_id}
+            />
           </View>
           <Card.Actions>
             <View
@@ -148,7 +152,7 @@ const EventDetails = ({ route }) => {
                         mode="contained"
                         colour="purple"
                         style={styles.cardButtons}
-                        onPress={() =>handleWatchlist(selectedEvent)}
+                        onPress={() => handleWatchlist(selectedEvent)}
                       >
                         <Text>Remove from WatchList</Text>
                       </Button>
@@ -160,8 +164,7 @@ const EventDetails = ({ route }) => {
                         mode="contained"
                         colour="purple"
                         style={styles.cardButtons}
-                        onPress={() =>
-                          handleWatchlist(selectedEvent)}
+                        onPress={() => handleWatchlist(selectedEvent)}
                       >
                         <Text>Add to WatchList</Text>
                       </Button>
@@ -187,8 +190,7 @@ const EventDetails = ({ route }) => {
                         mode="contained"
                         colour="purple"
                         style={styles.cardButtons}
-                        onPress={() =>
-                          handleWatchlist(selectedEvent)}
+                        onPress={() => handleWatchlist(selectedEvent)}
                       >
                         <Text>Remove from WatchList</Text>
                       </Button>
@@ -200,8 +202,7 @@ const EventDetails = ({ route }) => {
                         mode="contained"
                         colour="purple"
                         style={styles.cardButtons}
-                            onPress={() =>
-                              handleWatchlist(selectedEvent)}
+                        onPress={() => handleWatchlist(selectedEvent)}
                       >
                         <Text>Add to WatchList</Text>
                       </Button>
@@ -243,8 +244,7 @@ const EventDetails = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-  eventCard: {
-  },
+  eventCard: {},
   eventView: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -280,6 +280,18 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
   },
+  prize: {
+    display: "flex",
+    justifyContent: "center",
+    width: "100%"
+  },
+  prizeWrapper: {
+    width: "100%",
+    height: 120,
+    display: "flex",
+    justifyContent: "center",
+    alignContent: "center"
+  }
 });
 
 export default EventDetails;
