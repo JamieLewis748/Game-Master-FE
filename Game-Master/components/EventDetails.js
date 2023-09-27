@@ -23,7 +23,7 @@ import CapacityInfo from "./EventDetails-Components/CapacityInfo";
 import PublicInfo from "./EventDetails-Components/PublicInfo";
 import AttendeesInfo from "./EventDetails-Components/AttendeesInfo";
 import TimeInfo from "./EventDetails-Components/TimeInfo";
-import DescriptionInfo from "./EventDetails-Components/DescriptionInfo";
+import EventHeading from "./EventDetails-Components/EventHeading";
 import axios from "axios";
 import requestInvite from "./APIs/requestInvite";
 import { DbUserContext } from "./Context/UserContext";
@@ -67,11 +67,21 @@ const EventDetails = ({ route }) => {
             marginTop: 10,
           }}
         >
-          <Card.Content style={styles.eventCard}>
-            <Card.Cover source={{ uri: selectedEvent.image }} />
-            <View>
-              <DescriptionInfo gameInfo={selectedEvent.gameInfo} />
-            </View>
+          {/* <Card.Content style={styles.eventCard}> */}
+          {/* <Card.Cover source={{ uri: selectedEvent.image }} /> */}
+
+          <View style={styles.eventCard}>
+            <Image
+              style={styles.eventImage}
+              source={require(`../assets/gameType/${
+                selectedEvent.gameType.split(" ")[0]
+              }.jpg`)}
+            />
+          </View>
+          <View>
+            <EventHeading gameInfo={selectedEvent.gameInfo} />
+          </View>
+          <View style={styles.eventAllInfo}>
             <View style={styles.eventView}>
               <TimeInfo time={selectedEvent.dateTime} />
               <DateInfo date={selectedEvent.dateTime} />
@@ -92,7 +102,8 @@ const EventDetails = ({ route }) => {
                 />
               )}
             </View>
-          </Card.Content>
+          </View>
+          {/* </Card.Content> */}
           <Card.Actions>
             <View
               style={{
@@ -102,17 +113,28 @@ const EventDetails = ({ route }) => {
                 marginRight: 100,
                 marginBottom: 100,
               }}
-            >{
-              selectedEvent.participants.includes(dbUser._id) || selectedEvent.requestedToParticipate.includes(dbUser._id)?
-              <Text>Already requested</Text> :
-              <Button
-              mode="contained"
-              colour="purple"
-              onPress={() => {if(requestInviteState === "Request Invite") {requestInvite(selectedEvent._id, dbUser._id, setRequestInviteState)}}}
             >
-              <Text>{requestInviteState}</Text>
-            </Button>
-}
+              {selectedEvent.participants.includes(dbUser._id) ||
+              selectedEvent.requestedToParticipate.includes(dbUser._id) ? (
+                <Text style={styles.alreadyReq}>Already requested</Text>
+              ) : (
+                <Button
+                  mode="contained"
+                  colour="purple"
+                  style={styles.cardButtons}
+                  onPress={() => {
+                    if (requestInviteState === "Request Invite") {
+                      requestInvite(
+                        selectedEvent._id,
+                        dbUser._id,
+                        setRequestInviteState
+                      );
+                    }
+                  }}
+                >
+                  <Text>{requestInviteState}</Text>
+                </Button>
+              )}
             </View>
           </Card.Actions>
         </Card>
@@ -127,6 +149,32 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  eventImage: {
+    width: 400,
+    height: 250,
+    margin: 15,
+    borderRadius: 10,
+  },
+  cardButtons: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    backgroundColor: "purple",
+  },
+  alreadyReq: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    backgroundColor: "purple",
+    padding: 10,
+    borderRadius: 15
+  },
+  eventAllInfo: {
+    marginLeft: 25,
+    marginRight: 25,
+    display: "flex",
+    justifyContent: "center",
+  }
 });
 
 export default EventDetails;
