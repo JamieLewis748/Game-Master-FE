@@ -71,7 +71,9 @@ function CreateEventStackNavigator() {
 }
 
 function MainDrawer({ navigation }) {
-  const { notificationCount, setNotificationCount } = useContext(NotificationCountContext)
+  const { notificationCount, setNotificationCount } = useContext(
+    NotificationCountContext
+  );
 
   return (
     <View style={{ flex: 1 }}>
@@ -83,34 +85,26 @@ function MainDrawer({ navigation }) {
         }}
       >
         <Drawer.Screen name="My Account" component={AccountPage} />
-        <Drawer.Screen
-          name="Events"
-          listeners={{
-            focus: () => {
-              navigation.dispatch(
-                CommonActions.reset({
-                  index: 0,
-                  routes: [{ name: "EventsPage" }],
-                })
-              );
-            },
-          }}
-          component={EventsStackNavigator}
-        />
+        <Drawer.Screen name="Events" component={EventsStackNavigator} />
         <Drawer.Screen name="Collection" component={Collection} />
         <Drawer.Screen name="Chat" component={Chat} />
         <Drawer.Screen
           name="Create Event"
           component={CreateEventStackNavigator}
         />
-        <Drawer.Screen name="Notifications"
+        <Drawer.Screen
+          name="Notifications"
           component={MessagesScreen}
           options={({ route }) => ({
-            drawerLabel: notificationCount > 0 ? 'Notifications: '+ notificationCount : 'Notifications',
+            drawerLabel:
+              notificationCount > 0
+                ? "Notifications: " + notificationCount
+                : "Notifications",
             drawerLabelStyle: {
-              color: notificationCount > 0 ? 'red' : 'grey',
+              color: notificationCount > 0 ? "red" : "grey",
             },
-          })} />
+          })}
+        />
       </Drawer.Navigator>
       <Footer />
     </View>

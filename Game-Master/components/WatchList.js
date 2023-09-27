@@ -41,7 +41,7 @@ const WatchList = ({ watchList }) => {
     //   toValue: 1.05,
     //   friction: 3,
     //   useNativeDriver: false,
-    // }).start();
+    // }).start();;
   };
 
   const handleMouseLeave = () => {
@@ -72,21 +72,26 @@ const WatchList = ({ watchList }) => {
           onMouseLeave={handleMouseLeave}
         >
           <Card style={styles.container}>
+            <Paragraph style={styles.cardHeading}>
+              {event.gameInfo || "Event Info"}
+            </Paragraph>
             <View style={styles.eventInfoContainer}>
               <Image source={{ uri: event.image }} style={styles.eventImage} />
               <View style={styles.infoContainer}>
-                <Paragraph>
-                  <IconButton icon="calendar" size={16} color="gray" />
-                  {event.dateTime}
-                  <IconButton icon="clock-outline" size={16} color="gray" />
-                  {event.duration}
-                </Paragraph>
-                <Paragraph>
-                  <IconButton icon="account-group" size={16} color="gray" />
-                  {event.capacity}
-                  <IconButton icon="map-marker" size={16} color="gray" />
-                  {/* {event.location} */} Needs to be added to event object
-                </Paragraph>
+                <View style={styles.infoSubContainer}>
+                  <Paragraph>
+                    <IconButton icon="calendar" size={16} color="gray" />
+                    {event.dateTime.toString().substring(0, 8)}
+                  </Paragraph>
+                  <Paragraph style={styles.infoSubParagraph}>
+                    <IconButton icon="account-group" size={16} color="gray" />
+                    {event.participants.length}/{event.capacity}
+                  </Paragraph>
+                  <Paragraph style={styles.infoSubParagraph}>
+                    <IconButton icon="clock-outline" size={16} color="gray" />
+                    {event.dateTime.toString().substring(9, 14)}
+                  </Paragraph>
+                </View>
               </View>
             </View>
           </Card>
@@ -99,18 +104,20 @@ const WatchList = ({ watchList }) => {
 
   return (
     <View style={{ flex: 1 }}>
-      {currentWatchList.length === 0 ?(
+      {currentWatchList.length === 0 ? (
         <Card style={styles.placeholderCard}>
-          <Text style={{color: "white"}}>Your watch list will be displayed here</Text>
+          <Text style={{ color: "white" }}>
+            Your watch list will be displayed here
+          </Text>
         </Card>
-      ): (
+      ) : (
         <FlatList
-        data={currentWatchList}
-        renderItem={renderItem}
-        keyExtractor={(item) => item._id}
-        numColumns={1}
+          data={currentWatchList}
+          renderItem={renderItem}
+          keyExtractor={(item) => item._id}
+          numColumns={1}
         />
-        )}
+      )}
     </View>
   );
 };
@@ -126,6 +133,33 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: "space-between",
   },
+  eventInfoContainer: {
+    flex: 1,
+    flexDirection: "row",
+  },
+  eventImage: {
+    width: 130,
+    height: 130,
+    marginRight: 10,
+    marginTop: 15,
+    marginLeft: 10,
+    marginBottom: 10,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: "black",
+  },
+  infoContainer: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  infoSubContainer: {
+    flex: 1,
+    flexDirection: "column",
+  },
+  cardHeading: {
+    fontSize: 18,
+    marginLeft: 8,
+  },
   placeholderCard: {
     height: 100,
     marginLeft: 10,
@@ -133,25 +167,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-
-  eventInfoContainer: {
-    flex: 1,
-    flexDirection: "row",
-  },
-  eventImage: {
-    width: 100,
-    height: 100,
-    marginRight: 10,
-    marginTop: 15,
-    marginLeft: 10,
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: "black",
-  },
-
-  infoContainer: {
-    flex: 1,
-    justifyContent: "center",
-  },
 });
+
 export default WatchList;
