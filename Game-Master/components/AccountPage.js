@@ -32,6 +32,7 @@ import { SocketContext } from "./Context/SocketContext";
 import io from 'socket.io-client';
 import { WatchListContext } from "./Context/WatchListContext";
 import MonsterImageSelection from "./CreateEvent-Components/MonsterImageSelect";
+import { collectionData } from "../assets/data/collection.data";
 
 
 // const axiosBase = axios.create({
@@ -47,7 +48,9 @@ const AccountPage = ({ navigation }) => {
   const { dbUser, setDbUser } = useContext(DbUserContext);
   const { socket, setSocket } = useContext(SocketContext);
   const { watchList, setWatchList} = useContext(WatchListContext)
-  const [userList, setUserList] = useState()
+
+  setDbUser({...dbUser, myCreatures: collectionData})
+  console.log(dbUser);
   
   
   if (user === null) {
@@ -144,7 +147,13 @@ const AccountPage = ({ navigation }) => {
         </Card.Content>
       </Card>
       <View>
+      <View>
+        <Paragraph style={{ marginLeft: 12, fontWeight: "bold", fontSize: 15 }}>
+          Your Collection:
+        </Paragraph>
+      </View>
         {dbUser.myCreatures && dbUser.myCreatures.length > 0 ? (
+          <Card style={styles.collectionCard}>
           <FlatList 
           data={dbUser.myCreatures} 
           renderItem={({ item }) => (
@@ -153,9 +162,10 @@ const AccountPage = ({ navigation }) => {
           </View>
           )} 
           keyExtractor={(item) => item._id}
+          horizontal={true}
           >
-
           </FlatList>
+          </Card>
           ) : (
       <Card style={styles.collectionCard}>
         <Text>Your collection will appear here </Text>
@@ -208,6 +218,8 @@ const styles = StyleSheet.create({
     marginRight: 10,
     justifyContent: "center",
     alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-evenly"
   },
   cover: {
     width: 100,
