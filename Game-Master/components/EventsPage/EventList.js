@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { FlatList, Image, StyleSheet, View, Animated, TouchableWithoutFeedback, Button, SafeAreaView, ScrollView } from "react-native";
-import { Card, Paragraph, IconButton } from "react-native-paper";
+import { FlatList, Image, StyleSheet, View, Animated, TouchableWithoutFeedback, Button, SafeAreaView, ScrollView, Pressable, Text } from "react-native";
+import { Card, Paragraph, IconButton} from "react-native-paper";
 import { DbUserContext } from "../Context/UserContext";
 import modifyWatchList from "../APIs/modifyWatchList";
 import cancelEvent from "../APIs/handleEventCancel";
@@ -41,7 +41,7 @@ const EventList = ({ currentEventList }) => {
 
     return (
       <SafeAreaView>
-        <TouchableWithoutFeedback onPress={() => setIsExpanded(!isExpanded)}>
+        <Pressable onPress={() => setIsExpanded(!isExpanded)}>
           <Animated.View
             style={{ ...styles.container, transform: [{ scale }] }}
             onMouseEnter={handleMouseEnter}
@@ -85,13 +85,21 @@ const EventList = ({ currentEventList }) => {
                 </View>
               </View>
               <Card.Actions>
-                <View style={styles.buttonWrapper}>
-                  {isExpanded && (
-                    <View style={styles.cardButtons}>
-                      <Button
+                {isExpanded && (
+                  <>
+                    <View
+                      style={{
+                        flex: 1,
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "center",
+                        width: 2000,
+                      }}
+                    >
+                      <Pressable
                         title="See event"
                         mode="contained"
-                        colour="purple"
+                        style={styles.cardButtons}
                         onPress={() => {
                           if (dbUser._id === event.hostedBy) {
                             navigation.navigate("My Event", {
@@ -103,33 +111,42 @@ const EventList = ({ currentEventList }) => {
                             });
                           }
                         }}
-                      />
-                      ,
-                      <Button
+                      >
+                        <Text style={{ color: "white", fontSize: 16 }}>
+                          See event
+                        </Text>
+                      </Pressable>
+                      <Pressable
                         title="Watchlist"
                         mode="contained"
-                        colour="purple"
+                        style={styles.cardButtons}
                         onPress={() => handleWatchlist(event)}
-                      />
-                      ,
+                      >
+                        <Text style={{ color: "white", fontSize: 16 }}>
+                          Watchlist
+                        </Text>
+                      </Pressable>
                       {event.hostedBy === dbUser._id ? (
-                        <Button
+                        <Pressable
                           style={styles.cardButtons}
                           title="Cancel"
                           mode="contained"
-                          colour="purple"
                           onPress={() => handleCancel(event)}
-                        />
+                        >
+                          <Text style={{ color: "white", fontSize: 16 }}>
+                            Cancel
+                          </Text>
+                        </Pressable>
                       ) : (
                         <></>
                       )}
                     </View>
-                  )}
-                </View>
+                  </>
+                )}
               </Card.Actions>
             </Card>
           </Animated.View>
-        </TouchableWithoutFeedback>
+        </Pressable>
       </SafeAreaView>
     );
   };
@@ -192,6 +209,13 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
+    margin: 10,
+    marginLeft: 6,
+    marginRight: 6,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    backgroundColor: "purple"
   },
 });
 
