@@ -48,10 +48,12 @@ const MyEventPage = ({ route }) => {
     const [requestedParticipants, setRequestedParticipants] = useState(selectedEvent.requestedToParticipate);
 
     const handleCompleteEvent = () => {
+        console.log("here")
         if (!selectedWinner) {
             setShowWarningModal(true);
         } else {
-            completeEvent(selectedEvent._id, selectedEvent.hostedBy, selectedEvent.participants, selectedWinner._id);
+            console.log(selectedWinner)
+            completeEvent(selectedEvent._id, selectedEvent.hostedBy, eventParticipants, selectedWinner);
         }
     };
 
@@ -125,6 +127,8 @@ const MyEventPage = ({ route }) => {
                                     userList={userList}
                                     requestedToParticipate={requestedParticipants}
                                     event_id={selectedEvent._id}
+                                    setEventParticipants={setEventParticipants}
+                                    setRequestedParticipants={setRequestedParticipants}
                                     onUpdateParticipants={updateParticipants}
                                 />
                             )}
@@ -136,15 +140,17 @@ const MyEventPage = ({ route }) => {
                                 < Picker
                                     selectedValue={selectedWinner}
                                     onValueChange={(itemValue, itemIndex) => {
-                                        const selectedWinnerIndex = parseInt(itemValue);
-                                        const selectedWinner = selectedEvent.participants[selectedWinnerIndex];
+                                        console.log(itemValue)
+                                        const selectedWinnerIndex = eventParticipants.indexOf(itemValue);
+                                        console.log(selectedWinnerIndex)
+                                        const selectedWinner = eventParticipants[selectedWinnerIndex];
                                         console.log('Selected Winner:', selectedWinner);
                                         setSelectedWinner(selectedWinner);
 
                                     }}
                                 >
                                     <Picker.Item label="Select a Winner" value={null} />
-                                    {selectedEvent.participants.map((participant, index) => (
+                                    {eventParticipants.map((participant, index) => (
                                         <Picker.Item
                                             key={index.toString()}
                                             label={getUsernameFromId(participant)}
@@ -156,9 +162,9 @@ const MyEventPage = ({ route }) => {
                         </View>
                         <View styles={styles.attendeeList}>
                             {selectedEvent.isCompleted === "false" ? (
-                                <Pressable onPress={() => handleCompleteEvent}><Text>Complete Event</Text></Pressable>
+                                <Pressable onPress={handleCompleteEvent}><Text>Complete Event</Text></Pressable>
                             ) : (
-                                <Text>This event is already completed</Text>
+                                <Text></Text>
                             )}
                         </View>;
                     </Card.Content>
