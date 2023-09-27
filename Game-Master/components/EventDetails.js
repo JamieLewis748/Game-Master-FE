@@ -31,6 +31,8 @@ import requestInvite from "./APIs/requestInvite";
 import { DbUserContext } from "./Context/UserContext";
 import modifyWatchList from "./APIs/modifyWatchList";
 import { useNavigation } from "@react-navigation/native";
+import MonsterImageSelection from "./CreateEvent-Components/MonsterImageSelect";
+import completeEvent from "./APIs/completeEvent";
 
 const axiosBase = axios.create({
   baseURL: "https://game-master-be.onrender.com/api/",
@@ -78,7 +80,6 @@ const EventDetails = ({ route }) => {
         <Card
           style={{
             display: "flex",
-
             justifyContent: "space-around",
             alignItems: "center",
             height: "97%",
@@ -123,6 +124,10 @@ const EventDetails = ({ route }) => {
               </View>
             </View>
           </Card.Content>
+          <View >
+            <Text>Event Prize:</Text>
+            <MonsterImageSelection collectionId={selectedEvent.prizeCollection_id} />
+          </View>
           <Card.Actions>
             <View
               style={{

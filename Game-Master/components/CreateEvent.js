@@ -11,11 +11,11 @@ import {
   Modal,
   Image,
 } from "react-native";
-
 import { Picker } from "@react-native-picker/picker";
 import postNewEvent from "./APIs/postEvent";
 import { DbUserContext } from "./Context/UserContext";
 import { fetchCollections } from "./APIs/getCollections";
+import MonsterImageSelection from "./CreateEvent-Components/MonsterImageSelect";
 
 const CreateEvent = ({ navigation }) => {
   const { dbUser, setDbUser } = useContext(DbUserContext);
@@ -27,7 +27,7 @@ const CreateEvent = ({ navigation }) => {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [selectedGameType, setSelectedGameType] = useState("");
-  const [collections, setCollections] = useState([])
+  const [collections, setCollections] = useState([]);
 
   const [collectionDropdownVisible, setCollectionDropdownVisible] = useState(false);
   const [selectedCollection, setSelectedCollection] = useState(null);
@@ -38,7 +38,7 @@ const CreateEvent = ({ navigation }) => {
 
   const selectCollection = (collection) => {
     setEventData({ ...eventData, prizeCollection_id: collection._id });
-    setSelectedCollection(collection)
+    setSelectedCollection(collection);
     toggleCollectionDropdown();
   };
 
@@ -56,7 +56,7 @@ const CreateEvent = ({ navigation }) => {
     };
 
     fetchData();
-  }, [])
+  }, []);
 
   const [eventData, setEventData] = useState({
     host_id: dbUser._id,
@@ -199,15 +199,14 @@ const CreateEvent = ({ navigation }) => {
             }
           />
 
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Event Date (YYYY-MM-DD)</Text>
-            <TextInput
-              style={[styles.input, dateError ? styles.errorInput : null]}
-              placeholder="YYYY-MM-DD"
-              value={date}
-              onChangeText={setDate}
-            />
-          </View>
+
+          <TextInput
+            style={[styles.input, dateError ? styles.errorInput : null]}
+            placeholder="Date YYYY-MM-DD"
+            value={date}
+            onChangeText={setDate}
+          />
+
 
           <TextInput
             style={[styles.input, timeError ? styles.errorInput : null]}
@@ -233,12 +232,8 @@ const CreateEvent = ({ navigation }) => {
             <Button title="Reward" onPress={toggleCollectionDropdown} />
             {selectedCollection && (
               <View style={styles.selectedCollection}>
-                <Text>Selected Collection:</Text>
                 <Text>{selectedCollection.name}</Text>
-                <Image
-                  source={{ uri: selectedCollection.img }}
-                  style={{ width: 100, height: 100 }}
-                />
+                <MonsterImageSelection collectionId={selectedCollection._id} />
               </View>
             )}
             {collectionDropdownVisible && (
@@ -269,9 +264,8 @@ const CreateEvent = ({ navigation }) => {
               <>
                 <Image
                   style={styles.images}
-                  source={require(`../assets/gameType/${
-                    selectedGameType.split(" ")[0]
-                  }.jpg`)}
+                  source={require(`../assets/gameType/${selectedGameType.split(" ")[0]
+                    }.jpg`)}
                 />
               </>
             ) : (
@@ -345,7 +339,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
   },
   // input: {
   //   width: "80%",

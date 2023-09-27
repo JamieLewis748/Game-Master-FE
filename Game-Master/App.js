@@ -24,6 +24,7 @@ import { CommonActions } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
 import EventsPage from "./components/EventsPage/EventsPage";
+import { NotificationCountContext } from "./components/Context/NotificationCountContext";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -70,6 +71,8 @@ function CreateEventStackNavigator() {
 }
 
 function MainDrawer({ navigation }) {
+  const { notificationCount, setNotificationCount } = useContext(NotificationCountContext)
+
   return (
     <View style={{ flex: 1 }}>
       <Drawer.Navigator
@@ -100,7 +103,14 @@ function MainDrawer({ navigation }) {
           name="Create Event"
           component={CreateEventStackNavigator}
         />
-        <Drawer.Screen name="Messages" component={MessagesScreen} />
+        <Drawer.Screen name="Notifications"
+          component={MessagesScreen}
+          options={({ route }) => ({
+            drawerLabel: notificationCount > 0 ? 'Notifications: '+ notificationCount : 'Notifications',
+            drawerLabelStyle: {
+              color: notificationCount > 0 ? 'red' : 'grey',
+            },
+          })} />
       </Drawer.Navigator>
       <Footer />
     </View>

@@ -1,13 +1,17 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import { View, Text, FlatList, Pressable } from "react-native";
 import axios from "axios";
 import io from "socket.io-client";
-import { SocketContext } from "./Context/SocketContest";
+import { SocketContext } from "./Context/SocketContext";
 import { DbUserContext } from "./Context/UserContext";
+import { NotificationCountContext } from "./Context/NotificationCountContext";
+import notificationPingSound from '../assets/Sound/ping-82822.mp3'
+import { useIsFocused, useNavigation, useRoute } from "@react-navigation/native"
 
 const MessagesScreen = () => {
   const { socket } = useContext(SocketContext);
   const { dbUser } = useContext(DbUserContext);
+  const { setNotificationCount } = useContext(NotificationCountContext)
   const [messageData, setMessageData] = useState([
     { msg: "Hello, how are you?" },
     { msg: "I just wanted to say hi!" },
@@ -21,22 +25,36 @@ const MessagesScreen = () => {
     { msg: "Happy birthday! 🎉" },
   ]);
 
+  const navigation = useNavigation();
+  const route = useRoute();
+
+  function playNotificationSound() {
+    new Audio(notificationPingSound).play()
+  }
+
   useEffect(() => {
     setMessageData((prevMessages) => [...prevMessages].reverse());
   }, []);
 
   useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      setNotificationCount(0);
+    });
+
     socket.on("notification", (notification) => {
       setMessageData((prevMessages) => [
         { msg: notification },
         ...prevMessages,
       ]);
+      setNotificationCount((prevCount) => ++prevCount);
+      playNotificationSound()
     });
 
     return () => {
+      unsubscribe()
       socket.off("notification");
     };
-  }, []);
+  }, [route]);
 
   const sendNotification = (to) => {
     if (socket) {
