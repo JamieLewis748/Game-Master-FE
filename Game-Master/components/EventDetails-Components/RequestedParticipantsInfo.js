@@ -3,7 +3,7 @@ import { Paragraph, IconButton } from "react-native-paper";
 import { Pressable, View, Text } from "react-native";
 import approveRequest from "../APIs/approveRequest";
 
-const RequestedParticipantInfo = ({ userList, requestedToParticipate, event_id }) => {
+const RequestedParticipantInfo = ({ userList, requestedToParticipate, event_id, setEventParticipants, setRequestedParticipants }) => {
     let users = []
     if (userList.length > 0 && requestedToParticipate !== undefined) {
         users = requestedToParticipate.map((participantId) =>
@@ -13,6 +13,11 @@ const RequestedParticipantInfo = ({ userList, requestedToParticipate, event_id }
 
     function acceptParticipantWhoRequested(user_id) {
         approveRequest(event_id, user_id)
+        setEventParticipants((otherParticipants) => [...otherParticipants, user_id])
+
+        setRequestedParticipants((otherRequestedParticipants) => [...otherRequestedParticipants.filter((requested) => {
+            requested === user_id
+        })])
     }
 
     return (
