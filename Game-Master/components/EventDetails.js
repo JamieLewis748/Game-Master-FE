@@ -28,6 +28,7 @@ import axios from "axios";
 import requestInvite from "./APIs/requestInvite";
 import { DbUserContext } from "./Context/UserContext";
 import MonsterImageSelection from "./CreateEvent-Components/monsterImageSelect";
+import completeEvent from "./APIs/completeEvent";
 
 const axiosBase = axios.create({
   baseURL: "https://game-master-be.onrender.com/api/",
