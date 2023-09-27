@@ -50,8 +50,8 @@ const AccountPage = ({ navigation }) => {
   const { watchList, setWatchList} = useContext(WatchListContext)
 
   useEffect(() => {
-    // setDbUser({...dbUser, myCreatures: collectionData})
-    setDbUser(dbUser)
+    setDbUser({...dbUser, myCreatures: collectionData})
+    // setDbUser(dbUser)
     console.log(dbUser);
   }, [])
   
@@ -135,8 +135,8 @@ const AccountPage = ({ navigation }) => {
             />
           )}
 
-          <Title style={{ color: "white" }}>{dbUser.username}</Title>
-          <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+          <Title style={{ color: "black", fontWeight: 700, fontSize:30 }}>{dbUser.username}</Title>
+          <Text style={styles.xpText}>
             Level: {dbUser.characterStats[0].level}
           </Text>
           <XPBar
@@ -151,52 +151,42 @@ const AccountPage = ({ navigation }) => {
         </Card.Content>
       </Card>
       <View>
-      <View>
-        <Paragraph style={{ marginLeft: 12, fontWeight: "bold", fontSize: 15 }}>
-          Your Collection:
-        </Paragraph>
-      </View>
         {dbUser.myCreatures && dbUser.myCreatures.length > 0 ? (
           <Card style={styles.collectionCard}>
-          <FlatList 
-          data={dbUser.myCreatures} 
-          renderItem={({ item }) => (
-          <View>
-            <MonsterImageSelection collectionId={item._id} />
-          </View>
-          )} 
-          keyExtractor={(item) => item._id}
-          horizontal={true}
-          >
-          </FlatList>
+            <FlatList
+              data={dbUser.myCreatures}
+              renderItem={({ item }) => (
+                <View style={styles.monsterView}>
+                  <MonsterImageSelection collectionId={item._id} />
+                </View>
+              )}
+              keyExtractor={(item) => item._id}
+              horizontal={true}
+            ></FlatList>
           </Card>
-          ) : (
-      <Card style={styles.collectionCard}>
-        <Text>Your collection will appear here </Text>
-      </Card>
-      )}
-      </View>
-      <View>
-        <Paragraph style={{ marginLeft: 12, fontWeight: "bold", fontSize: 15 }}>
-          Watching:
-        </Paragraph>
+        ) : (
+          <Card style={styles.collectionCard}>
+            <Text>Your collection will appear here </Text>
+          </Card>
+        )}
       </View>
       <ScrollView>
         <Card
           style={{
             marginLeft: 10,
             marginRight: 10,
+            marginTop: 10,
           }}
         >
           <WatchList watchList={watchList} />
         </Card>
         <Button
+          title="Logout"
+          style={styles.cardButtons}
           onPress={() => {
             logout();
           }}
-        >
-          Logout
-        </Button>
+        >Logout </Button>
       </ScrollView>
     </SafeAreaView>
   );
@@ -204,7 +194,7 @@ const AccountPage = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 250,
+    height: 380,
     position: "relative",
   },
   card: {
@@ -220,10 +210,10 @@ const styles = StyleSheet.create({
     height: 100,
     marginLeft: 10,
     marginRight: 10,
-    justifyContent: "center",
+    display: "flex",
     alignItems: "center",
+    justifyContent: "space-evenly",
     flexDirection: "row",
-    justifyContent: "space-evenly"
   },
   cover: {
     width: 100,
@@ -242,7 +232,9 @@ const styles = StyleSheet.create({
   },
 
   xpText: {
-    color: "white",
+    color: "black",
+    fontWeight: 600,
+    marginTop: 5
   },
   navcard: {
     backgroundColor: "white",
@@ -254,6 +246,19 @@ const styles = StyleSheet.create({
   previewBar: {
     flex: 1,
     flexDirection: "row",
+  },
+  monsterView: {
+    margin: 5,
+  },
+  cardButtons: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    backgroundColor: "darkviolet",
+    marginBottom: 15,
+    marginTop: 15,
+    marginLeft: 10,
+    marginRight: 10,
   },
 });
 export default AccountPage;
