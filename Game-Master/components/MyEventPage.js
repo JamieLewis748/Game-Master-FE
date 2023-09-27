@@ -6,6 +6,7 @@ import {
     View,
     ScrollView,
     Pressable,
+    Modal,
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
 
@@ -39,11 +40,28 @@ const fetchUsers = () => axiosBase.get("users");
 
 
 const MyEventPage = ({ route }) => {
+    const { selectedEvent } = route.params;
     const [userList, setUserList] = useState([]);
     const [selectedWinner, setSelectedWinner] = useState("");
+    const [showWarningModal, setShowWarningModal] = useState(false);
+    const [eventParticipants, setEventParticipants] = useState(selectedEvent.participants);
+    const [requestedParticipants, setRequestedParticipants] = useState(selectedEvent.requestedToParticipate);
 
-    const { selectedEvent } = route.params;
-    console.log(selectedEvent);
+    const handleCompleteEvent = () => {
+        if (!selectedWinner) {
+            setShowWarningModal(true);
+        } else {
+            completeEvent(selectedEvent._id, selectedEvent.hostedBy, selectedEvent.participants, selectedWinner._id);
+        }
+    };
+
+    const updateParticipants = (user_id) => {
+        setEventParticipants((prevParticipants) => [...prevParticipants, user_id]);
+
+        setRequestedParticipants((prevParticipants) =>
+            prevParticipants.filter((id) => id !== user_id)
+        );
+    };
 
     function getUsernameFromId(userId) {
         const user = userList.find((user) => user._id === userId);
@@ -97,7 +115,7 @@ const MyEventPage = ({ route }) => {
                                 <AttendeesInfo
                                     userList={userList}
                                     host={selectedEvent.hostedBy}
-                                    participants={selectedEvent.participants}
+                                    participants={eventParticipants}
                                 />
                             )}
                         </View>
@@ -105,8 +123,9 @@ const MyEventPage = ({ route }) => {
                             {userList.length > 0 && (
                                 <RequestedParticipantInfo
                                     userList={userList}
-                                    requestedToParticipate={selectedEvent.requestedToParticipate}
+                                    requestedToParticipate={requestedParticipants}
                                     event_id={selectedEvent._id}
+                                    onUpdateParticipants={updateParticipants}
                                 />
                             )}
                         </View>
@@ -137,18 +156,26 @@ const MyEventPage = ({ route }) => {
                         </View>
                         <View styles={styles.attendeeList}>
                             {selectedEvent.isCompleted === "false" ? (
-                                <Pressable onPress={() => completeEvent(selectedEvent._id, selectedEvent.hostedBy, selectedEvent.participants, selectedWinner._id)}><Text>Complete Event</Text></Pressable>
+                                <Pressable onPress={() => handleCompleteEvent}><Text>Complete Event</Text></Pressable>
                             ) : (
                                 <Text>This event is already completed</Text>
                             )}
                         </View>;
-
                     </Card.Content>
                     <View >
                         <Text>Event Prize:</Text>
                         <MonsterImageSelection collectionId={selectedEvent.prizeCollection_id} />
                     </View>
                 </Card>
+                <Modal
+                    visible={showWarningModal}
+                    onRequestClose={() => setShowWarningModal(false)}
+                >
+                    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                        <Text>Please select a winner before completing the event.</Text>
+                        <Button onPress={() => setShowWarningModal(false)}>OK</Button>
+                    </View>
+                </Modal>
             </SafeAreaView>
         </ScrollView >
     );
