@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   FlatList,
+  Text,
   Image,
   StyleSheet,
   View,
@@ -98,12 +99,18 @@ const WatchList = ({ watchList }) => {
 
   return (
     <View style={{ flex: 1 }}>
-      <FlatList
+      {currentWatchList.length === 0 ?(
+        <Card style={styles.placeholderCard}>
+          <Text style={{color: "white"}}>Your watch list will be displayed here</Text>
+        </Card>
+      ): (
+        <FlatList
         data={currentWatchList}
         renderItem={renderItem}
         keyExtractor={(item) => item._id}
         numColumns={1}
-      />
+        />
+        )}
     </View>
   );
 };
@@ -118,6 +125,13 @@ const styles = StyleSheet.create({
     marginRight: 10,
     borderRadius: 10,
     justifyContent: "space-between",
+  },
+  placeholderCard: {
+    height: 100,
+    marginLeft: 10,
+    marginRight: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   eventInfoContainer: {
