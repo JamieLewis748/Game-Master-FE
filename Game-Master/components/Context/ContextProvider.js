@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { UserContext, DbUserContext } from "./UserContext";
-import { SocketContext } from "./SocketContest";
+import { SocketContext } from "./SocketContext";
 import { NotificationCountContext } from "./NotificationCountContext";
 import { WatchListContext } from "./WatchListContext";
 

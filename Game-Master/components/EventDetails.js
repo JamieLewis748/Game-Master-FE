@@ -27,7 +27,7 @@ import DescriptionInfo from "./EventDetails-Components/DescriptionInfo";
 import axios from "axios";
 import requestInvite from "./APIs/requestInvite";
 import { DbUserContext } from "./Context/UserContext";
-import MonsterImageSelection from "./CreateEvent-Components/monsterImageSelect";
+import MonsterImageSelection from "./CreateEvent-Components/MonsterImageSelect";
 import completeEvent from "./APIs/completeEvent";
 
 const axiosBase = axios.create({

@@ -15,7 +15,7 @@ import { Picker } from "@react-native-picker/picker";
 import postNewEvent from "./APIs/postEvent";
 import { DbUserContext } from "./Context/UserContext";
 import { fetchCollections } from "./APIs/getCollections";
-import MonsterImageSelection from "./CreateEvent-Components/monsterImageSelect";
+import MonsterImageSelection from "./CreateEvent-Components/MonsterImageSelect";
 
 const CreateEvent = ({ navigation }) => {
   const { dbUser, setDbUser } = useContext(DbUserContext);

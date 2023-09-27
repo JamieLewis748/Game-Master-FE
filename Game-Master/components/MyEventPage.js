@@ -28,7 +28,7 @@ import TimeInfo from "./EventDetails-Components/TimeInfo";
 import DescriptionInfo from "./EventDetails-Components/DescriptionInfo";
 import axios from "axios";
 import completeEvent from "./APIs/completeEvent";
-import MonsterImageSelection from "./CreateEvent-Components/monsterImageSelect";
+import MonsterImageSelection from "./CreateEvent-Components/MonsterImageSelect";
 import { Picker } from "@react-native-picker/picker";
 
 
