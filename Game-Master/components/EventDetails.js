@@ -29,6 +29,8 @@ import EventHeading from "./EventDetails-Components/EventHeading";
 import axios from "axios";
 import requestInvite from "./APIs/requestInvite";
 import { DbUserContext } from "./Context/UserContext";
+import modifyWatchList from "./APIs/modifyWatchList";
+import { useNavigation } from "@react-navigation/native";
 
 const axiosBase = axios.create({
   baseURL: "https://game-master-be.onrender.com/api/",
@@ -38,10 +40,16 @@ const fetchUsers = () => axiosBase.get("users");
 
 const EventDetails = ({ route }) => {
   const { selectedEvent } = route.params;
-  const {dbUser} = useContext(DbUserContext)
-  const [requestInviteState, setRequestInviteState] = useState("Request Invite")
-
+  const { dbUser } = useContext(DbUserContext);
+  const [requestInviteState, setRequestInviteState] = useState("Request Invite");
   const [userList, setUserList] = useState([]);
+  const [isWatched, setIsWatched] = useState(false);
+  const navigation = useNavigation();
+  
+  useEffect(() => {
+  dbUser.watchList.includes(selectedEvent._id) ? setIsWatched(true) : setIsWatched(false); 
+  }, [])
+  
 
   useEffect(() => {
     fetchUsers()
@@ -52,6 +60,11 @@ const EventDetails = ({ route }) => {
         console.error("Error fetching events: ", err);
       });
   }, []);
+
+  const handleWatchlist = (selectedEvent) => {
+    (isWatched === true)? setIsWatched(false) : setIsWatched (true)
+    modifyWatchList(dbUser._id, selectedEvent._id);
+  };
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -65,7 +78,7 @@ const EventDetails = ({ route }) => {
         <Card
           style={{
             display: "flex",
-  
+
             justifyContent: "space-around",
             alignItems: "center",
             height: "97%",
@@ -75,9 +88,9 @@ const EventDetails = ({ route }) => {
             marginBottom: 5,
           }}
         >
-            <View>
-              <EventHeading gameInfo={selectedEvent.gameInfo} />
-            </View>
+          <View>
+            <EventHeading gameInfo={selectedEvent.gameInfo} />
+          </View>
           <Card.Content>
             <View>
               <Image
@@ -122,24 +135,99 @@ const EventDetails = ({ route }) => {
             >
               {selectedEvent.participants.includes(dbUser._id) ||
               selectedEvent.requestedToParticipate.includes(dbUser._id) ? (
-                <Text style={styles.alreadyReq}>Already requested</Text>
+                <>
+                  {isWatched === true ? (
+                    <>
+                      <Button
+                        title="Watchlist"
+                        mode="contained"
+                        colour="purple"
+                        style={styles.cardButtons}
+                        onPress={() =>handleWatchlist(selectedEvent)}
+                      >
+                        <Text>Remove from WatchList</Text>
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        title="Watchlist"
+                        mode="contained"
+                        colour="purple"
+                        style={styles.cardButtons}
+                        onPress={() =>
+                          handleWatchlist(selectedEvent)}
+                      >
+                        <Text>Add to WatchList</Text>
+                      </Button>
+                    </>
+                  )}
+                  <Text style={styles.alreadyReq}>Already requested</Text>
+                  <Button
+                    title="BackToEventList"
+                    mode="contained"
+                    colour="purple"
+                    style={styles.cardButtons}
+                    onPress={() => navigation.navigate("EventsPage")}
+                  >
+                    <Text>Back to Events</Text>
+                  </Button>
+                </>
               ) : (
-                <Button
-                  mode="contained"
-                  colour="purple"
-                  style={styles.cardButtons}
-                  onPress={() => {
-                    if (requestInviteState === "Request Invite") {
-                      requestInvite(
-                        selectedEvent._id,
-                        dbUser._id,
-                        setRequestInviteState
-                      );
-                    }
-                  }}
-                >
-                  <Text>{requestInviteState}</Text>
-                </Button>
+                <>
+                  {isWatched === true ? (
+                    <>
+                      <Button
+                        title="Watchlist"
+                        mode="contained"
+                        colour="purple"
+                        style={styles.cardButtons}
+                        onPress={() =>
+                          handleWatchlist(selectedEvent)}
+                      >
+                        <Text>Remove from WatchList</Text>
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        title="Watchlist"
+                        mode="contained"
+                        colour="purple"
+                        style={styles.cardButtons}
+                            onPress={() =>
+                              handleWatchlist(selectedEvent)}
+                      >
+                        <Text>Add to WatchList</Text>
+                      </Button>
+                    </>
+                  )}
+                  <Button
+                    mode="contained"
+                    colour="purple"
+                    style={styles.cardButtons}
+                    onPress={() => {
+                      if (requestInviteState === "Request Invite") {
+                        requestInvite(
+                          selectedEvent._id,
+                          dbUser._id,
+                          setRequestInviteState
+                        );
+                      }
+                    }}
+                  >
+                    <Text>{requestInviteState}</Text>
+                  </Button>
+                  <Button
+                    title="BackToEventList"
+                    mode="contained"
+                    colour="purple"
+                    style={styles.cardButtons}
+                    onPress={() => navigation.navigate("EventsPage")}
+                  >
+                    <Text>Back to Events</Text>
+                  </Button>
+                </>
               )}
             </View>
           </Card.Actions>
@@ -170,6 +258,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     backgroundColor: "purple",
+    marginBottom: 15,
+    marginTop: 15,
   },
   alreadyReq: {
     display: "flex",

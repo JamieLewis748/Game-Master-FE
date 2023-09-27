@@ -1,17 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
 import { FlatList, Image, StyleSheet, View, Animated, TouchableWithoutFeedback, Button, SafeAreaView, ScrollView } from "react-native";
 import { Card, Paragraph, IconButton } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
-import { UserContext, DbUserContext } from "../Context/UserContext";
-import axios from "axios";
+import { DbUserContext } from "../Context/UserContext";
 import modifyWatchList from "../APIs/modifyWatchList";
 import cancelEvent from "../APIs/handleEventCancel";
+import { useNavigation } from "@react-navigation/native";
 
 
 const EventList = ({ currentEventList }) => {
   const { dbUser, setDbUser } = useContext(DbUserContext);
-  const navigation = useNavigation();
-
+  const navigation = useNavigation()
   const handleMouseEnter = () => {
     // Animated.spring(Scale, {
     //   toValue: 1.05,
@@ -28,9 +26,8 @@ const EventList = ({ currentEventList }) => {
     // }).start();
   };
 
-
   const handleWatchlist = (event) => {
-    modifyWatchList(dbUser._id, event._id)
+    modifyWatchList(dbUser._id, event._id);
   };
 
   const handleCancel = (event) => {
@@ -63,8 +60,8 @@ const EventList = ({ currentEventList }) => {
                   <>
                     <Image
                       source={require(`../../assets/gameType/${
-                          event.gameType.split(" ")[0]
-                        }.jpg`)}
+                        event.gameType.split(" ")[0]
+                      }.jpg`)}
                       style={styles.eventImage}
                     />
                   </>
