@@ -49,8 +49,12 @@ const AccountPage = ({ navigation }) => {
   const { socket, setSocket } = useContext(SocketContext);
   const { watchList, setWatchList} = useContext(WatchListContext)
 
-  setDbUser({...dbUser, myCreatures: collectionData})
-  console.log(dbUser);
+  useEffect(() => {
+    // setDbUser({...dbUser, myCreatures: collectionData})
+    setDbUser(dbUser)
+    console.log(dbUser);
+  }, [])
+  
   
   
   if (user === null) {
