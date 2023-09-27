@@ -128,6 +128,7 @@ function App() {
             <Stack.Screen name="MainDrawer" component={MainDrawer} />
             <Stack.Screen name="EventDetails" component={EventDetails} />
             <Stack.Screen name="EventList" component={EventList} />
+            <Stack.Screen name="MyEventPage" component={MyEventPage} />
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>
