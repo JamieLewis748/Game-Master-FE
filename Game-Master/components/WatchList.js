@@ -102,7 +102,7 @@ const WatchList = ({ watchList }) => {
 
   const renderItem = ({ item }) => <EventItem event={item} />;
 
-  return (
+  return ( 
     <View style={{ flex: 1 }}>
       {currentWatchList.length === 0 ? (
         <Card style={styles.placeholderCard}>
@@ -118,7 +118,7 @@ const WatchList = ({ watchList }) => {
           numColumns={1}
         />
       )}
-    </View>
+      </View>
   );
 };
 
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     justifyContent: "center",
     alignItems: "center",
-  },
+  }
 });
 
 export default WatchList;
