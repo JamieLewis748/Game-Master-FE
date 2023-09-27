@@ -6,6 +6,8 @@ import {
   View,
   ScrollView,
   Pressable,
+  Dimensions,
+  useWindowDimensions,
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
 
@@ -52,58 +54,62 @@ const EventDetails = ({ route }) => {
   }, []);
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <SafeAreaView
         style={{
           backgroundColor: "purple",
-          height: "100%",
-          overflow: "hidden",
+          display: "flex",
+          flex: 1,
         }}
       >
         <Card
           style={{
-            margin: "auto",
+            display: "flex",
+  
+            justifyContent: "space-around",
+            alignItems: "center",
             height: "97%",
-            marginTop: 10,
+            width: "95%",
+            margin: "auto",
+            marginTop: 5,
+            marginBottom: 5,
           }}
         >
-          {/* <Card.Content style={styles.eventCard}> */}
-          {/* <Card.Cover source={{ uri: selectedEvent.image }} /> */}
-
-          <View style={styles.eventCard}>
-            <Image
-              style={styles.eventImage}
-              source={require(`../assets/gameType/${
-                selectedEvent.gameType.split(" ")[0]
-              }.jpg`)}
-            />
-          </View>
-          <View>
-            <EventHeading gameInfo={selectedEvent.gameInfo} />
-          </View>
-          <View style={styles.eventAllInfo}>
-            <View style={styles.eventView}>
-              <TimeInfo time={selectedEvent.dateTime} />
-              <DateInfo date={selectedEvent.dateTime} />
+            <View>
+              <EventHeading gameInfo={selectedEvent.gameInfo} />
             </View>
-            <View style={styles.eventView}>
-              <CapacityInfo
-                capacity={selectedEvent.capacity}
-                participants={selectedEvent.participants.length}
+          <Card.Content>
+            <View>
+              <Image
+                style={styles.eventImage}
+                source={require(`../assets/gameType/${
+                  selectedEvent.gameType.split(" ")[0]
+                }.jpg`)}
               />
-              <PublicInfo public={selectedEvent.public} />
             </View>
-            <View styles={styles.attendeeList}>
-              {userList.length > 0 && (
-                <AttendeesInfo
-                  userList={userList}
-                  host={selectedEvent.hostedBy}
-                  participants={selectedEvent.participants}
+            <View style={styles.eventAllInfo}>
+              <View style={styles.eventView}>
+                <TimeInfo time={selectedEvent.dateTime} />
+                <DateInfo date={selectedEvent.dateTime} />
+              </View>
+              <View style={styles.eventView}>
+                <CapacityInfo
+                  capacity={selectedEvent.capacity}
+                  participants={selectedEvent.participants.length}
                 />
-              )}
+                <PublicInfo public={selectedEvent.public} />
+              </View>
+              <View styles={styles.attendeeList}>
+                {userList.length > 0 && (
+                  <AttendeesInfo
+                    userList={userList}
+                    host={selectedEvent.hostedBy}
+                    participants={selectedEvent.participants}
+                  />
+                )}
+              </View>
             </View>
-          </View>
-          {/* </Card.Content> */}
+          </Card.Content>
           <Card.Actions>
             <View
               style={{
@@ -144,15 +150,19 @@ const EventDetails = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-  eventCard: {},
+  eventCard: {
+  },
   eventView: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
   eventImage: {
     width: 400,
-    height: 250,
-    margin: 15,
+    height: 300,
+    marginLeft: 25,
+    marginRight: 25,
+    display: "flex",
+    justifyContent: "center",
     borderRadius: 10,
   },
   cardButtons: {
@@ -167,14 +177,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "purple",
     padding: 10,
-    borderRadius: 15
+    borderRadius: 15,
   },
   eventAllInfo: {
     marginLeft: 25,
     marginRight: 25,
     display: "flex",
     justifyContent: "center",
-  }
+  },
 });
 
 export default EventDetails;
