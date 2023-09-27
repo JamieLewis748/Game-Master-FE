@@ -17,6 +17,7 @@ import {
   StyleSheet,
   ImageBackground,
   ScrollView,
+  FlatList,
 } from "react-native";
 
 import XPBar from "./AccountPage-Components/XPBar";
@@ -25,11 +26,20 @@ import AccountPageEventList from "./AccountPage-Components/AccountPageEventList"
 import { fetchUserByUserId } from "./APIs/returnUsers";
 import { UserContext, DbUserContext } from "./Context/UserContext";
 import { auth } from "./Authentication/firebase-config";
-import { signOut, onAuthStateChanged } from "firebase/auth";
+import { signOut, onAuthStateChanged, browserPopupRedirectResolver } from "firebase/auth";
 import WatchList from "./WatchList";
 import { SocketContext } from "./Context/SocketContext";
 import io from 'socket.io-client';
 import { WatchListContext } from "./Context/WatchListContext";
+import MonsterImageSelection from "./CreateEvent-Components/MonsterImageSelect";
+
+
+// const axiosBase = axios.create({
+//   baseURL: "https://game-master-be.onrender.com/api/",
+// });
+// const fetchUsers = () => axiosBase.get("users");
+
+
 
 const AccountPage = ({ navigation }) => {
   const [currentEventList, setcurrentEventList] = useState([]);
@@ -37,34 +47,45 @@ const AccountPage = ({ navigation }) => {
   const { dbUser, setDbUser } = useContext(DbUserContext);
   const { socket, setSocket } = useContext(SocketContext);
   const { watchList, setWatchList} = useContext(WatchListContext)
-
+  const [userList, setUserList] = useState()
+  
+  
   if (user === null) {
     navigation.navigate("Login");
   }
-
+  
   useEffect(() => {
     const newSocket = io('https://socket-server-3xoa.onrender.com');
-
+    
     newSocket.on('connect', () => {
       console.log('Connected to the WebSocket server');
       newSocket.emit('join', dbUser.username);
     });
-
+    
     setSocket(newSocket)
   }, [])
-
+  
   useEffect(() => {
     setWatchList(dbUser.watchList)
   }, [])
-
+  
   // useEffect(() => {
-  //   const unsubscribe = auth.onAuthStateChanged((user) => {
-  //     setUser(user);
+  //   fetchUsers()
+  //   .then(({ data }) => {
+  //     setUserList(data);
+  //     const currentUser = data.filter((user) => {
+  //       user.myCreatures.length > 0
+  //     console.log(user);
+  //     })
+  //     console.log(currentUser);
+
+  //   })
+  //   .catch((err) => {
+  //     console.error("Error fetching events: ", err);
   //   });
-
-  //   return () => unsubscribe();
   // }, []);
-
+  // console.log(dbUser._id);
+  
 
   async function logout() {
     try {
@@ -123,6 +144,25 @@ const AccountPage = ({ navigation }) => {
         </Card.Content>
       </Card>
       <View>
+        {dbUser.myCreatures && dbUser.myCreatures.length > 0 ? (
+          <FlatList 
+          data={dbUser.myCreatures} 
+          renderItem={({ item }) => (
+          <View>
+            <MonsterImageSelection collectionId={item._id} />
+          </View>
+          )} 
+          keyExtractor={(item) => item._id}
+          >
+
+          </FlatList>
+          ) : (
+      <Card style={styles.collectionCard}>
+        <Text>Your collection will appear here </Text>
+      </Card>
+      )}
+      </View>
+      <View>
         <Paragraph style={{ marginLeft: 12, fontWeight: "bold", fontSize: 15 }}>
           Watching:
         </Paragraph>
@@ -161,6 +201,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
     height: "45%",
     marginBottom: 10,
+  },
+  collectionCard: {
+    height: 100,
+    marginLeft: 10,
+    marginRight: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
   cover: {
     width: 100,
