@@ -48,12 +48,11 @@ const MyEventPage = ({ route }) => {
   const [requestedParticipants, setRequestedParticipants] = useState(selectedEvent.requestedToParticipate);
 
   const handleCompleteEvent = () => {
-    console.log("here")
     if (!selectedWinner) {
       setShowWarningModal(true);
     } else {
       console.log(selectedWinner)
-      completeEvent(selectedEvent._id, selectedEvent.hostedBy, eventParticipants, selectedWinner);
+        completeEvent(selectedEvent._id, selectedEvent.hostedBy, eventParticipants, selectedWinner, selectedEvent.duration);
     }
   };
 

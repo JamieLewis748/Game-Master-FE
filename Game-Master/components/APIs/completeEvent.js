@@ -1,15 +1,22 @@
 import axios from "axios";
 
 
-const completeEvent = (eventId, host_id, participants, winner) => { 
-    console.log(eventId)
-    console.log(host_id)
-    console.log(participants)
-    console.log(winner)
-        return axios.patch(`https://game-master-be.onrender.com/api/events/${eventId}`, { host_id: host_id, participants: participants, winner: winner })
-        .then((response) => {
-            console.log(response)
-        })
+const completeEvent = (event_id, host_id, participants, winner, duration) => { 
+    console.log(eventId, '<== eventId')
+    console.log(host_id, "<== hostId");
+    console.log(participants, "<== participants");
+    console.log(winner, "<== winner");
+    console.log(duration, "<== duration");
+        return axios
+          .patch(`https://game-master-be.onrender.com/api/events/${event_id}`, {
+            "host_id": host_id,
+            "participants": participants,
+            "winner": winner,
+            "duration": duration
+          })
+          .then((response) => {
+            console.log(response);
+          });
 };
 
 export default completeEvent;
