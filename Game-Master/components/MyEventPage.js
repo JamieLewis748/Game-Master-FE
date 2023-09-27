@@ -27,6 +27,7 @@ import TimeInfo from "./EventDetails-Components/TimeInfo";
 import DescriptionInfo from "./EventDetails-Components/DescriptionInfo";
 import axios from "axios";
 import completeEvent from "./APIs/completeEvent";
+import MonsterImageSelection from "./CreateEvent-Components/monsterImageSelect";
 
 
 const axiosBase = axios.create({
@@ -36,10 +37,10 @@ const axiosBase = axios.create({
 const fetchUsers = () => axiosBase.get("users");
 
 const MyEventPage = ({ route }) => {
-    const [userList, setUserList] = useState([])
+    const [userList, setUserList] = useState([]);
 
     const { selectedEvent } = route.params;
-    console.log(selectedEvent)
+    console.log(selectedEvent);
 
     useEffect(() => {
         fetchUsers()
@@ -103,31 +104,16 @@ const MyEventPage = ({ route }) => {
                         </View>
                         <View styles={styles.attendeeList}>
                             {selectedEvent.isCompleted === "false" ? (
-                                <Pressable onPress={() => completeEvent(selectedEvent._id, selectedEvent.hostedBy,selectedEvent.participants, selectedEvent.participants[0])}><Text>Complete Event</Text></Pressable>
+                                <Pressable onPress={() => completeEvent(selectedEvent._id, selectedEvent.hostedBy, selectedEvent.participants, selectedEvent.participants[0])}><Text>Complete Event</Text></Pressable>
                             ) : (
                                 <Text>This event is already completed</Text>
                             )}
                         </View>
                     </Card.Content>
-                    <Card.Actions>
-                        <View
-                            style={{
-                                flex: 1,
-                                marginTop: 40,
-                                marginLeft: 100,
-                                marginRight: 100,
-                                marginBottom: 100,
-                            }}
-                        >
-                            {/* <Button
-                                mode="contained"
-                                colour="purple"
-                                onPress={() => navigation.navigate("Event Details", {})}
-                            >
-                                Request Invite
-                            </Button> */}
-                        </View>
-                    </Card.Actions>
+                    <View >
+                        <Text>Event Prize:</Text>
+                        <MonsterImageSelection collectionId={selectedEvent.prizeCollection_id} />
+                    </View>
                 </Card>
             </SafeAreaView>
         </ScrollView>
