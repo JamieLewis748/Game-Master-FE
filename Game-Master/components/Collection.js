@@ -61,14 +61,14 @@ const CollectionsList = () => {
     return pastelColors[randomIndex];
   };
 
-  
+
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Collections</Text>
       <View style={styles.gridContainer}>
         {collectionData.map((item, index) => (
-          <View style={styles.gridItem} key={item.id}>
+          <View style={styles.gridItem} key={item._id}>
             <FlipCard
               friction={15}
               perspective={200}
@@ -81,7 +81,7 @@ const CollectionsList = () => {
               {/* Front Card */}
               <View style={[styles.cardFront]}>
                 <Image
-                  source={localImages[index]} 
+                  source={localImages[index]}
                   style={styles.image}
                   onError={(error) => console.log("Image failed to load. Error:", error)}
                 />
@@ -126,10 +126,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContainer: {
-    backgroundColor: 'transparent', 
+    backgroundColor: 'transparent',
   },
   modalView: {
     backgroundColor: 'white',
@@ -171,10 +171,10 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
   },
   cardFrontText: {
-    fontWeight: 'bold', 
-    color: 'white',    
+    fontWeight: 'bold',
+    color: 'white',
   },
-  
+
   cardBack: {
     backgroundColor: "rgb(134,160,177)",
     borderWidth: 2,

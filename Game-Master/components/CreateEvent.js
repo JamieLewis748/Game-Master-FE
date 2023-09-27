@@ -199,15 +199,14 @@ const CreateEvent = ({ navigation }) => {
             }
           />
 
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Event Date (YYYY-MM-DD)</Text>
-            <TextInput
-              style={[styles.input, dateError ? styles.errorInput : null]}
-              placeholder="YYYY-MM-DD"
-              value={date}
-              onChangeText={setDate}
-            />
-          </View>
+
+          <TextInput
+            style={[styles.input, dateError ? styles.errorInput : null]}
+            placeholder="Date YYYY-MM-DD"
+            value={date}
+            onChangeText={setDate}
+          />
+
 
           <TextInput
             style={[styles.input, timeError ? styles.errorInput : null]}
@@ -233,7 +232,6 @@ const CreateEvent = ({ navigation }) => {
             <Button title="Reward" onPress={toggleCollectionDropdown} />
             {selectedCollection && (
               <View style={styles.selectedCollection}>
-                <Text>Selected Collection:</Text>
                 <Text>{selectedCollection.name}</Text>
                 <MonsterImageSelection collectionId={selectedCollection._id} />
               </View>
@@ -341,7 +339,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
   },
   // input: {
   //   width: "80%",
