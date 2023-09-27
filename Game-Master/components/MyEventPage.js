@@ -30,6 +30,8 @@ import axios from "axios";
 import completeEvent from "./APIs/completeEvent";
 import MonsterImageSelection from "./CreateEvent-Components/MonsterImageSelect";
 import { Picker } from "@react-native-picker/picker";
+import { useNavigation } from "@react-navigation/native";
+
 
 
 const axiosBase = axios.create({
@@ -46,6 +48,8 @@ const MyEventPage = ({ route }) => {
   const [showWarningModal, setShowWarningModal] = useState(false);
   const [eventParticipants, setEventParticipants] = useState(selectedEvent.participants);
   const [requestedParticipants, setRequestedParticipants] = useState(selectedEvent.requestedToParticipate);
+  const navigation = useNavigation();
+
 
   const handleCompleteEvent = () => {
     if (!selectedWinner) {
@@ -176,7 +180,7 @@ const MyEventPage = ({ route }) => {
                     <Button
                       style={styles.cardButtons}
                       title="backToEvents"
-                      onPress={() => {}}
+                      onPress={() => {navigation.navigate("EventsPage")}}
                     >
                       <Text>Back to Events</Text>
                     </Button>
