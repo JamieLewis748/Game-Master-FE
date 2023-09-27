@@ -15,19 +15,13 @@ import {
 } from "react-native";
 import { useState, useEffect, useRef } from "react";
 import io from 'socket.io-client';
-import { UserContext, DbUserContext } from "./Context/UserContext";
+import { DbUserContext } from "./Context/UserContext";
 
 const friends = [
     { username: "jamie1234" },
     { username: "bananaCatMassiv" },
     { username: "tree1" },
-    { username: "ian123" },
-    { username: "user5" },
-    { username: "user6" },
-    { username: "user7" },
-    { username: "user8" },
-    { username: "user9" },
-    { username: "user10" }
+    { username: "ian123" }
 ];
 
 const Chat = () => {
