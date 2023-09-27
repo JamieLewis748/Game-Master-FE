@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { View, Text, FlatList, Pressable } from "react-native";
 import axios from "axios";
 import io from "socket.io-client";
-import { SocketContext } from "./Context/SocketContest";
+import { SocketContext } from "./Context/SocketContext";
 import { DbUserContext } from "./Context/UserContext";
 
 const MessagesScreen = () => {

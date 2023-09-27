@@ -27,14 +27,16 @@ import { UserContext, DbUserContext } from "./Context/UserContext";
 import { auth } from "./Authentication/firebase-config";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import WatchList from "./WatchList";
-import { SocketContext } from "./Context/SocketContest";
+import { SocketContext } from "./Context/SocketContext";
 import io from 'socket.io-client';
+import { WatchListContext } from "./Context/WatchListContext";
 
 const AccountPage = ({ navigation }) => {
   const [currentEventList, setcurrentEventList] = useState([]);
   const { user, setUser } = useContext(UserContext);
   const { dbUser, setDbUser } = useContext(DbUserContext);
   const { socket, setSocket } = useContext(SocketContext);
+  const { watchList, setWatchList} = useContext(WatchListContext)
 
   if (user === null) {
     navigation.navigate("Login");
@@ -49,6 +51,10 @@ const AccountPage = ({ navigation }) => {
     });
 
     setSocket(newSocket)
+  }, [])
+
+  useEffect(() => {
+    setWatchList(dbUser.watchList)
   }, [])
 
   // useEffect(() => {
@@ -128,7 +134,7 @@ const AccountPage = ({ navigation }) => {
             marginRight: 10,
           }}
         >
-          <WatchList watchList={dbUser.watchList} />
+          <WatchList watchList={watchList} />
         </Card>
         <Button
           onPress={() => {
