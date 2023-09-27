@@ -28,6 +28,7 @@ import DescriptionInfo from "./EventDetails-Components/DescriptionInfo";
 import axios from "axios";
 import completeEvent from "./APIs/completeEvent";
 import MonsterImageSelection from "./CreateEvent-Components/monsterImageSelect";
+import { Picker } from "@react-native-picker/picker";
 
 
 const axiosBase = axios.create({
@@ -38,6 +39,7 @@ const fetchUsers = () => axiosBase.get("users");
 
 const MyEventPage = ({ route }) => {
     const [userList, setUserList] = useState([]);
+    const [selectedWinner, setSelectedWinner] = useState("");
 
     const { selectedEvent } = route.params;
     console.log(selectedEvent);
@@ -102,13 +104,36 @@ const MyEventPage = ({ route }) => {
                                 />
                             )}
                         </View>
+                        <View style={styles.attendeeList}>
+                            {userList.length > 0 && (
+                                <Picker
+                                    selectedValue={selectedWinner}
+                                    onValueChange={(itemValue, itemIndex) => {
+                                        const selectedWinnerIndex = parseInt(itemValue);
+                                        const selectedWinner = selectedEvent.participants[selectedWinnerIndex];
+                                        console.log('Selected Winner:', selectedWinner);
+                                        setSelectedWinner(selectedWinner);
+                                    }}
+                                >
+                                    <Picker.Item label="Select a Winner" value={null} />
+                                    {selectedEvent.participants.map((participant, index) => (
+                                        <Picker.Item
+                                            key={index.toString()}
+                                            label={participant.username}
+                                            value={index.toString()}
+                                        />
+                                    ))}
+                                </Picker>
+                            )}
+                        </View>
                         <View styles={styles.attendeeList}>
                             {selectedEvent.isCompleted === "false" ? (
-                                <Pressable onPress={() => completeEvent(selectedEvent._id, selectedEvent.hostedBy, selectedEvent.participants, selectedEvent.participants[0])}><Text>Complete Event</Text></Pressable>
+                                <Pressable onPress={() => completeEvent(selectedEvent._id, selectedEvent.hostedBy, selectedEvent.participants, selectedWinner._id)}><Text>Complete Event</Text></Pressable>
                             ) : (
                                 <Text>This event is already completed</Text>
                             )}
-                        </View>
+                        </View>;
+
                     </Card.Content>
                     <View >
                         <Text>Event Prize:</Text>
