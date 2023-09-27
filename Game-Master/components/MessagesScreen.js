@@ -6,24 +6,12 @@ import { SocketContext } from "./Context/SocketContext";
 import { DbUserContext } from "./Context/UserContext";
 import { NotificationCountContext } from "./Context/NotificationCountContext";
 import notificationPingSound from '../assets/Sound/ping-82822.mp3'
-import { useIsFocused, useNavigation, useRoute } from "@react-navigation/native"
+import { useNavigation, useRoute } from "@react-navigation/native"
 
 const MessagesScreen = () => {
   const { socket } = useContext(SocketContext);
-  const { dbUser } = useContext(DbUserContext);
   const { setNotificationCount } = useContext(NotificationCountContext)
-  const [messageData, setMessageData] = useState([
-    { msg: "Hello, how are you?" },
-    { msg: "I just wanted to say hi!" },
-    { msg: "What are your plans for the weekend?" },
-    { msg: "Can you help me with this task?" },
-    { msg: "The weather is lovely today." },
-    { msg: "I'll be there in 10 minutes." },
-    { msg: "Did you watch that new movie?" },
-    { msg: "Don't forget to buy groceries." },
-    { msg: "Let's get wasted" },
-    { msg: "Happy birthday! 🎉" },
-  ]);
+  const [messageData, setMessageData] = useState([]);
 
   const navigation = useNavigation();
   const route = useRoute();
@@ -56,55 +44,8 @@ const MessagesScreen = () => {
     };
   }, [route]);
 
-  const sendNotification = (to) => {
-    if (socket) {
-      socket.emit("notification", {
-        type: "msg",
-        from: dbUser.username,
-        to: to,
-      });
-    } else {
-      console.log("Socket is not connected. Unable to send notification.");
-    }
-  };
-
   return (
     <View style={{ flex: 1 }}>
-      <Pressable
-        style={({ pressed }) => [
-          {
-            backgroundColor: pressed ? "lightgray" : "white",
-          },
-          styles.pressable,
-        ]}
-        onPress={() => sendNotification("jamie1234")}
-      >
-        <Text>jamie1234</Text>
-      </Pressable>
-
-      <Pressable
-        style={({ pressed }) => [
-          {
-            backgroundColor: pressed ? "lightgray" : "white",
-          },
-          styles.pressable,
-        ]}
-        onPress={() => sendNotification("bananaCatMassiv")}
-      >
-        <Text>bananaCatMassiv</Text>
-      </Pressable>
-
-      <Pressable
-        style={({ pressed }) => [
-          {
-            backgroundColor: pressed ? "lightgray" : "white",
-          },
-          styles.pressable,
-        ]}
-        onPress={() => sendNotification("tree1")}
-      >
-        <Text>tree1</Text>
-      </Pressable>
       <Text style={{ fontSize: 24, fontWeight: "bold", margin: 16 }}>
         Messages
       </Text>
