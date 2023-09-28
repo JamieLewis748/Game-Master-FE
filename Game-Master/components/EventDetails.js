@@ -47,12 +47,7 @@ const EventDetails = ({ route }) => {
   const { watchList, setWatchList } = useContext(WatchListContext);
   const [requestInviteState, setRequestInviteState] = useState("Request Invite");
   const [userList, setUserList] = useState([]);
-  const [isWatched, setIsWatched] = useState(false);
   const navigation = useNavigation();
-  
-  useEffect(() => {
-  dbUser.watchList.includes(selectedEvent._id) ? setIsWatched(true) : setIsWatched(false); 
-  }, [])
   
 
   useEffect(() => {
@@ -66,7 +61,6 @@ const EventDetails = ({ route }) => {
   }, []);
 
   const handleWatchlist = (selectedEvent) => {
-    (isWatched === true)? setIsWatched(false) : setIsWatched (true)
     modifyWatchList(dbUser._id, selectedEvent._id, setWatchList, watchList);
   };
 
@@ -145,7 +139,7 @@ const EventDetails = ({ route }) => {
               {selectedEvent.participants.includes(dbUser._id) ||
               selectedEvent.requestedToParticipate.includes(dbUser._id) ? (
                 <>
-                  {isWatched === true ? (
+                  {watchList.includes(selectedEvent._id) ? (
                     <>
                       <Button
                         title="Watchlist"
@@ -183,7 +177,7 @@ const EventDetails = ({ route }) => {
                 </>
               ) : (
                 <>
-                  {isWatched === true ? (
+                  {watchList.includes(selectedEvent._id) ? (
                     <>
                       <Button
                         title="Watchlist"

@@ -15,13 +15,11 @@ const modifyWatchList = async (user_id, event_id, setWatchList, watchList) => {
           setWatchList([...prevWatch, event_id]) 
           console.log(watchList)
         } else {
-          console.log('inside else')
           const eventRemoved = prevWatch.filter((eachEvent) => {
             if(eachEvent !== event_id){
               return eachEvent
             }
           });
-          console.log("🚀 ~ file: modifyWatchList.js:20 ~ .then ~ eventRemoved:", eventRemoved)
           setWatchList(eventRemoved)
          
         }
