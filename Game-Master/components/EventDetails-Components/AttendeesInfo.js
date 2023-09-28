@@ -5,7 +5,6 @@ import { View, Image } from "react-native";
 const AttendeesInfo = ({ userList, host, participants }) => {
   const users = userList.filter((user) => participants.includes(user._id));
 
-  console.log(users)
 
   return (
     <View>

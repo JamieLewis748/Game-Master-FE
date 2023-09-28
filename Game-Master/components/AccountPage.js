@@ -45,6 +45,11 @@ const AccountPage = ({ navigation }) => {
   const { socket, setSocket } = useContext(SocketContext);
   const { watchList, setWatchList } = useContext(WatchListContext);
 
+
+   
+
+  
+
   if (user === null) {
     navigation.navigate("Login");
   }
@@ -56,13 +61,16 @@ const AccountPage = ({ navigation }) => {
       console.log("Connected to the WebSocket server");
       newSocket.emit("join", dbUser.username);
     });
-
-    setSocket(newSocket);
-  }, []);
-
+    setSocket(newSocket)
+  }, [])
+  
   useEffect(() => {
     setWatchList(dbUser.watchList);
   }, []);
+  
+
+
+
 
   async function logout() {
     try {
