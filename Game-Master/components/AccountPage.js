@@ -26,50 +26,41 @@ import AccountPageEventList from "./AccountPage-Components/AccountPageEventList"
 import { fetchUserByUserId } from "./APIs/returnUsers";
 import { UserContext, DbUserContext } from "./Context/UserContext";
 import { auth } from "./Authentication/firebase-config";
-import { signOut, onAuthStateChanged, browserPopupRedirectResolver } from "firebase/auth";
+import {
+  signOut,
+  onAuthStateChanged,
+  browserPopupRedirectResolver,
+} from "firebase/auth";
 import WatchList from "./WatchList";
 import { SocketContext } from "./Context/SocketContext";
-import io from 'socket.io-client';
+import io from "socket.io-client";
 import { WatchListContext } from "./Context/WatchListContext";
 import MonsterImageSelection from "./CreateEvent-Components/MonsterImageSelect";
 import { collectionData } from "../assets/data/collection.data";
-
-
-// const axiosBase = axios.create({
-//   baseURL: "https://game-master-be.onrender.com/api/",
-// });
-// const fetchUsers = () => axiosBase.get("users");
-
-
 
 const AccountPage = ({ navigation }) => {
   const [currentEventList, setcurrentEventList] = useState([]);
   const { user, setUser } = useContext(UserContext);
   const { dbUser, setDbUser } = useContext(DbUserContext);
   const { socket, setSocket } = useContext(SocketContext);
-  const { watchList, setWatchList} = useContext(WatchListContext)
+  const { watchList, setWatchList } = useContext(WatchListContext);
 
-  useEffect(() => {
-    setDbUser({ ...dbUser, myCreatures: collectionData })
-    setWatchList(dbUser.watchList)
-    // setDbUser(dbUser)
-  }, [])
+
+   
+
   
-  console.log(watchList, 'WATCH LISTTTTT');
-  
-  
+
   if (user === null) {
     navigation.navigate("Login");
   }
-  
+
   useEffect(() => {
-    const newSocket = io('https://socket-server-3xoa.onrender.com');
-    
-    newSocket.on('connect', () => {
-      console.log('Connected to the WebSocket server');
-      newSocket.emit('join', dbUser.username);
+    const newSocket = io("https://socket-server-3xoa.onrender.com");
+
+    newSocket.on("connect", () => {
+      console.log("Connected to the WebSocket server");
+      newSocket.emit("join", dbUser.username);
     });
-    
     setSocket(newSocket)
   }, [])
   
@@ -77,23 +68,9 @@ const AccountPage = ({ navigation }) => {
     setWatchList(dbUser.watchList);
   }, []);
   
-  // useEffect(() => {
-  //   fetchUsers()
-  //   .then(({ data }) => {
-  //     setUserList(data);
-  //     const currentUser = data.filter((user) => {
-  //       user.myCreatures.length > 0
-  //     console.log(user);
-  //     })
-  //     console.log(currentUser);
 
-  //   })
-  //   .catch((err) => {
-  //     console.error("Error fetching events: ", err);
-  //   });
-  // }, []);
-  // console.log(dbUser._id);
-  
+
+
 
   async function logout() {
     try {
@@ -104,7 +81,6 @@ const AccountPage = ({ navigation }) => {
       console.log(error.message);
     }
   }
-
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "purple" }}>
@@ -136,7 +112,9 @@ const AccountPage = ({ navigation }) => {
             />
           )}
 
-          <Title style={{ color: "black", fontWeight: 700, fontSize:30 }}>{dbUser.username}</Title>
+          <Title style={{ color: "black", fontWeight: 700, fontSize: 30 }}>
+            {dbUser.username}
+          </Title>
           <Text style={styles.xpText}>
             Level: {dbUser.characterStats[0].level}
           </Text>
@@ -187,7 +165,9 @@ const AccountPage = ({ navigation }) => {
           onPress={() => {
             logout();
           }}
-        >Logout </Button>
+        >
+          Logout{" "}
+        </Button>
       </ScrollView>
     </SafeAreaView>
   );
@@ -235,7 +215,7 @@ const styles = StyleSheet.create({
   xpText: {
     color: "black",
     fontWeight: 600,
-    marginTop: 5
+    marginTop: 5,
   },
   navcard: {
     backgroundColor: "white",

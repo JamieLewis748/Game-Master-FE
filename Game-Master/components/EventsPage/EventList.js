@@ -134,7 +134,6 @@ const EventList = ({ currentEventList }) => {
                         </Text>
                       </Pressable>
                     )}
-
                     {event.hostedBy === dbUser._id ? (
                       <Pressable
                         style={styles.cardButtons}
@@ -226,6 +225,4 @@ const styles = StyleSheet.create({
     backgroundColor: "purple"
   },
 });
-
-
 export default EventList;

@@ -219,7 +219,7 @@ const EventDetails = ({ route }) => {
                     <Text>{requestInviteState}</Text>
                   </Button>
                   <Button
-                    title="BackToEventList"
+                    title="backToEvents"
                     mode="contained"
                     colour="purple"
                     style={styles.cardButtons}
