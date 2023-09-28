@@ -79,7 +79,6 @@ const EventList = ({ currentEventList }) => {
                     </Paragraph>
                     <Paragraph style={styles.infoSubParagraph}>
                       <IconButton icon="map-marker" size={16} color="gray" />
-                      {/* {event.location} */}
                     </Paragraph>
                   </View>
                 </View>
@@ -126,20 +125,6 @@ const EventList = ({ currentEventList }) => {
                           Watchlist
                         </Text>
                       </Pressable>
-                      {event.hostedBy === dbUser._id ? (
-                        <Pressable
-                          style={styles.cardButtons}
-                          title="Cancel"
-                          mode="contained"
-                          onPress={() => handleCancel(event)}
-                        >
-                          <Text style={{ color: "white", fontSize: 16 }}>
-                            Cancel
-                          </Text>
-                        </Pressable>
-                      ) : (
-                        <></>
-                      )}
                     </View>
                   </>
                 )}
