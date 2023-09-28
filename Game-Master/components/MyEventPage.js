@@ -191,7 +191,10 @@ const MyEventPage = ({ route }) => {
               )}
             </View>
             <View styles={styles.attendeeList}>
-              {selectedEvent.isCompleted === "false" ? (
+              {selectedEvent.isCompleted === "true" ? (
+                <Text>This event is already completed</Text>
+                
+              ) : (
                 <>
                   <Button
                     style={styles.cardButtons}
@@ -215,8 +218,6 @@ const MyEventPage = ({ route }) => {
                     <Text>Back to Events</Text>
                   </Button>
                 </>
-              ) : (
-                <Text>This event is already completed</Text>
               )}
             </View>
           </Card.Content>
