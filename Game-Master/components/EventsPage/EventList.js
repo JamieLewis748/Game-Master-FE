@@ -78,7 +78,8 @@ const EventList = ({ currentEventList }) => {
                       {event.participants.length}/{event.capacity}
                     </Paragraph>
                     <Paragraph style={styles.infoSubParagraph}>
-                      <IconButton icon="map-marker" size={16} color="gray" />
+                    <IconButton icon="clock-outline" size={16} color="gray" />
+                      {event.dateTime.toString().substring(9, 14)}
                     </Paragraph>
                   </View>
                 </View>
