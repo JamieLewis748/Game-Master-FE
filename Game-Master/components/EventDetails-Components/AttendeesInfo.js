@@ -1,9 +1,8 @@
 import React from "react";
 import { Paragraph, IconButton } from "react-native-paper";
-import { View } from "react-native";
+import { View, Image } from "react-native";
 
 const AttendeesInfo = ({ userList, host, participants }) => {
-  console.log(userList)
   const users = userList.filter((user) => participants.includes(user._id));
 
   console.log(users)
@@ -18,12 +17,21 @@ const AttendeesInfo = ({ userList, host, participants }) => {
       </View>
       {users &&
         users.map((user, index) => (
-          <Paragraph style={{ marginLeft: 30 }} key={index}>
-            {"\u2022 "}
-            {user.username}
-            {user._id === host && " (Host)"}
-          </Paragraph>
+          <View style={{ flexDirection: "row", alignItems: "center" }} key={index}>
+            <Paragraph>
+              {"\u2022 "}
+              {user.img_url ? (
+              <Image
+                source={{ uri: user.img_url }}
+                style={{ width: 60, height: 60, borderRadius:30 }}
+              />
+            ) : null}
+              {user.username}
+              {user._id === host && " (Host)"}
+            </Paragraph>
+          </View>
         ))}
+
     </View>
   );
 };
