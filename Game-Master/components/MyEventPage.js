@@ -102,6 +102,7 @@ const MyEventPage = ({ route }) => {
       });
   }, []);
 
+
   return (
       <ScrollView>
         <SafeAreaView
