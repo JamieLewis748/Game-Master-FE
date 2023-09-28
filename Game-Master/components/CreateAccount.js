@@ -27,26 +27,21 @@ const CreateAccount = ({ navigation }) => {
 
   async function handleSignUp() {
     try {
-
-      const response = await postNewUser(fullName, username, registerEmail, imageUrl, characterName, registerPassword);
+      const response = await postNewUser(
+        fullName,
+        username,
+        registerEmail,
+        imageUrl,
+        characterName,
+        registerPassword
+      );
       if (response.acknowledged === true) {
         navigation.navigate("MainTabs", { screen: "Account" });
       }
-    }
-    catch (error) {
-
+    } catch (error) {
       console.log(error.message);
     }
   }
-
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
-  //     setUser(user);
-  //   });
-  //   return () => {
-  //     unsubscribe();
-  //   };
-  // }, []);
 
   return (
     <View style={styles.container}>
@@ -116,6 +111,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
+    backgroundColor: "purple",
   },
   card: {
     width: "100%",
