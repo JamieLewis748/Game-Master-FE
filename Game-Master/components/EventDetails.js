@@ -94,7 +94,7 @@ const EventDetails = ({ route }) => {
           <View>
             <EventHeading gameInfo={selectedEvent.gameInfo} />
           </View>
-          <Card.Content>
+          <Card.Content style={styles.cardContentContainer}>
             <View>
               <Image
                 style={styles.eventImage}
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   eventImage: {
-    width: 400,
+    // width: "90%",
     height: 300,
     marginLeft: 25,
     marginRight: 25,
