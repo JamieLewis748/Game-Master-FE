@@ -23,7 +23,7 @@ const friends = [
     { username: "bananaCatMassiv" },
     { username: "tree1" },
     { username: "ian123" },
-    { username:"northcoders1" }
+    { username:"northcoder1" }
 ];
 
 const Chat = () => {

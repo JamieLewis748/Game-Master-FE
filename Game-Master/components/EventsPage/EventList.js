@@ -6,6 +6,8 @@ import modifyWatchList from "../APIs/modifyWatchList";
 import cancelEvent from "../APIs/handleEventCancel";
 import { useNavigation } from "@react-navigation/native";
 import { WatchListContext } from "../Context/WatchListContext";
+import DateInfo from "../EventDetails-Components/DateInfo";
+import TimeInfo from "../EventDetails-Components/TimeInfo";
 
 const EventList = ({ currentEventList }) => {
   const {watchList, setWatchList} = useContext(WatchListContext)
@@ -67,16 +69,14 @@ const EventList = ({ currentEventList }) => {
               <View style={styles.infoContainer}>
                 <View style={styles.infoSubContainer}>
                   <Paragraph style={styles.infoSubParagraph}>
-                    <IconButton icon="calendar" size={16} color="gray" />
-                    {event.dateTime.toString().substring(0, 8)}
+                    <DateInfo date={event.dateTime} />
                   </Paragraph>
                   <Paragraph style={styles.infoSubParagraph}>
                     <IconButton icon="account-group" size={16} color="gray" />
                     {event.participants.length}/{event.capacity}
                   </Paragraph>
                   <Paragraph style={styles.infoSubParagraph}>
-                    <IconButton icon="clock-outline" size={16} color="gray" />
-                    {event.dateTime.toString().substring(9, 14)}
+                    <TimeInfo time={event.dateTime} />
                   </Paragraph>
                 </View>
               </View>

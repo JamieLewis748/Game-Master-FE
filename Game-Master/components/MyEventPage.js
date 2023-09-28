@@ -56,13 +56,12 @@ const MyEventPage = ({ route }) => {
   const navigation = useNavigation();
   const { dbUser, setDbUser } = useContext(DbUserContext);
 
-
+  console.log(selectedEvent)
 
   const handleCompleteEvent = () => {
     if (!selectedWinner) {
       setShowWarningModal(true);
     } else {
-      console.log(selectedWinner)
       completeEvent(selectedEvent._id, selectedEvent.hostedBy, eventParticipants, selectedWinner, selectedEvent.duration);
     }
   };
@@ -79,6 +78,7 @@ const MyEventPage = ({ route }) => {
     const user = userList.find((user) => user._id === userId);
     return user ? user.username : 'Unknown User';
   }
+
   const handleCancel = () => {
     cancelEvent(dbUser._id, selectedEvent._id)
       .then(() => {
@@ -135,7 +135,7 @@ const MyEventPage = ({ route }) => {
                 capacity={selectedEvent.capacity}
                 participants={selectedEvent.participants.length}
               />
-              <PublicInfo public={selectedEvent.public} />
+              <PublicInfo isPublic={selectedEvent.isPublic} />
             </View>
             <View style={styles.eventView}>
               <View styles={styles.attendeeList}>
@@ -164,7 +164,8 @@ const MyEventPage = ({ route }) => {
                   userList={userList}
                   requestedToParticipate={requestedParticipants}
                   event_id={selectedEvent._id}
-                  onUpdateParticipants={updateParticipants}
+                  setEventParticipants={setEventParticipants}
+                  setRequestedParticipants={setRequestedParticipants}
                 />
               )}
             </View>
