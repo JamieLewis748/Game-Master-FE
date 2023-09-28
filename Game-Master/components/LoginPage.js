@@ -138,15 +138,16 @@ const styles = StyleSheet.create({
   },
 
   logoContainer: {
-    marginBottom: 10,
+    marginBottom: 20,
+    width: 220,
+    height: 180,
+    borderRadius: 30,
   },
 
   logo: {
     flex: 1,
-    width: 350,
-    height: 200,
-    borderRadius: 0,
-    resizeMode: "contain",
+    borderRadius: 10,
+    resizeMode: "stretch",
   },
 
   buttonContainer: {
