@@ -10,12 +10,13 @@ import {
   Modal,
   Image,
 } from "react-native";
+import { Button } from "react-native-paper";
+
 import { Picker } from "@react-native-picker/picker";
 import postNewEvent from "./APIs/postEvent";
 import { DbUserContext } from "./Context/UserContext";
 import { fetchCollections } from "./APIs/getCollections";
 import MonsterImageSelection from "./CreateEvent-Components/MonsterImageSelect";
-import {Button} from "react-native-paper"
 
 const CreateEvent = ({ navigation }) => {
   const { dbUser, setDbUser } = useContext(DbUserContext);
@@ -69,7 +70,6 @@ const CreateEvent = ({ navigation }) => {
     capacity: "",
     participants: [dbUser._id],
     prizeCollection_id: "1",
-    isPublic: true
   });
 
   const validateDate = (text) => {
@@ -143,12 +143,9 @@ const CreateEvent = ({ navigation }) => {
         capacity: eventData.capacity,
         participants: eventData.participants,
         prizeCollection_id: eventData.prizeCollection_id,
-        isPublic: eventData.isPublic
       });
+      console.log(postResult.data);
       if (postResult.data.acknowledged === true) {
-
-        eventData.dateTime = dateTime
-
         eventData._id = postResult.data.insertedId;
         navigation.navigate("My Event", {
           selectedEvent: eventData,
@@ -169,7 +166,7 @@ const CreateEvent = ({ navigation }) => {
       <SafeAreaView style={styles.container}>
         <View style={styles.card}>
           <View style={styles.inputContainer}>
-            <Text>Game Type</Text>
+            <Text style={{ color: "white", fontWeight: "bold" }}>Game Type</Text>
             <Picker
               selectedValue={eventData.gameType}
               style={styles.picker}
@@ -231,38 +228,44 @@ const CreateEvent = ({ navigation }) => {
             keyboardType="numeric"
           />
 
+
+
           <View style={styles.inputContainer}>
-          <Button
-              mode="contained"
-              textColor="white"
-              style={{
-                backgroundColor: "purple",
+            <Text style={{
+              color: "white", fontWeight: "bold"
+            }} >Prize Collection</Text>
+            <Picker
+              selectedValue={selectedCollection ? selectedCollection.name : ""}
+              style={styles.picker}
+              onValueChange={(itemValue) => {
+                const collection = collections.find((c) => c.name === itemValue);
+                selectCollection(collection);
               }}
-              onPress={toggleCollectionDropdown}
             >
-              Select Prize
-            </Button>
-            {selectedCollection && (
-              <View style={styles.selectedCollection}>
-                <Text>{selectedCollection.name}</Text>
-                <MonsterImageSelection collectionId={selectedCollection._id} />
-              </View>
-            )}
-            {collectionDropdownVisible && (
-              <View style={styles.collectionDropdown}>
-                {collections.map((collection) => (
-                  <Button
-                    key={collection._id}
-                    title={collection.name}
-                    textColor="purple"
-                    onPress={() => selectCollection(collection)}
-                  >
-                    {collection.name}
-                  </Button>
-                ))}
-              </View>
-            )}
+              {collections.map((collection) => (
+                <Picker.Item
+                  key={collection._id}
+                  label={collection.name}
+                  value={collection.name}
+                />
+              ))}
+            </Picker>
+            <View style={styles.selectedCollection}>
+              {selectedCollection ? (
+                <>
+                  <Text>{selectedCollection.name}</Text>
+                  <MonsterImageSelection
+                    collectionId={selectedCollection._id}
+                    style={styles.picker}
+                  />
+                </>
+              ) : (
+                <View style={{ height: 80, width: 80 }} />
+              )}
+            </View>
           </View>
+
+
 
           <TextInput
             style={styles.input}
@@ -329,9 +332,9 @@ const CreateEvent = ({ navigation }) => {
           <View style={styles.switchContainer}>
             <Text style={styles.label}>Public Event</Text>
             <Switch
-              value={eventData.isPublic}
+              value={eventData.public}
               onValueChange={(value) =>
-                setEventData({ ...eventData, isPublic: value })
+                setEventData({ ...eventData, public: value })
               }
             />
           </View>
@@ -339,19 +342,20 @@ const CreateEvent = ({ navigation }) => {
 
         <View style={styles.submitButton}>
           <Button
-            title="Login"
+            title="Create Event"
             mode="contained"
             textColor="white"
             style={{
-              backgroundColor: "purple",
+              backgroundColor: "rgb(37,35,42)",
             }}
             onPress={handleCreateEvent}
           >
             Create Event
           </Button>
+
         </View>
       </SafeAreaView>
-    </ScrollView>
+    </ScrollView >
   );
 };
 
@@ -360,20 +364,23 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "purple",
+    color: "white"
+  },
+  selectedCollection: {
+    width: 50,
+    height: 50,
   },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
+    width: "90%",
+    height: 80,
   },
-  // input: {
-  //   width: "80%",
-  //   height: 40,
-  //   borderColor: "gray",
-  //   borderWidth: 1,
-  //   marginVertical: 10,
-  //   paddingLeft: 10,
-  // },
+  input: {
+    backgroundColor: "white"
+  },
   label: {
     fontSize: 16,
     fontWeight: "bold",
@@ -385,20 +392,22 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   card: {
-    width: "100%",
+    width: "90%",
     padding: 20,
     borderRadius: 10,
-    backgroundColor: "white",
+    backgroundColor: "rgb(37,35,42)",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
     alignItems: "center",
+    color: "white"
   },
   picker: {
-    width: "50%",
+    width: "30%",
     marginLeft: 10,
+
   },
   submitButton: {
     marginTop: 20,
@@ -416,12 +425,14 @@ const styles = StyleSheet.create({
     height: 180
   },
   input: {
+    backgroundColor: "white",
     height: 40,
     width: "100%",
     borderColor: "gray",
     borderWidth: 1,
     marginTop: 10,
     paddingHorizontal: 10,
+    borderRadius: 10,
   },
 
   errorInput: {
@@ -435,3 +446,5 @@ const styles = StyleSheet.create({
 });
 
 export default CreateEvent;
+
+
