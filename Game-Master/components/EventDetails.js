@@ -64,6 +64,8 @@ const EventDetails = ({ route }) => {
     modifyWatchList(dbUser._id, selectedEvent._id, setWatchList, watchList);
   };
 
+  console.log(selectedEvent)
+
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <SafeAreaView
@@ -107,7 +109,7 @@ const EventDetails = ({ route }) => {
                   capacity={selectedEvent.capacity}
                   participants={selectedEvent.participants.length}
                 />
-                <PublicInfo public={selectedEvent.public} />
+                <PublicInfo public={selectedEvent.isPublic} />
               </View>
               <View styles={styles.attendeeList}>
                 {userList.length > 0 && (
