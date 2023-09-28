@@ -69,7 +69,7 @@ const CreateEvent = ({ navigation }) => {
     capacity: "",
     participants: [dbUser._id],
     prizeCollection_id: "1",
-    public: true
+    isPublic: true
   });
 
   const validateDate = (text) => {
@@ -143,9 +143,12 @@ const CreateEvent = ({ navigation }) => {
         capacity: eventData.capacity,
         participants: eventData.participants,
         prizeCollection_id: eventData.prizeCollection_id,
-        isPublic: eventData.public
+        isPublic: eventData.isPublic
       });
       if (postResult.data.acknowledged === true) {
+
+        eventData.dateTime = dateTime
+
         eventData._id = postResult.data.insertedId;
         navigation.navigate("My Event", {
           selectedEvent: eventData,
@@ -326,9 +329,9 @@ const CreateEvent = ({ navigation }) => {
           <View style={styles.switchContainer}>
             <Text style={styles.label}>Public Event</Text>
             <Switch
-              value={eventData.public}
+              value={eventData.isPublic}
               onValueChange={(value) =>
-                setEventData({ ...eventData, public: value })
+                setEventData({ ...eventData, isPublic: value })
               }
             />
           </View>
