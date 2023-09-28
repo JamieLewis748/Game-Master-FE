@@ -149,8 +149,8 @@ const MyEventPage = ({ route }) => {
               </View>
 
 
-              <View>
-                {/* <Text>Event Prize:</Text> */}
+              <View style={{marginTop: 10}}>
+                
                 <MonsterImageSelection
                   collectionId={selectedEvent.prizeCollection_id}
                 />
@@ -171,17 +171,12 @@ const MyEventPage = ({ route }) => {
             </View>
             <View style={styles.attendeeList}>
               {userList.length > 0 && (
-
                 < Picker
                   selectedValue={selectedWinner}
                   onValueChange={(itemValue, itemIndex) => {
-                    console.log(itemValue)
                     const selectedWinnerIndex = eventParticipants.indexOf(itemValue);
-                    console.log(selectedWinnerIndex)
                     const selectedWinner = eventParticipants[selectedWinnerIndex];
-                    console.log('Selected Winner:', selectedWinner);
                     setSelectedWinner(selectedWinner);
-
                   }}
                 >
                   <Picker.Item label="Select a Winner" value={null} />
@@ -224,7 +219,6 @@ const MyEventPage = ({ route }) => {
                 <Text>This event is already completed</Text>
               )}
             </View>
-            ;
           </Card.Content>
           {/* <View>
             <Text>Event Prize:</Text>
@@ -270,8 +264,8 @@ const MyEventPage = ({ route }) => {
         </Modal>
       </SafeAreaView>
     </ScrollView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   eventCard: {},
@@ -296,6 +290,10 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     marginTop: 15,
   },
+  attendeeList: {
+    marginTop: 10,
+    marginBottom: 10,
+  }
 });
 
 export default MyEventPage;
