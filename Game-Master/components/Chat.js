@@ -13,9 +13,10 @@ import {
     Alert,
     ImageBackground,
 } from "react-native";
+import { Button } from "react-native-paper"
 import { useState, useEffect, useRef } from "react";
-import io from 'socket.io-client';
 import { DbUserContext } from "./Context/UserContext";
+import { SocketContext } from "./Context/SocketContext";
 
 const friends = [
     { username: "jamie1234" },
@@ -29,7 +30,7 @@ const Chat = () => {
     const [sendingTo, setSendingTo] = useState("User 1")
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState("");
-    const [socket, setSocket] = useState(null);
+    const {socket, setSocket} = useContext(SocketContext);
     const [loading, setLoading] = useState(false)
     const scrollViewRef = useRef(null);
 
@@ -44,14 +45,7 @@ const Chat = () => {
     }
 
     useEffect(() => {
-        const newSocket = io('https://socket-server-3xoa.onrender.com');
-
-        newSocket.on('connect', () => {
-            console.log('Connected to the WebSocket server');
-            newSocket.emit('join', dbUser.username);
-        });
-
-        newSocket.on('chat message', (msg) => {
+        socket.on('chat message', (msg) => {
             setMessages((prevMessages) => [...prevMessages, { isMyMessage: false, msg: msg.receivedMessage }]);
 
             if (scrollViewRef.current) {
@@ -59,9 +53,8 @@ const Chat = () => {
             }
         });
 
-        setSocket(newSocket);
         return () => {
-            newSocket.off('chat message');
+            socket.off('chat message');
         };
     }, []);
 
@@ -70,7 +63,7 @@ const Chat = () => {
         <View style={styles.centered}>
             <View style={styles.friendsContainer}>
                 <Text style={styles.chatTitle}>Friend chat</Text>
-                <ScrollView showsVerticalScrollIndicator = {false}>
+                <ScrollView showsVerticalScrollIndicator={false}>
                     {friends.map((friend) => (
                         <View key={friend.username} style={styles.friendContainer}>
                             <Pressable
@@ -90,8 +83,8 @@ const Chat = () => {
                             scrollViewRef.current.scrollToEnd({ animated: true });
                         }
                     }}
-                    showsVerticalScrollIndicator = {false}
-                    >
+                    showsVerticalScrollIndicator={false}
+                >
                     {messages.map((message, index) => (
                         <Text
                             key={index}
@@ -105,8 +98,30 @@ const Chat = () => {
                     ))}
                 </ScrollView>
                 <View>
-                    <TextInput value={message} onChangeText={setMessage}></TextInput>
-                    <Pressable onPress={sendMessage}><Text>Send</Text></Pressable>
+                    <TextInput
+                        value={message}
+                        onChangeText={setMessage}
+                        style={{
+                            borderWidth: 1,
+                            borderColor: 'gray',
+                            borderRadius: 10,
+                            padding: 10,
+                            marginBottom: 10,
+                        }}
+                    />
+                    <Button
+                        onPress={sendMessage}
+                        title="Send"
+                        color="#007AFF"
+                        style={{
+                            padding: 10,
+                            borderRadius: 5,
+                            borderWidth: 1,
+                            borderColor: '#007AFF',
+                        }}>
+                    <Text style={{color:"#000000"}}>Send</Text>
+                    
+                    </Button>
                 </View>
             </View>
 

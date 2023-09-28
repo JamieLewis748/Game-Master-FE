@@ -11,7 +11,7 @@ import { useNavigation, useRoute } from "@react-navigation/native"
 const MessagesScreen = () => {
   const { socket } = useContext(SocketContext);
   const { setNotificationCount } = useContext(NotificationCountContext)
-  const [messageData, setMessageData] = useState([]);
+  const [messageData, setMessageData] = useState([{ msg: "Thank you for joining Game-Master :)" }]);
 
   const navigation = useNavigation();
   const route = useRoute();
@@ -53,8 +53,8 @@ const MessagesScreen = () => {
         data={messageData}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
-          <View style={{ padding: 16 }}>
-            <Text>{item.msg}</Text>
+          <View style={styles.messageContainer}>
+            <Text style={styles.messageText}>{item.msg}</Text>
           </View>
         )}
       />
@@ -67,6 +67,16 @@ const styles = {
     padding: 10,
     margin: 10,
     borderRadius: 5,
+  },
+  messageContainer: {
+    padding: 16,
+    borderWidth: 1,
+    borderColor: "#ddd", 
+    borderRadius: 8, 
+    marginBottom: 12,
+  },
+  messageText: {
+    fontSize: 16
   },
 };
 
