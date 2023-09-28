@@ -4,7 +4,6 @@ import {
   TextInput,
   StyleSheet,
   Image,
-  Button,
   View,
 } from "react-native";
 import { useState, useEffect, useContext } from "react";
@@ -15,6 +14,7 @@ import {
 import { auth } from "./Authentication/firebase-config";
 import { UserContext, DbUserContext } from "./Context/UserContext";
 import postNewUser from "./APIs/postUser";
+import { Button } from "react-native-paper";
 
 const CreateAccount = ({ navigation }) => {
   const [fullName, setFullName] = useState("");
@@ -98,7 +98,17 @@ const CreateAccount = ({ navigation }) => {
           value={characterName}
         />
         <View style={styles.buttonContainer}>
-          <Button title="Create Account" onPress={handleSignUp} />
+          <Button
+            title="Login"
+            mode="contained"
+            textColor="white"
+            style={{
+              backgroundColor: "purple",
+            }}
+            onPress={handleSignUp}
+          >
+            Create Account
+          </Button>
         </View>
       </View>
     </View>

@@ -5,7 +5,6 @@ import { View, Image } from "react-native";
 const AttendeesInfo = ({ userList, host, participants }) => {
   const users = userList.filter((user) => participants.includes(user._id));
 
-  console.log(users)
 
   return (
     <View>
@@ -23,7 +22,7 @@ const AttendeesInfo = ({ userList, host, participants }) => {
               {user.img_url ? (
               <Image
                 source={{ uri: user.img_url }}
-                style={{ width: 60, height: 60, borderRadius:30 }}
+                style={{ width: 30, height: 30, borderRadius: 15 }}
               />
             ) : null}
               {user.username}

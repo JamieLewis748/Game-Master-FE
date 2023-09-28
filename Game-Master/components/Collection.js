@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, Image, ScrollView, Modal, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  ScrollView,
+  Modal,
+  TouchableOpacity,
+} from "react-native";
 import axios from "axios";
 import FlipCard from "react-native-flip-card";
 
@@ -12,11 +20,11 @@ const localImages = [
 
 const pastelColors = [
   "#F7B385", // Peach
-  "#BEC8D8", // 
+  "#BEC8D8", //
   "#FFA07A", // LightSalmon
   "#C4E5C9", // Pistachio
   "#EFF57C", // Pastel Yellow
-  "#FCF1F2", // 
+  "#FCF1F2", //
   "#C8C3F8", // Lavander
 ];
 const axiosBase = axios.create({
@@ -61,11 +69,8 @@ const CollectionsList = () => {
     return pastelColors[randomIndex];
   };
 
-
-
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Collections</Text>
       <View style={styles.gridContainer}>
         {collectionData.map((item, index) => (
           <View style={styles.gridItem} key={item._id}>
@@ -83,7 +88,9 @@ const CollectionsList = () => {
                 <Image
                   source={localImages[index]}
                   style={styles.image}
-                  onError={(error) => console.log("Image failed to load. Error:", error)}
+                  onError={(error) =>
+                    console.log("Image failed to load. Error:", error)
+                  }
                 />
                 <Text style={styles.cardFrontText}>{item.name}</Text>
               </View>
@@ -93,7 +100,10 @@ const CollectionsList = () => {
                 styles.cardBack,
                 { backgroundColor: getRandomColor() }
               ]}>
-                <Text style={styles.cardBackText}>{item.name} Can also have more information in this card</Text>
+                {(item.name === 'fire')?<Text style={styles.cardBackText}>A powerful {item.name} creature, burning with competative desire</Text>:<></>}
+                {(item.name === 'grass')?<Text style={styles.cardBackText}>An ancient {item.name} creature, contains all the wisdom of the forest</Text>:<></>}
+                {(item.name === 'wind')?<Text style={styles.cardBackText}>A mighty {item.name} entity, strikes fear into opponents</Text>:<></>}
+                {(item.name === 'water')?<Text style={styles.cardBackText}>Lucky {item.name} being, able to flow with changing fortune</Text>:<></>}
               </View>
             </FlipCard>
           </View>
@@ -102,7 +112,10 @@ const CollectionsList = () => {
 
       {selectedImage && (
         <View style={styles.selectedImageView}>
-          <Image source={{ uri: selectedImage.img_url }} style={styles.selectedImage} />
+          <Image
+            source={{ uri: selectedImage.img_url }}
+            style={styles.selectedImage}
+          />
           <Text>{selectedImage.name}</Text>
         </View>
       )}
@@ -120,22 +133,22 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     paddingTop: 20,
-    backgroundColor: "rgb(190,190,190)",
+    backgroundColor: "purple",
   },
   centeredView: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContainer: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
   },
   modalView: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 10,
     padding: 20,
-    alignItems: 'center',
+    alignItems: "center",
     elevation: 5,
   },
   title: {
@@ -167,12 +180,12 @@ const styles = StyleSheet.create({
       width: 0,
       height: 5,
     },
-    shadowOpacity: 0.50,
+    shadowOpacity: 0.5,
     shadowRadius: 3.84,
   },
   cardFrontText: {
-    fontWeight: 'bold',
-    color: 'white',
+    fontWeight: "bold",
+    color: "white",
   },
 
   cardBack: {
@@ -190,12 +203,12 @@ const styles = StyleSheet.create({
       width: 0,
       height: 5,
     },
-    shadowOpacity: 0.50,
+    shadowOpacity: 0.5,
     shadowRadius: 3.84,
   },
   cardBackText: {
-    textAlign: 'center',
-    color: 'black',
+    textAlign: "center",
+    color: "black",
   },
   image: {
     margin: 5,
@@ -215,10 +228,10 @@ const styles = StyleSheet.create({
     height: 200,
   },
   modalView: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 10,
     padding: 20,
-    alignItems: 'center',
+    alignItems: "center",
     elevation: 5,
   },
   modalText: {
@@ -227,7 +240,7 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     fontSize: 16,
-    color: '#888',
+    color: "#888",
     marginTop: 10,
   },
 });
