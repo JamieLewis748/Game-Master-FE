@@ -278,8 +278,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   eventImage: {
-    width: 100,
-    height: 100,
+    width: "85%",
+    height: "85%",
     marginLeft: 25,
     marginRight: 25,
     display: "flex",
@@ -297,16 +297,16 @@ const styles = StyleSheet.create({
   attendeeList: {
     marginTop: 10,
     marginBottom: 10,
-  }, 
+  },
   pickers: {
     display: "flex",
     padding: 8,
-    backgroundColor: 'rgb(37, 35, 42)',
-    color: 'white',
+    backgroundColor: "rgb(37, 35, 42)",
+    color: "white",
     textAlign: "left",
     borderColor: "purple",
     borderRadius: 5,
-  }
+  },
 });
 
 export default MyEventPage;

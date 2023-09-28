@@ -118,79 +118,81 @@ const Chat = () => {
                             marginBottom: 10,
                         }}
                     />
-                    <Button
+                    <Pressable
                         onPress={sendMessage}
                         title="Send"
-                        color="#007AFF"
                         style={{
                             padding: 10,
                             borderRadius: 5,
                             borderWidth: 1,
                             borderColor: '#007AFF',
+                            
                         }}>
-                        <Text style={{ color: "#000000" }}>Send</Text>
+                        <Text style={{ color: "#000000", backgroundColor: "transparent" }}>Send</Text>
 
-                    </Button>
+                    </Pressable>
                 </View>
             </View>
-
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    centered: {
-        flex: 1,
-        flexDirection: 'row',
-    },
-    friendsContainer: {
-        flex: 3,
-        backgroundColor: '#F0F0F0',
-        padding: 16,
-    },
-    messagesContainer: {
-        flex: 7,
-        backgroundColor: '#FFFFFF',
-        padding: 16,
-    },
-    friendContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        marginBottom: 16,
-    },
-    friendText: {
-        fontWeight: 'bold',
-    },
-    button: {
-        backgroundColor: '#007BFF',
-        padding: 8,
-        borderRadius: 5,
-    },
-    buttonText: {
-        color: 'white',
-        textAlign: 'center',
-    },
-    chatTitle: {
-        fontWeight: 'bold',
-        marginBottom: 16,
-    },
-    message: {
-        padding: 10,
-        margin: 5,
-        borderRadius: 5,
-        maxWidth: '70%',
-    },
-    sent: {
-        backgroundColor: '#007bff',
-        color: '#fff',
-        textAlign: 'right',
-    },
-    received: {
-        backgroundColor: '#f0f0f0',
-        color: '#000',
-        textAlign: 'left',
-    },
+  centered: {
+    flex: 1,
+    flexDirection: "row",
+  },
+  friendsContainer: {
+    flex: 3,
+    backgroundColor: "grey",
+    padding: 16,
+  },
+  messagesContainer: {
+    flex: 7,
+    backgroundColor: "black",
+    padding: 16,
+  },
+  friendContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 16,
+    backgroundColor: "purple",
+    borderRadius: 10,
+  },
+  friendText: {
+    fontWeight: "bold",
+    backgroundColor: "transparent"
+  },
+  button: {
+    backgroundColor: "transparent",
+    padding: 8,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: "white",
+    textAlign: "center",
+  },
+  chatTitle: {
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
+  message: {
+    padding: 10,
+    margin: 5,
+    borderRadius: 5,
+      maxWidth: "70%",
+  },
+  sent: {
+    backgroundColor: "#007bff",
+    color: "#fff",
+    textAlign: "right",
+  },
+  received: {
+    backgroundColor: "#f0f0f0",
+    color: "#000",
+    textAlign: "left",
+  },
 });
 
 export default Chat;
