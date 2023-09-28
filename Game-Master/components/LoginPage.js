@@ -55,52 +55,13 @@ function LoginPage({ navigation }) {
     navigation.navigate("Create Account");
   };
 
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, (authUser) => {
-  //     setUser(authUser);
-  //   });
-
-  //   return () => {
-  //     unsubscribe();
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, (authUser) => {
-  //     setUser(authUser);
-  //   });
-
-  //   return () => {
-  //     unsubscribe();
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
-  //     setUser(authUser);
-
-  //     if (authUser) {
-  //       const response = await setDbUser(GetUser(authUser.email));
-  //       console.log(response);
-
-  //       if (response) {
-  //         navigation.navigate("MainTabs", { screen: "Account" });
-  //       }
-  //     }
-  //   });
-
-  //   return () => {
-  //     unsubscribe();
-  //   };
-  // }, [navigation]);
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
-        {/* <Image
+        <Image
           style={styles.logo}
           source="https://www.designevo.com/res/templates/thumb_small/banner-board-jungle-logo.webp"
-        /> */}
+        />
       </View>
       <View style={styles.card}>
         <Text style={{ fontSize: 20, alignSelf: "center", marginBottom: 5 }}>
@@ -127,12 +88,6 @@ function LoginPage({ navigation }) {
           <Button title="Create Account" onPress={handleSignUp} />
         </View>
       </View>
-      {/* <View style={styles.buttonContainer}>
-        <Button title="See events" onPress={handleEventLog} />
-      </View>
-      <View style={styles.buttonContainer}>
-        <Button title="Create Event" onPress={handleCreateEvent} />
-      </View> */}
     </SafeAreaView>
   );
 }
@@ -143,6 +98,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
+    backgroundColor: "purple",
   },
   card: {
     width: "90%",
