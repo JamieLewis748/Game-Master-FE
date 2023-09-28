@@ -82,13 +82,7 @@ const MyEventPage = ({ route }) => {
   const handleCancel = () => {
     cancelEvent(dbUser._id, selectedEvent._id)
       .then(() => {
-        Alert.alert('Event is cancelled', 'This event has been successfully cancelled',
-          [{
-            text: 'Ok',
-            onPress: () => {
-              navigation.navigate('EventsPage')
-            }
-          }])
+        navigation.navigate('EventsPage')
       })
   };
 
