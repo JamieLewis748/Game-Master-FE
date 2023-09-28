@@ -117,8 +117,9 @@ const MyEventPage = ({ route }) => {
             <View>
               <Image
                 style={styles.eventImage}
-                source={require(`../assets/gameType/${selectedEvent.gameType.split(" ")[0]
-                  }.jpg`)}
+                source={require(`../assets/gameType/${
+                  selectedEvent.gameType.split(" ")[0]
+                }.jpg`)}
               />
             </View>
             {/* <Card.Cover source={{ uri: selectedEvent.image }} /> */}
@@ -148,15 +149,12 @@ const MyEventPage = ({ route }) => {
                 )}
               </View>
 
-
-              <View style={{marginTop: 10}}>
-                
+              <View >
                 <MonsterImageSelection
+                  style={{ height: 50, width: 50 }}
                   collectionId={selectedEvent.prizeCollection_id}
                 />
               </View>
-
-
             </View>
             <View styles={styles.attendeeList}>
               {userList.length > 0 && (
@@ -171,11 +169,14 @@ const MyEventPage = ({ route }) => {
             </View>
             <View style={styles.attendeeList}>
               {userList.length > 0 && (
-                < Picker
+                <Picker
+                  style={styles.pickers}
                   selectedValue={selectedWinner}
                   onValueChange={(itemValue, itemIndex) => {
-                    const selectedWinnerIndex = eventParticipants.indexOf(itemValue);
-                    const selectedWinner = eventParticipants[selectedWinnerIndex];
+                    const selectedWinnerIndex =
+                      eventParticipants.indexOf(itemValue);
+                    const selectedWinner =
+                      eventParticipants[selectedWinnerIndex];
                     setSelectedWinner(selectedWinner);
                   }}
                 >
@@ -213,7 +214,9 @@ const MyEventPage = ({ route }) => {
                   <Button
                     style={styles.cardButtons}
                     title="backToEvents"
-                    onPress={() => { navigation.navigate("EventsPage") }}
+                    onPress={() => {
+                      navigation.navigate("EventsPage");
+                    }}
                   >
                     <Text>Back to Events</Text>
                   </Button>
@@ -250,14 +253,14 @@ const MyEventPage = ({ route }) => {
             <Button
               style={styles.cardButtons}
               title="cancel"
-              onPress={() => { }}
+              onPress={() => {}}
             >
               <Text>Cancel event</Text>
             </Button>
             <Button
               style={styles.cardButtons}
               title="backToEvents"
-              onPress={() => { }}
+              onPress={() => {}}
             >
               <Text>Back to Events</Text>
             </Button>
@@ -265,7 +268,7 @@ const MyEventPage = ({ route }) => {
         </Modal>
       </SafeAreaView>
     </ScrollView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -275,8 +278,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   eventImage: {
-    width: 250,
-    height: 250,
+    width: 100,
+    height: 100,
     marginLeft: 25,
     marginRight: 25,
     display: "flex",
@@ -294,6 +297,15 @@ const styles = StyleSheet.create({
   attendeeList: {
     marginTop: 10,
     marginBottom: 10,
+  }, 
+  pickers: {
+    display: "flex",
+    padding: 8,
+    backgroundColor: 'rgb(37, 35, 42)',
+    color: 'white',
+    textAlign: "left",
+    borderColor: "purple",
+    borderRadius: 5,
   }
 });
 

@@ -21,7 +21,7 @@ const MonsterImageSelection = ({ collectionId }) => {
     const imageType = collectionId;
 
     return (
-        <View>
+        <View >
             <Image source={getImageByType(imageType)} style={{ width: 50, height: 50 }} />
         </View>
     );

@@ -277,14 +277,17 @@ const styles = StyleSheet.create({
   prize: {
     display: "flex",
     justifyContent: "center",
-    width: "100%"
+    width: 50,
+    height: 50,
+    
   },
   prizeWrapper: {
     width: "100%",
-    height: 120,
+    height: 70,
     display: "flex",
     justifyContent: "center",
-    alignContent: "center"
+    alignContent: "center",
+    marginTop: 25
   }
 });
 
