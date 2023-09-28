@@ -23,7 +23,7 @@ const AttendeesInfo = ({ userList, host, participants }) => {
               {user.img_url ? (
               <Image
                 source={{ uri: user.img_url }}
-                style={{ width: 60, height: 60, borderRadius:30 }}
+                style={{ width: 30, height: 30, borderRadius: 15 }}
               />
             ) : null}
               {user.username}
