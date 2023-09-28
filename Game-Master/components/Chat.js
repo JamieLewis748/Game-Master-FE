@@ -111,8 +111,8 @@ const Chat = () => {
                         value={message}
                         onChangeText={setMessage}
                         style={{
-                            borderWidth: 1,
-                            borderColor: 'gray',
+                            borderWidth: 3,
+                            borderColor: 'purple',
                             borderRadius: 10,
                             padding: 10,
                             marginBottom: 10,
@@ -124,11 +124,11 @@ const Chat = () => {
                         style={{
                             padding: 10,
                             borderRadius: 5,
-                            borderWidth: 1,
-                            borderColor: '#007AFF',
+                            borderWidth: 3,
+                            borderColor: 'gray',
                             
                         }}>
-                        <Text style={{ color: "#000000", backgroundColor: "transparent" }}>Send</Text>
+                        <Text style={{ color: "#000000", backgroundColor: "transparent", textAlign: "center", fontWeight: 800}}>Send</Text>
 
                     </Pressable>
                 </View>
@@ -144,12 +144,12 @@ const styles = StyleSheet.create({
   },
   friendsContainer: {
     flex: 3,
-    backgroundColor: "grey",
+    backgroundColor: "rgb(37,35,42)",
     padding: 16,
   },
   messagesContainer: {
     flex: 7,
-    backgroundColor: "black",
+    backgroundColor: "gainsboro",
     padding: 16,
   },
   friendContainer: {
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   },
   friendText: {
     fontWeight: "bold",
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
   },
   button: {
     backgroundColor: "transparent",
@@ -176,21 +176,25 @@ const styles = StyleSheet.create({
   chatTitle: {
     fontWeight: "bold",
     marginBottom: 16,
+    color: "white",
   },
   message: {
     padding: 10,
     margin: 5,
     borderRadius: 5,
-      maxWidth: "70%",
+    maxWidth: "70%",
+    borderWidth: 5,
+    borderColor: "purple",
   },
   sent: {
-    backgroundColor: "#007bff",
+      backgroundColor: "darkviolet",
+      borderRadius: 10,
     color: "#fff",
     textAlign: "right",
   },
   received: {
-    backgroundColor: "#f0f0f0",
-    color: "#000",
+    backgroundColor: "purple",
+    color: "white",
     textAlign: "left",
   },
 });
