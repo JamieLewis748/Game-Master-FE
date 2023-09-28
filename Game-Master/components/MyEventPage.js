@@ -114,7 +114,7 @@ const MyEventPage = ({ route }) => {
           }}
         >
           <Card.Content style={styles.eventCard}>
-            <View>
+            <View style={{height: 300}}>
               <Image
                 style={styles.eventImage}
                 source={require(`../assets/gameType/${
@@ -123,7 +123,6 @@ const MyEventPage = ({ route }) => {
               />
             </View>
             {/* <Card.Cover source={{ uri: selectedEvent.image }} /> */}
-            {/* {console.log(selectedEvent)} */}
             <View>
               <DescriptionInfo gameInfo={selectedEvent.gameInfo} />
             </View>
@@ -272,7 +271,7 @@ const MyEventPage = ({ route }) => {
 }
 
 const styles = StyleSheet.create({
-  eventCard: {},
+  eventCard: { height: "100%" },
   eventView: {
     flexDirection: "row",
     justifyContent: "space-between",
