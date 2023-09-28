@@ -39,6 +39,8 @@ const EventList = ({ currentEventList }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const scale = new Animated.Value(1);
 
+    console.log(event)
+
     return (
       <SafeAreaView>
         <Pressable onPress={() => setIsExpanded(!isExpanded)}>

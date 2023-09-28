@@ -148,6 +148,7 @@ const MyEventPage = ({ route }) => {
                 )}
               </View>
 
+
               <View>
                 {/* <Text>Event Prize:</Text> */}
                 <MonsterImageSelection

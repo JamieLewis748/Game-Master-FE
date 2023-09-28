@@ -82,6 +82,8 @@ const AccountPage = ({ navigation }) => {
     }
   }
 
+  console.log(dbUser)
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "purple" }}>
       <Card style={styles.card}>
@@ -119,8 +121,8 @@ const AccountPage = ({ navigation }) => {
             Level: {dbUser.characterStats[0].level}
           </Text>
           <XPBar
-            currentXP={dbUser.characterStats[0].experience}
-            maxXP={dbUser.characterStats[0].experienceToLevelUp}
+            currentXP={Number(dbUser.characterStats[0].experience)}
+            maxXP={Number(dbUser.characterStats[0].experienceToLevelup)}
           />
           <View>
             <Text
