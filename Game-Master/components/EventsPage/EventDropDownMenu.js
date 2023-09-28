@@ -6,9 +6,11 @@ const DropDownMenu = ({ selectedValue, onValueChange, selectedTimeDateValue, onT
 
   return (
     <>
-      <Card style={{ margin: 10}}>
+      <Card style={{ margin: 10, backgroundColor: 'purple'}}>
         <View style={styles.dropdowns}>
-          <Text style={styles.pickers}>Date</Text>
+          <View style={styles.pickers}>
+          <Text style={styles.text} >Date</Text>
+          </View>
           <Picker
             style={styles.pickers}
             selectedValue={selectedTimeDateValue}
@@ -18,7 +20,10 @@ const DropDownMenu = ({ selectedValue, onValueChange, selectedTimeDateValue, onT
             <Picker.Item label="Last" />
           </Picker>
 
-          <Text style={styles.pickers}>Game type</Text>
+          <View style={styles.pickers}>
+          <Text style={styles.text} >Game type</Text>
+
+          </View>
           <Picker
             style={styles.pickers}
             selectedValue={selectedValue}
@@ -42,18 +47,24 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    marginLeft: 15,
-    marginRight: 15,
   },
   pickers: {
     display: "flex",
-    padding: 8,
     backgroundColor: 'rgb(37, 35, 42)',
     color: 'white',
-    textAlign: "left",
-    borderColor: "purple",
-    borderRadius: 5
+    alignItems: "center",
+    borderRadius: 5,
+    width: '25%',
+    height: 40,
+    justifyContent: "center",
+    fontSize: 16,
   },
+  text: {
+    color: 'white',
+    justifyContent: "center",
+    fontSize: 16,
+    marginLeft:1,
+  }
 });
 
 
