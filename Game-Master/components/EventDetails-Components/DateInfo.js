@@ -9,7 +9,7 @@ const DateInfo = ({ date }) => {
     <View style={{ flexDirection: "row", alignItems: "center" }}>
       <IconButton icon="calendar" size={16} color="gray" />
       <Paragraph>
-        <Paragraph style={{ fontWeight: "bold" }}>Date: </Paragraph>
+        <Paragraph style={{ fontWeight: "bold" }}></Paragraph>
         {formattedDate}
       </Paragraph>
     </View>

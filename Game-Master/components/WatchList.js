@@ -12,6 +12,8 @@ import {
 import { Card, Paragraph, IconButton } from "react-native-paper";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import DateInfo from "./EventDetails-Components/DateInfo";
+import TimeInfo from "./EventDetails-Components/TimeInfo";
 
 const axiosBase = axios.create({
   baseURL: "https://game-master-be.onrender.com/api/",
@@ -96,16 +98,14 @@ const WatchList = ({ watchList }) => {
               <View style={styles.infoContainer}>
                 <View style={styles.infoSubContainer}>
                   <Paragraph>
-                    <IconButton icon="calendar" size={16} color="gray" />
-                    {event.dateTime.toString().substring(0, 8)}
+                    <DateInfo date={event.dateTime} />
                   </Paragraph>
                   <Paragraph style={styles.infoSubParagraph}>
                     <IconButton icon="account-group" size={16} color="gray" />
                     {event.participants.length}/{event.capacity}
                   </Paragraph>
                   <Paragraph style={styles.infoSubParagraph}>
-                    <IconButton icon="clock-outline" size={16} color="gray" />
-                    {event.dateTime.toString().substring(9, 14)}
+                    <TimeInfo time={event.dateTime} />
                   </Paragraph>
                 </View>
               </View>

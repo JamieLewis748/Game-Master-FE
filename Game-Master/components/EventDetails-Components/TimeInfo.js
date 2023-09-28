@@ -12,7 +12,7 @@ const TimeInfo = ({ time }) => {
     <View style={{ flexDirection: "row", alignItems: "center" }}>
       <IconButton icon="clock-outline" size={16} color="gray" />
       <Paragraph>
-        <Paragraph style={{ fontWeight: "bold" }}>Time: </Paragraph>
+        <Paragraph style={{ fontWeight: "bold" }}></Paragraph>
         {formattedTime}
       </Paragraph>
     </View>

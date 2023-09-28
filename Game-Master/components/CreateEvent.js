@@ -3,7 +3,6 @@ import {
   SafeAreaView,
   Text,
   TextInput,
-  Button,
   StyleSheet,
   View,
   Switch,
@@ -16,6 +15,7 @@ import postNewEvent from "./APIs/postEvent";
 import { DbUserContext } from "./Context/UserContext";
 import { fetchCollections } from "./APIs/getCollections";
 import MonsterImageSelection from "./CreateEvent-Components/MonsterImageSelect";
+import {Button} from "react-native-paper"
 
 const CreateEvent = ({ navigation }) => {
   const { dbUser, setDbUser } = useContext(DbUserContext);
@@ -69,6 +69,7 @@ const CreateEvent = ({ navigation }) => {
     capacity: "",
     participants: [dbUser._id],
     prizeCollection_id: "1",
+    public: true
   });
 
   const validateDate = (text) => {
@@ -142,8 +143,8 @@ const CreateEvent = ({ navigation }) => {
         capacity: eventData.capacity,
         participants: eventData.participants,
         prizeCollection_id: eventData.prizeCollection_id,
+        isPublic: eventData.public
       });
-      console.log(postResult.data);
       if (postResult.data.acknowledged === true) {
         eventData._id = postResult.data.insertedId;
         navigation.navigate("My Event", {
@@ -228,8 +229,16 @@ const CreateEvent = ({ navigation }) => {
           />
 
           <View style={styles.inputContainer}>
-            <Text>Prize Collection</Text>
-            <Button title="Reward" onPress={toggleCollectionDropdown} />
+          <Button
+              mode="contained"
+              textColor="white"
+              style={{
+                backgroundColor: "purple",
+              }}
+              onPress={toggleCollectionDropdown}
+            >
+              Select Prize
+            </Button>
             {selectedCollection && (
               <View style={styles.selectedCollection}>
                 <Text>{selectedCollection.name}</Text>
@@ -242,8 +251,11 @@ const CreateEvent = ({ navigation }) => {
                   <Button
                     key={collection._id}
                     title={collection.name}
+                    textColor="purple"
                     onPress={() => selectCollection(collection)}
-                  />
+                  >
+                    {collection.name}
+                  </Button>
                 ))}
               </View>
             )}
@@ -323,7 +335,17 @@ const CreateEvent = ({ navigation }) => {
         </View>
 
         <View style={styles.submitButton}>
-          <Button title="Create Event" onPress={handleCreateEvent} />
+          <Button
+            title="Login"
+            mode="contained"
+            textColor="white"
+            style={{
+              backgroundColor: "purple",
+            }}
+            onPress={handleCreateEvent}
+          >
+            Create Event
+          </Button>
         </View>
       </SafeAreaView>
     </ScrollView>

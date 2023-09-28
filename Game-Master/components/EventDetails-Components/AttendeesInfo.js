@@ -18,7 +18,6 @@ const AttendeesInfo = ({ userList, host, participants }) => {
         users.map((user, index) => (
           <View style={{ flexDirection: "row", alignItems: "center" }} key={index}>
             <Paragraph>
-              {"\u2022 "}
               {user.img_url ? (
               <Image
                 source={{ uri: user.img_url }}
