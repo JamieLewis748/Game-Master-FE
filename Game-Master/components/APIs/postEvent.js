@@ -1,14 +1,14 @@
 import axios from "axios";
 
 
-const postNewEvent = async ({ host_id, image, gameInfo, isGameFull, game_type, dateTime, duration, capacity, prizeCollection_id }) => {
+const postNewEvent = async ({ host_id, image, gameInfo, isGameFull, gameType, dateTime, duration, capacity, prizeCollection_id }) => {
     try {
         return axios.post(`https://game-master-be.onrender.com/api/events`, {
             hostedBy: host_id,
             image: image,
             gameInfo: gameInfo,
             isGameFull: isGameFull,
-            gameType: game_type,
+            gameType: gameType,
             dateTime: dateTime,
             duration: duration,
             capacity: capacity,

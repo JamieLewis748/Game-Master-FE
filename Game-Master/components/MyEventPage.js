@@ -159,7 +159,8 @@ const MyEventPage = ({ route }) => {
                     userList={userList}
                     requestedToParticipate={requestedParticipants}
                     event_id={selectedEvent._id}
-                    onUpdateParticipants={updateParticipants}
+                    setEventParticipants={setEventParticipants}
+                    setRequestedParticipants={setRequestedParticipants}
                   />
                 )}
               </View>
