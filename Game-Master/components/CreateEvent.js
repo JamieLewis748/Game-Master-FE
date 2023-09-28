@@ -166,7 +166,7 @@ const CreateEvent = ({ navigation }) => {
       <SafeAreaView style={styles.container}>
         <View style={styles.card}>
           <View style={styles.inputContainer}>
-            <Text style={{ color: "white", fontWeight: "bold" }}>Game Type</Text>
+            <Text style={{ color: "white", fontWeight: "bold"}}>Game Type</Text>
             <Picker
               selectedValue={eventData.gameType}
               style={styles.picker}
@@ -233,7 +233,7 @@ const CreateEvent = ({ navigation }) => {
           <View style={styles.inputContainer}>
             <Text style={{
               color: "white", fontWeight: "bold"
-            }} >Prize Collection</Text>
+            }} >Select a prize</Text>
             <Picker
               selectedValue={selectedCollection ? selectedCollection.name : ""}
               style={styles.picker}
@@ -253,7 +253,7 @@ const CreateEvent = ({ navigation }) => {
             <View style={styles.selectedCollection}>
               {selectedCollection ? (
                 <>
-                  <Text>{selectedCollection.name}</Text>
+                  {/* <Text>{selectedCollection.name}</Text> */}
                   <MonsterImageSelection
                     collectionId={selectedCollection._id}
                     style={styles.picker}
@@ -365,7 +365,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "purple",
-    color: "white"
+    color: "white",
   },
   selectedCollection: {
     width: 50,
@@ -379,12 +379,14 @@ const styles = StyleSheet.create({
     height: 80,
   },
   input: {
-    backgroundColor: "white"
+    backgroundColor: "purple",
+    color: "white"
   },
   label: {
     fontSize: 16,
     fontWeight: "bold",
     marginRight: 10,
+    color: "white"
   },
   switchContainer: {
     flexDirection: "row",
@@ -402,12 +404,14 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     alignItems: "center",
-    color: "white"
+    color: "white",
   },
   picker: {
-    width: "30%",
+    width: "40%",
     marginLeft: 10,
-
+    backgroundColor: "purple",
+    color: "white",
+    marginRadius: 10
   },
   submitButton: {
     marginTop: 20,
@@ -418,14 +422,16 @@ const styles = StyleSheet.create({
     height: 200,
     width: 200,
     backgroundColor: "#ccc",
+    borderRadius: 10,
   },
   images: {
     margin: "auto",
     width: 180,
-    height: 180
+    height: 180,
+    borderRadius: 10,
   },
   input: {
-    backgroundColor: "white",
+    backgroundColor: "purple",
     height: 40,
     width: "100%",
     borderColor: "gray",
@@ -433,6 +439,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     paddingHorizontal: 10,
     borderRadius: 10,
+    color: "white"
   },
 
   errorInput: {

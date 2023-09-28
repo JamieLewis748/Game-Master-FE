@@ -55,7 +55,9 @@ function EventsStackNavigator() {
 }
 function CreateEventStackNavigator() {
   return (
-    <CreateEventStack.Navigator>
+    <CreateEventStack.Navigator
+          style={{ backgroundColor: "rgb(37, 35, 42)" }}
+    >
       <CreateEventStack.Screen
         name="Create Event"
         component={CreateEvent}
@@ -76,15 +78,23 @@ function MainDrawer({ navigation }) {
   );
 
   return (
-    <View style={{ flex: 1 }}>
+    <View
+      style={{ flex: 1 }}
+   
+    >
       <Drawer.Navigator
+       
         screenOptions={{
           headerShown: true,
           headerStyle: { backgroundColor: "black" },
           headerTintColor: "white",
         }}
       >
-        <Drawer.Screen name="My Account" component={AccountPage} />
+        <Drawer.Screen
+          
+          name="My Account"
+          component={AccountPage}
+        />
         <Drawer.Screen name="Events" component={EventsStackNavigator} />
         <Drawer.Screen name="Collection" component={Collection} />
         <Drawer.Screen name="Chat" component={Chat} />
@@ -102,6 +112,8 @@ function MainDrawer({ navigation }) {
                 : "Notifications",
             drawerLabelStyle: {
               color: notificationCount > 0 ? "red" : "grey",
+          
+             
             },
           })}
         />
