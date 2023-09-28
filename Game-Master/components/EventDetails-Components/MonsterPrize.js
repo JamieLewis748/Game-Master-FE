@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image } from "react-native";
+import { View, Image, Text } from "react-native";
 
 const getImageByType = (imageType) => {
   switch (imageType) {
@@ -20,12 +20,35 @@ const MonsterPrize = ({ collectionId }) => {
   const imageType = collectionId;
 
   return (
-    <View>
+    <View style={{ marginTop: 20 }}>
       <Image
         source={getImageByType(imageType)}
-              style={{ width: 150, height: 180, display: "flex", justifyContent: "center", marginTop: 40, marginRight:"auto", marginLeft:"auto", resizeMode: "contain"}}
-              
+        style={{
+          width: 90,
+          height: 120,
+          display: "flex",
+          justifyContent: "center",
+          marginTop: 40,
+          marginRight: "auto",
+          marginLeft: "auto",
+          resizeMode: "contain",
+          borderWidth: 3,
+          borderBlockColor: "purple",
+          borderRadius: 10,
+        }}
       />
+      <Text
+        style={{
+          color: "white",
+          display: "flex",
+          justifyContent: "center",
+          fontSize: 16,
+          fontWeight: 500,
+          marginBottom: 30,
+        }}
+      >
+        Prize for winner
+      </Text>
     </View>
   );
 };
