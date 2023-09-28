@@ -7,6 +7,7 @@ import {
   ScrollView,
   Pressable,
   Modal,
+  Alert,
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
 
@@ -31,6 +32,10 @@ import completeEvent from "./APIs/completeEvent";
 import MonsterImageSelection from "./CreateEvent-Components/MonsterImageSelect";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
+import cancelEvent from "./APIs/handleEventCancel";
+import {DbUserContext} from "./Context/UserContext"
+
+
 
 
 
@@ -49,6 +54,8 @@ const MyEventPage = ({ route }) => {
   const [eventParticipants, setEventParticipants] = useState(selectedEvent.participants);
   const [requestedParticipants, setRequestedParticipants] = useState(selectedEvent.requestedToParticipate);
   const navigation = useNavigation();
+  const { dbUser, setDbUser } = useContext(DbUserContext);
+
 
 
   const handleCompleteEvent = () => {
@@ -72,6 +79,18 @@ const MyEventPage = ({ route }) => {
     const user = userList.find((user) => user._id === userId);
     return user ? user.username : 'Unknown User';
   }
+  const handleCancel = () => {
+    cancelEvent(dbUser._id, selectedEvent._id)
+    .then(() => {
+      Alert.alert('Event is cancelled', 'This event has been successfully cancelled', 
+      [{
+        text: 'Ok',
+        onPress: () => {
+          navigation.navigate('EventsPage')
+        }
+      }])
+    })
+  };
 
   useEffect(() => {
     fetchUsers()
@@ -100,7 +119,16 @@ const MyEventPage = ({ route }) => {
             }}
           >
             <Card.Content style={styles.eventCard}>
-              <Card.Cover source={{ uri: selectedEvent.image }} />
+              <View>
+              <Image
+                style={styles.eventImage}
+                source={require(`../assets/gameType/${
+                  selectedEvent.gameType.split(" ")[0]
+                }.jpg`)}
+              />
+              </View>
+              {/* <Card.Cover source={{ uri: selectedEvent.image }} /> */}
+              {/* {console.log(selectedEvent)} */}
               <View>
                 <DescriptionInfo gameInfo={selectedEvent.gameInfo} />
               </View>
@@ -173,7 +201,7 @@ const MyEventPage = ({ route }) => {
                     <Button
                       style={styles.cardButtons}
                       title="cancel"
-                      onPress={() => {}}
+                      onPress={() => handleCancel()}
                     >
                       <Text>Cancel event</Text>
                     </Button>
@@ -243,6 +271,15 @@ const styles = StyleSheet.create({
   eventView: {
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  eventImage: {
+    width: 250,
+    height: 250,
+    marginLeft: 25,
+    marginRight: 25,
+    display: "flex",
+    justifyContent: "center",
+    borderRadius: 10,
   },
   cardButtons: {
     display: "flex",
