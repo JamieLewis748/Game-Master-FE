@@ -96,12 +96,14 @@ const CollectionsList = () => {
               </View>
 
               {/* Back Card */}
-              <View
-                style={[styles.cardBack, { backgroundColor: getRandomColor() }]}
-              >
-                <Text style={styles.cardBackText}>
-                  {item.name} Can also have more information in this card
-                </Text>
+              <View style={[
+                styles.cardBack,
+                { backgroundColor: getRandomColor() }
+              ]}>
+                {(item.name === 'fire')?<Text style={styles.cardBackText}>A powerful {item.name} creature, burning with competative desire</Text>:<></>}
+                {(item.name === 'grass')?<Text style={styles.cardBackText}>An ancient {item.name} creature, contains all the wisdom of the forest</Text>:<></>}
+                {(item.name === 'wind')?<Text style={styles.cardBackText}>A mighty {item.name} entity, strikes fear into opponents</Text>:<></>}
+                {(item.name === 'water')?<Text style={styles.cardBackText}>Lucky {item.name} being, able to flow with changing fortune</Text>:<></>}
               </View>
             </FlipCard>
           </View>
