@@ -30,7 +30,7 @@ const Chat = () => {
     const [sendingTo, setSendingTo] = useState("User 1")
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState("");
-    const {socket, setSocket} = useContext(SocketContext);
+    const { socket, setSocket } = useContext(SocketContext);
     const [loading, setLoading] = useState(false)
     const scrollViewRef = useRef(null);
 
@@ -76,7 +76,15 @@ const Chat = () => {
                     ))}
                 </ScrollView>
             </View>
+
             <View style={styles.messagesContainer}>
+                <View>
+                    {sendingTo === "User 1" ? (
+                        null
+                    ) : (
+                        <Text>Messaging: {sendingTo}</Text>
+                    )}
+                </View>
                 <ScrollView ref={scrollViewRef}
                     onContentSizeChange={() => {
                         if (scrollViewRef.current) {
@@ -119,8 +127,8 @@ const Chat = () => {
                             borderWidth: 1,
                             borderColor: '#007AFF',
                         }}>
-                    <Text style={{color:"#000000"}}>Send</Text>
-                    
+                        <Text style={{ color: "#000000" }}>Send</Text>
+
                     </Button>
                 </View>
             </View>
