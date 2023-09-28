@@ -50,11 +50,12 @@ const AccountPage = ({ navigation }) => {
   const { watchList, setWatchList} = useContext(WatchListContext)
 
   useEffect(() => {
-    setDbUser({...dbUser, myCreatures: collectionData})
+    setDbUser({ ...dbUser, myCreatures: collectionData })
+    setWatchList(dbUser.watchList)
     // setDbUser(dbUser)
-    console.log(dbUser);
   }, [])
   
+  console.log(watchList, 'WATCH LISTTTTT');
   
   
   if (user === null) {
@@ -73,8 +74,8 @@ const AccountPage = ({ navigation }) => {
   }, [])
   
   useEffect(() => {
-    setWatchList(dbUser.watchList)
-  }, [])
+    setWatchList(dbUser.watchList);
+  }, []);
   
   // useEffect(() => {
   //   fetchUsers()

@@ -3,10 +3,8 @@ import { Paragraph, IconButton } from "react-native-paper";
 import { View } from "react-native";
 
 const AttendeesInfo = ({ userList, host, participants }) => {
-  console.log(userList)
   const users = userList.filter((user) => participants.includes(user._id));
 
-  console.log(users)
 
   return (
     <View>

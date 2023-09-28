@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { FlatList, Image, StyleSheet, View, Animated, TouchableWithoutFeedback, Button, SafeAreaView, ScrollView, Pressable, Text } from "react-native";
+import { FlatList, Image, StyleSheet, View, Animated, SafeAreaView, ScrollView, Pressable, Text } from "react-native";
 import { Card, Paragraph, IconButton} from "react-native-paper";
 import { DbUserContext } from "../Context/UserContext";
 import modifyWatchList from "../APIs/modifyWatchList";
@@ -10,27 +10,27 @@ import { WatchListContext } from "../Context/WatchListContext";
 const EventList = ({ currentEventList }) => {
   const {watchList, setWatchList} = useContext(WatchListContext)
   const { dbUser, setDbUser } = useContext(DbUserContext);
+  const [optimisticWatchList, setOptimisticWatchList] = useState([]);
   const navigation = useNavigation()
-  const handleMouseEnter = () => {
-    // Animated.spring(Scale, {
-    //   toValue: 1.05,
-    //   friction: 3,
-    //   useNativeDriver: false,
-    // }).start();;
-  };
-
-  const handleMouseLeave = () => {
-    // Animated.spring(Scale, {
-    //   toValue: 1,
-    //   friction: 3,
-    //   useNativeDriver: false,
-    // }).start();
-  };
-
+  
+  useEffect(() => {
+    setOptimisticWatchList(dbUser.watchList);
+  }, [dbUser]);
+  
   const handleWatchlist = (event) => {
-    modifyWatchList(dbUser._id, event._id, setWatchList)
+    if (optimisticWatchList.includes(event._id)) {
+      const updatedOptimistic = optimisticWatchList.filter(
+        (eachEvent) => eachEvent !== event._id
+      );
+      setOptimisticWatchList(updatedOptimistic)
+    } else {
+      const addToOptimistic = [...optimisticWatchList, event._id]
+      setOptimisticWatchList(addToOptimistic)
+    }
+    modifyWatchList(dbUser._id, event._id, setWatchList, watchList)
   };
 
+  
   const handleCancel = (event) => {
     cancelEvent(dbUser._id, event._id);
   };
@@ -42,80 +42,76 @@ const EventList = ({ currentEventList }) => {
     return (
       <SafeAreaView>
         <Pressable onPress={() => setIsExpanded(!isExpanded)}>
-          <Animated.View
-            style={{ ...styles.container, transform: [{ scale }] }}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-          >
-            <Card style={styles.container}>
-              <Paragraph style={styles.cardHeading}>{event.gameInfo}</Paragraph>
-              <View style={styles.eventInfoContainer}>
-                {event.image ? (
-                  <>
-                    <Image
-                      source={{ uri: event.image }}
-                      style={styles.eventImage}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <Image
-                      source={require(`../../assets/gameType/${
-                        event.gameType.split(" ")[0]
-                      }.jpg`)}
-                      style={styles.eventImage}
-                    />
-                  </>
-                )}
-                <View style={styles.infoContainer}>
-                  <View style={styles.infoSubContainer}>
-                    <Paragraph style={styles.infoSubParagraph}>
-                      <IconButton icon="calendar" size={16} color="gray" />
-                      {event.dateTime.toString().substring(0, 8)}
-                    </Paragraph>
-                    <Paragraph style={styles.infoSubParagraph}>
-                      <IconButton icon="account-group" size={16} color="gray" />
-                      {event.participants.length}/{event.capacity}
-                    </Paragraph>
-                    <Paragraph style={styles.infoSubParagraph}>
-                      <IconButton icon="map-marker" size={16} color="gray" />
-                      {/* {event.location} */}
-                    </Paragraph>
-                  </View>
+          <Card style={styles.container}>
+            <Paragraph style={styles.cardHeading}>{event.gameInfo}</Paragraph>
+            <View style={styles.eventInfoContainer}>
+              {event.image ? (
+                <>
+                  <Image
+                    source={{ uri: event.image }}
+                    style={styles.eventImage}
+                  />
+                </>
+              ) : (
+                <>
+                  <Image
+                    source={require(`../../assets/gameType/${
+                      event.gameType.split(" ")[0]
+                    }.jpg`)}
+                    style={styles.eventImage}
+                  />
+                </>
+              )}
+              <View style={styles.infoContainer}>
+                <View style={styles.infoSubContainer}>
+                  <Paragraph style={styles.infoSubParagraph}>
+                    <IconButton icon="calendar" size={16} color="gray" />
+                    {event.dateTime.toString().substring(0, 8)}
+                  </Paragraph>
+                  <Paragraph style={styles.infoSubParagraph}>
+                    <IconButton icon="account-group" size={16} color="gray" />
+                    {event.participants.length}/{event.capacity}
+                  </Paragraph>
+                  <Paragraph style={styles.infoSubParagraph}>
+                    <IconButton icon="map-marker" size={16} color="gray" />
+                    {/* {event.location} */}
+                  </Paragraph>
                 </View>
               </View>
-              <Card.Actions>
-                {isExpanded && (
-                  <>
-                    <View
-                      style={{
-                        flex: 1,
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "center",
-                        width: 2000,
+            </View>
+            <Card.Actions>
+              {isExpanded && (
+                <>
+                  <View
+                    style={{
+                      flex: 1,
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      width: 2000,
+                    }}
+                  >
+                    <Pressable
+                      title="See event"
+                      mode="contained"
+                      style={styles.cardButtons}
+                      onPress={() => {
+                        if (dbUser._id === event.hostedBy) {
+                          navigation.navigate("My Event", {
+                            selectedEvent: event,
+                          });
+                        } else {
+                          navigation.navigate("Event Details", {
+                            selectedEvent: event,
+                          });
+                        }
                       }}
                     >
-                      <Pressable
-                        title="See event"
-                        mode="contained"
-                        style={styles.cardButtons}
-                        onPress={() => {
-                          if (dbUser._id === event.hostedBy) {
-                            navigation.navigate("My Event", {
-                              selectedEvent: event,
-                            });
-                          } else {
-                            navigation.navigate("Event Details", {
-                              selectedEvent: event,
-                            });
-                          }
-                        }}
-                      >
-                        <Text style={{ color: "white", fontSize: 16 }}>
-                          See event
-                        </Text>
-                      </Pressable>
+                      <Text style={{ color: "white", fontSize: 16 }}>
+                        See event
+                      </Text>
+                    </Pressable>
+                    {optimisticWatchList.includes(event._id) ? (
                       <Pressable
                         title="Watchlist"
                         mode="contained"
@@ -123,29 +119,41 @@ const EventList = ({ currentEventList }) => {
                         onPress={() => handleWatchlist(event)}
                       >
                         <Text style={{ color: "white", fontSize: 16 }}>
-                          Watchlist
+                          Remove Watchlist
                         </Text>
                       </Pressable>
-                      {event.hostedBy === dbUser._id ? (
-                        <Pressable
-                          style={styles.cardButtons}
-                          title="Cancel"
-                          mode="contained"
-                          onPress={() => handleCancel(event)}
-                        >
-                          <Text style={{ color: "white", fontSize: 16 }}>
-                            Cancel
-                          </Text>
-                        </Pressable>
-                      ) : (
-                        <></>
-                      )}
-                    </View>
-                  </>
-                )}
-              </Card.Actions>
-            </Card>
-          </Animated.View>
+                    ) : (
+                      <Pressable
+                        title="Watchlist"
+                        mode="contained"
+                        style={styles.cardButtons}
+                        onPress={() => handleWatchlist(event)}
+                      >
+                        <Text style={{ color: "white", fontSize: 16 }}>
+                          Add Watchlist
+                        </Text>
+                      </Pressable>
+                    )}
+
+                    {event.hostedBy === dbUser._id ? (
+                      <Pressable
+                        style={styles.cardButtons}
+                        title="Cancel"
+                        mode="contained"
+                        onPress={() => handleCancel(event)}
+                      >
+                        <Text style={{ color: "white", fontSize: 16 }}>
+                          Cancel
+                        </Text>
+                      </Pressable>
+                    ) : (
+                      <></>
+                    )}
+                  </View>
+                </>
+              )}
+            </Card.Actions>
+          </Card>
         </Pressable>
       </SafeAreaView>
     );
