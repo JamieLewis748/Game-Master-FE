@@ -2,13 +2,13 @@ import React, { useState, useContext, useEffect } from "react";
 import {
   SafeAreaView,
   TextInput,
-  Button,
   Alert,
   StyleSheet,
   View,
   Image,
   Text,
 } from "react-native";
+import { Button } from "react-native-paper";
 import { UserContext, DbUserContext } from "./Context/UserContext";
 import { auth } from "./Authentication/firebase-config";
 import {
@@ -17,6 +17,8 @@ import {
   signOut,
 } from "firebase/auth";
 import GetUser from "./APIs/getUser";
+
+const Logo = require("../assets/Logo.png");
 
 function LoginPage({ navigation }) {
   const { user, setUser } = useContext(UserContext);
@@ -58,10 +60,7 @@ function LoginPage({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image
-          style={styles.logo}
-          source="https://www.designevo.com/res/templates/thumb_small/banner-board-jungle-logo.webp"
-        />
+        <Image style={styles.logo} source={Logo} />
       </View>
       <View style={styles.card}>
         <Text style={{ fontSize: 20, alignSelf: "center", marginBottom: 5 }}>
@@ -82,10 +81,28 @@ function LoginPage({ navigation }) {
         />
         <Text>Logged in as: {user?.email}</Text>
         <View style={styles.buttonContainer}>
-          <Button title="Login" onPress={handleLogin} />
+          <Button
+            title="Login"
+            mode="contained"
+            textColor="white"
+            style={{
+              backgroundColor: "purple",
+            }}
+            onPress={handleLogin}
+          >
+            Login
+          </Button>
         </View>
         <View style={styles.buttonContainer}>
-          <Button title="Create Account" onPress={handleSignUp} />
+          <Button
+            title="Create Account"
+            mode="contained"
+            textColor="white"
+            style={{ backgroundColor: "purple" }}
+            onPress={handleSignUp}
+          >
+            Create Account
+          </Button>
         </View>
       </View>
     </SafeAreaView>
@@ -125,9 +142,11 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    width: 200,
+    flex: 1,
+    width: 350,
     height: 200,
-    borderRadius: 50,
+    borderRadius: 0,
+    resizeMode: "contain",
   },
 
   buttonContainer: {

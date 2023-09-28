@@ -136,7 +136,7 @@ const CreateEvent = ({ navigation }) => {
         image: eventData.image,
         gameInfo: eventData.gameInfo,
         isGameFull: eventData.isGameFull,
-        gameType: eventData.game_type,
+        gameType: eventData.gameType,
         dateTime: dateTime,
         duration: eventData.duration,
         capacity: eventData.capacity,
@@ -167,10 +167,10 @@ const CreateEvent = ({ navigation }) => {
           <View style={styles.inputContainer}>
             <Text>Game Type</Text>
             <Picker
-              selectedValue={eventData.game_type}
+              selectedValue={eventData.gameType}
               style={styles.picker}
               onValueChange={(itemValue) => {
-                setEventData({ ...eventData, game_type: itemValue });
+                setEventData({ ...eventData, gameType: itemValue });
                 setSelectedGameType(itemValue);
               }}
             >
