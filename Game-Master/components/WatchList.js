@@ -76,7 +76,23 @@ const WatchList = ({ watchList }) => {
               {event.gameInfo || "Event Info"}
             </Paragraph>
             <View style={styles.eventInfoContainer}>
-              <Image source={{ uri: event.image }} style={styles.eventImage} />
+            {event.image ? (
+                <>
+                  <Image
+                    source={{ uri: event.image }}
+                    style={styles.eventImage}
+                  />
+                </>
+              ) : (
+                <>
+                  <Image
+                    source={require(`../assets/gameType/${
+                      event.gameType.split(" ")[0]
+                    }.jpg`)}
+                    style={styles.eventImage}
+                  />
+                </>
+              )}
               <View style={styles.infoContainer}>
                 <View style={styles.infoSubContainer}>
                   <Paragraph>
