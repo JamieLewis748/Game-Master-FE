@@ -1,6 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { SafeAreaView, Text, View } from "react-native";
+import { View } from "react-native";
 import LoginPage from "../Game-Master/components/LoginPage";
 import EventDetails from "../Game-Master/components/EventDetails";
 import AccountPage from "./components/AccountPage";
@@ -11,18 +10,12 @@ import MessagesScreen from "./components/MessagesScreen";
 import MyEventPage from "./components/MyEventPage";
 import EventList from "./components/EventsPage/EventList";
 import { createStackNavigator } from "@react-navigation/stack";
-import { PaperProvider, DefaultTheme } from "react-native-paper";
+import { PaperProvider } from "react-native-paper";
 import UserProvider from "./components/Context/ContextProvider";
-import { UserContext, DbUserContext } from "./components/Context/UserContext";
-import React, { useState, useContext, useEffect } from "react";
+import React, {  useContext,  } from "react";
 import Chat from "./components/Chat";
-import io from "socket.io-client";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Footer from "./components/Footer";
-import { CommonActions } from "@react-navigation/native";
-
-import { Ionicons } from "@expo/vector-icons";
-
 import EventsPage from "./components/EventsPage/EventsPage";
 import { NotificationCountContext } from "./components/Context/NotificationCountContext";
 
